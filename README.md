@@ -17,6 +17,7 @@ Read and explore NetCDF files
 ## Example
 
 ```js
+const fs = require('fs');
 const netcdfjs = require('netcdfjs');
 ```
 

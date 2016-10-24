@@ -14,6 +14,66 @@ describe('Read file', function () {
         // http://www.unidata.ucar.edu/software/netcdf/examples/files.html
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
 
-        netcdfjs(data).should.be.equal(266032);
+        const header = netcdfjs(data, {headerOnly: true});
+        header.version.should.be.equal(1);
+        header.recordDimension.should.be.equal(178);
+        header.dimensions.should.deepEqual([
+            {name: 'maxAutoStaLen', size: 6},
+            {name: 'maxAutoWeather', size: 5},
+            {name: 'maxAutoWeaLen', size: 12},
+            {name: 'maxCldTypeLen', size: 5},
+            {name: 'maxCloudTypes', size: 5},
+            {name: 'maxDataSrcLen', size: 8},
+            {name: 'maxRepLen', size: 5},
+            {name: 'maxSAOLen', size: 256},
+            {name: 'maxSkyCover', size: 5},
+            {name: 'maxSkyLen', size: 8},
+            {name: 'maxSkyMethLen', size: 3},
+            {name: 'maxStaNamLen', size: 5},
+            {name: 'maxWeatherNum', size: 5},
+            {name: 'maxWeatherLen', size: 40},
+            {name: 'QCcheckNum', size: 10},
+            {name: 'QCcheckNameLen', size: 60},
+            {name: 'ICcheckNum', size: 55},
+            {name: 'ICcheckNameLen', size: 72},
+            {name: 'maxStaticIds', size: 350},
+            {name: 'totalIdLen', size: 6},
+            {name: 'nInventoryBins', size: 24},
+            {name: 'recNum', size: 0}
+        ]);
+    });
+
+    it('read header information', function () {
+        // http://www.unidata.ucar.edu/software/netcdf/examples/files.html
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+
+        const file = netcdfjs(data);
+        const header = file.header;
+        header.version.should.be.equal(1);
+        header.recordDimension.should.be.equal(178);
+        header.dimensions.should.deepEqual([
+            {name: 'maxAutoStaLen', size: 6},
+            {name: 'maxAutoWeather', size: 5},
+            {name: 'maxAutoWeaLen', size: 12},
+            {name: 'maxCldTypeLen', size: 5},
+            {name: 'maxCloudTypes', size: 5},
+            {name: 'maxDataSrcLen', size: 8},
+            {name: 'maxRepLen', size: 5},
+            {name: 'maxSAOLen', size: 256},
+            {name: 'maxSkyCover', size: 5},
+            {name: 'maxSkyLen', size: 8},
+            {name: 'maxSkyMethLen', size: 3},
+            {name: 'maxStaNamLen', size: 5},
+            {name: 'maxWeatherNum', size: 5},
+            {name: 'maxWeatherLen', size: 40},
+            {name: 'QCcheckNum', size: 10},
+            {name: 'QCcheckNameLen', size: 60},
+            {name: 'ICcheckNum', size: 55},
+            {name: 'ICcheckNameLen', size: 72},
+            {name: 'maxStaticIds', size: 350},
+            {name: 'totalIdLen', size: 6},
+            {name: 'nInventoryBins', size: 24},
+            {name: 'recNum', size: 0}
+        ]);
     });
 });

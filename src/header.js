@@ -11,6 +11,7 @@ const NC_ATTRIBUTE = 12;
 
 /**
  * Read the header of the file
+ * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  * @return {object} - Object with the fields:
  *  * `recordDimension`: Number with the length of record dimension
@@ -39,6 +40,7 @@ function header(buffer) {
 
 /**
  * List of dimensions
+ * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  * @return {Array<object>} - List of dimensions with:
  *  * `name`: String with the name of the dimension
@@ -72,8 +74,9 @@ function dimensionsList(buffer) {
 
 /**
  * List of attributes
+ * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
- * @return {Array<object>} - List of  attributes with:
+ * @return {Array<object>} - List of attributes with:
  *  * `name`: String with the name of the attribute
  *  * `type`: String with the type of the attribute
  *  * `value`: A number or string with the value of the attribute
@@ -116,6 +119,7 @@ function attributesList(buffer) {
 
 /**
  * List of variables
+ * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  * @return {Array<object>} - List of variables with:
  *  * `name`: String with the name of the variable

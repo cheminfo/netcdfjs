@@ -18,7 +18,7 @@ describe('Read file', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
 
         var reader = new NetCDFReader(data);
-        reader.version.should.be.equal(1);
+        reader.version.should.be.equal('classic format');
         reader.recordDimension.should.be.equal(178);
         reader.dimensions.should.deepEqual([
             {name: 'maxAutoStaLen', size: 6},

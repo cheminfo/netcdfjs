@@ -1,13 +1,15 @@
 'use strict';
 
-const netcdfjs = require('..');
+const NetCDFReader = require('..');
 const fs = require('fs');
 const pathFiles = __dirname + '/files/';
 
 describe('Read file', function () {
     it('Throws on non NetCDF file', function () {
         const data = fs.readFileSync(pathFiles + 'not_nc.txt');
-        netcdfjs.bind(null, data).should.throw('Not a valid NetCDF v3.x file: should start with CDF');
+        (function notValid() {
+            return new NetCDFReader(data);
+        }).should.throw('Not a valid NetCDF v3.x file: should start with CDF');
     });
 
     it('read header information', function () {
@@ -15,10 +17,10 @@ describe('Read file', function () {
         // http://www.unidata.ucar.edu/software/netcdf/examples/madis-sao.cdl
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
 
-        const header = netcdfjs(data, {headerOnly: true});
-        header.version.should.be.equal(1);
-        header.recordDimension.should.be.equal(178);
-        header.dimensions.should.deepEqual([
+        var reader = new NetCDFReader(data);
+        reader.version.should.be.equal(1);
+        reader.recordDimension.should.be.equal(178);
+        reader.dimensions.should.deepEqual([
             {name: 'maxAutoStaLen', size: 6},
             {name: 'maxAutoWeather', size: 5},
             {name: 'maxAutoWeaLen', size: 12},
@@ -43,18 +45,18 @@ describe('Read file', function () {
             {name: 'recNum', size: 0}
         ]);
 
-        header.globalAttributes[0].should.deepEqual({
+        reader.globalAttributes[0].should.deepEqual({
             name: 'cdlDate',
             type: 'char',
             value: '20010327'
         });
-        header.globalAttributes[3].should.deepEqual({
+        reader.globalAttributes[3].should.deepEqual({
             name: 'filePeriod',
             type: 'int',
             value: [3600]
         });
 
-        header.variables[0].should.deepEqual({
+        reader.variables[0].should.deepEqual({
             name: 'nStaticIds',
             dimensions: [],
             attributes: [{
@@ -66,7 +68,7 @@ describe('Read file', function () {
             size: 4,
             offset: 39208
         });
-        header.variables[11].should.deepEqual({
+        reader.variables[11].should.deepEqual({
             name: 'wmoId',
             dimensions: [21],
             attributes: [
@@ -81,13 +83,10 @@ describe('Read file', function () {
         });
     });
 
-    it('read header information', function () {
-        // http://www.unidata.ucar.edu/software/netcdf/examples/files.html
+    it.skip('public API', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
 
-        const file = netcdfjs(data);
-        const header = file.header;
-        header.version.should.be.equal(1);
-        header.recordDimension.should.be.equal(178);
+        var reader = new NetCDFReader(data); // read the header
+        reader.getVariable('wmoId'); // go to offset and read it
     });
 });

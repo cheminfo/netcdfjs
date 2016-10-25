@@ -12,19 +12,15 @@ const NC_ATTRIBUTE = 12;
 /**
  * Read the header of the file
  * @param {IOBuffer} buffer - Buffer for the file data
- * @param {number} version - 1 for classic format, 2 for 64-bit offset format
  * @return {object} - Object with the fields:
- *  * `version`: 1 for classic format, 2 for 64-bit offset format
  *  * `recordDimension`: Number with the length of record dimension
  *  * `dimensions`: List of dimensions
  *  * `globalAttributes`: List of global attributes
  *  * `variables`: List of variables
  */
-function header(buffer, version) {
-    var header = {version: version};
-
+function header(buffer) {
     // Length of record dimension
-    header.recordDimension = buffer.readUint32();
+    var header = {recordDimension: buffer.readUint32()};
     if (header.recordDimension === STREAMING) {
         header.recordDimension = Number.Infinity;
     }

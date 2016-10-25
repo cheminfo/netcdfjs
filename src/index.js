@@ -40,7 +40,7 @@ class NetCDFReader {
     }
 
     /**
-     * @return {number} - Length of record dimension
+     * @return {object} - Length, name and id of record dimension
      */
     get recordDimension() {
         return this.header.recordDimension;
@@ -73,6 +73,7 @@ class NetCDFReader {
      *  * `type`: String with the type of the variable
      *  * `size`: Number with the size of the variable
      *  * `offset`: Number with the offset where of the variable begins
+     *  * `record`: True if is a record variable, false otherwise
      */
     get variables() {
         return this.header.variables;

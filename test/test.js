@@ -19,7 +19,7 @@ describe('Read file', function () {
 
         var reader = new NetCDFReader(data);
         reader.version.should.be.equal('classic format');
-        reader.recordDimension.should.be.equal(178);
+        reader.recordDimension.should.deepEqual({length: 178, id: 21, name: 'recNum'});
         reader.dimensions.should.deepEqual([
             {name: 'maxAutoStaLen', size: 6},
             {name: 'maxAutoWeather', size: 5},
@@ -66,7 +66,8 @@ describe('Read file', function () {
             }],
             type: 'int',
             size: 4,
-            offset: 39208
+            offset: 39208,
+            record: false
         });
         reader.variables[11].should.deepEqual({
             name: 'wmoId',
@@ -79,7 +80,8 @@ describe('Read file', function () {
             ],
             type: 'int',
             size: 4,
-            offset: 48884
+            offset: 48884,
+            record: true
         });
     });
 

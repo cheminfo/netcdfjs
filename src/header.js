@@ -1,6 +1,7 @@
 'use strict';
 
 const utils = require('./utils');
+const types = require('./types');
 
 // Grammar constants
 const STREAMING = 4294967295;
@@ -102,14 +103,14 @@ function attributesList(buffer) {
 
             // Read attribute
             var size = buffer.readUint32();
-            var value = utils.readType(buffer, type, size);
+            var value = types.readType(buffer, type, size);
 
             // Apply padding
             utils.padding(buffer);
 
             attributes[gAtt] = {
                 name: name,
-                type: utils.evalType(type),
+                type: types.evalType(type),
                 value: value
             };
         }
@@ -173,7 +174,7 @@ function variablesList(buffer) {
                 name: name,
                 dimensions: dimensionsIds,
                 attributes: attributes,
-                type: utils.evalType(type),
+                type: types.evalType(type),
                 size: varSize,
                 offset: offset
             };

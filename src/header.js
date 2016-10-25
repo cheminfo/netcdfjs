@@ -6,14 +6,19 @@ const utils = require('./utils');
 const STREAMING = 4294967295;
 const ZERO = 0;
 const NC_DIMENSION = 10;
-//const NC_VARIABLE = 11;
+const NC_VARIABLE = 11;
 const NC_ATTRIBUTE = 12;
 
 /**
  * Read the header of the file
  * @param {IOBuffer} buffer - Buffer for the file data
  * @param {number} version - 1 for classic format, 2 for 64-bit offset format
- * @return {{version: *}}
+ * @return {object} - Object with the fields:
+ *  * `version`: 1 for classic format, 2 for 64-bit offset format
+ *  * `recordDimension`: Number with the length of record dimension
+ *  * `dimensions`: List of dimensions
+ *  * `globalAttributes`: List of global attributes
+ *  * `variables`: List of variables
  */
 function header(buffer, version) {
     var header = {version: version};
@@ -28,7 +33,10 @@ function header(buffer, version) {
     header.dimensions = dimensionsList(buffer);
 
     // List of global attributes
-    header.globalAttributes = globalAttributesList(buffer);
+    header.globalAttributes = attributesList(buffer);
+
+    // List of variables
+    header.variables = variablesList(buffer);
 
     return header;
 }
@@ -43,25 +51,17 @@ function header(buffer, version) {
 function dimensionsList(buffer) {
     const dimList = buffer.readUint32();
     if (dimList === ZERO) {
-        utils.notNetcdf((buffer.readUint32() !== ZERO), 'list of dimensions should be empty');
+        utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of dimensions');
+        return [];
     } else {
-        utils.notNetcdf((dimList !== NC_DIMENSION), 'tag for list of dimensions missing');
+        utils.notNetcdf((dimList !== NC_DIMENSION), 'wrong tag for list of dimensions');
 
         // Length of dimensions
         const dimensionSize = buffer.readUint32();
         var dimensions = new Array(dimensionSize);
         for (var dim = 0; dim < dimensionSize; dim++) {
-            // Read name length
-            var nameLength = buffer.readUint32();
-
             // Read name
-            var name = buffer.readChars(nameLength);
-
-            // validate name
-            // TODO
-
-            // Apply padding
-            utils.padding(buffer);
+            var name = utils.readName(buffer);
 
             // Read dimension size
             const size = buffer.readUint32();
@@ -75,55 +75,111 @@ function dimensionsList(buffer) {
 }
 
 /**
- * List of global attributes
+ * List of attributes
  * @param {IOBuffer} buffer - Buffer for the file data
- * @return {Array<object>} - List of global attributes with:
- *  * `name`: String with the name of the global attribute
- *  * `type`: String with the type of the global attribute
- *  * `value`: A number or string with the value of the global attribute
+ * @return {Array<object>} - List of  attributes with:
+ *  * `name`: String with the name of the attribute
+ *  * `type`: String with the type of the attribute
+ *  * `value`: A number or string with the value of the attribute
  */
-function globalAttributesList(buffer) {
+function attributesList(buffer) {
     const gAttList = buffer.readUint32();
     if (gAttList === ZERO) {
-        utils.notNetcdf((buffer.readUint32() !== ZERO), 'list of global attributes should be empty');
+        utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of attributes');
+        return [];
     } else {
-        utils.notNetcdf((gAttList !== NC_ATTRIBUTE), 'tag for list of global attributes missing');
+        utils.notNetcdf((gAttList !== NC_ATTRIBUTE), 'wrong tag for list of attributes');
 
         // Length of attributes
-        const globalAttributeSize = buffer.readUint32();
-        var globalAttributes = new Array(globalAttributeSize);
-        for (var gAtt = 0; gAtt < globalAttributeSize; gAtt++) {
-            // Read name length
-            var nameGAttLength = buffer.readUint32();
-
+        const attributeSize = buffer.readUint32();
+        var attributes = new Array(attributeSize);
+        for (var gAtt = 0; gAtt < attributeSize; gAtt++) {
             // Read name
-            var nameGAtt = buffer.readChars(nameGAttLength);
-
-            // validate name
-            // TODO
-
-            // Apply padding
-            utils.padding(buffer);
+            var name = utils.readName(buffer);
 
             // Read type
-            var typeGAtt = buffer.readUint32();
-            utils.notNetcdf(((typeGAtt < 1) && (typeGAtt > 6)), 'non valid type ' + typeGAtt);
+            var type = buffer.readUint32();
+            utils.notNetcdf(((type < 1) && (type > 6)), 'non valid type ' + type);
 
             // Read attribute
-            var sizeGAtt = buffer.readUint32();
-            var valGAtt = utils.readType(buffer, typeGAtt, sizeGAtt);
+            var size = buffer.readUint32();
+            var value = utils.readType(buffer, type, size);
 
             // Apply padding
             utils.padding(buffer);
 
-            globalAttributes[gAtt] = {
-                name: nameGAtt,
-                type: utils.evalType(typeGAtt),
-                value: valGAtt
+            attributes[gAtt] = {
+                name: name,
+                type: utils.evalType(type),
+                value: value
             };
         }
     }
-    return globalAttributes;
+    return attributes;
+}
+
+/**
+ * List of variables
+ * @param {IOBuffer} buffer - Buffer for the file data
+ * @return {Array<object>} - List of variables with:
+ *  * `name`: String with the name of the variable
+ *  * `dimensions`: Array with the dimension IDs of the variable
+ *  * `attributes`: Array with the attributes of the variable
+ *  * `type`: String with the type of the variable
+ *  * `size`: Number with the size of the variable
+ *  * `offset`: Number with the offset where of the variable begins
+ */
+function variablesList(buffer) {
+    const varList = buffer.readUint32();
+    if (varList === ZERO) {
+        utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of variables');
+        return [];
+    } else {
+        utils.notNetcdf((varList !== NC_VARIABLE), 'wrong tag for list of variables');
+
+        // Length of variables
+        const variableSize = buffer.readUint32();
+        var variables = new Array(variableSize);
+        for (var v = 0; v < variableSize; v++) {
+            // Read name
+            var name = utils.readName(buffer);
+
+            // Read dimensionality of the variable
+            const dimensionality = buffer.readUint32();
+
+            // Index into the list of dimensions
+            var dimensionsIds = new Array(dimensionality);
+            for (var dim = 0; dim < dimensionality; dim++) {
+                dimensionsIds[dim] = buffer.readUint32();
+            }
+
+            // Read variables size
+            var attributes = attributesList(buffer);
+
+            // Read type
+            var type = buffer.readUint32();
+            utils.notNetcdf(((type < 1) && (type > 6)), 'non valid type ' + type);
+
+            // Read variable size
+            // The 32-bit varSize field is not large enough to contain the size of variables that require
+            // more than 2^32 - 4 bytes, so 2^32 - 1 is used in the varSize field for such variables.
+            const varSize = buffer.readUint32();
+
+            // Read offset
+            // TODO change it for supporting 64-bit
+            const offset = buffer.readUint32();
+
+            variables[v] = {
+                name: name,
+                dimensions: dimensionsIds,
+                attributes: attributes,
+                type: utils.evalType(type),
+                size: varSize,
+                offset: offset
+            };
+        }
+    }
+    return variables;
 }
 
 module.exports = header;

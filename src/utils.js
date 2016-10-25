@@ -50,7 +50,7 @@ function padding(buffer) {
  * @param {IOBuffer} buffer - Buffer for the file data
  * @param {number} type - Type of the data to read
  * @param {number} size - Size of the element to read
- * @return {*}
+ * @return {string|Array<number>}
  */
 function readType(buffer, type, size) {
     switch (type) {
@@ -59,24 +59,56 @@ function readType(buffer, type, size) {
         case 2:
             return buffer.readChars(size);
         case 3:
-            notNetcdf((size !== 1), 'wrong size for NC_SHORT ' + size);
-            return buffer.readInt16();
+            var short = new Array(size);
+            for (var s = 0; s < size; s++) {
+                short[s] = buffer.readInt16();
+            }
+            return short;
         case 4:
-            notNetcdf((size !== 1), 'wrong size for NC_INT ' + size);
-            return buffer.readInt32();
+            var int = new Array(size);
+            for (var i = 0; i < size; i++) {
+                int[i] = buffer.readInt32();
+            }
+            return int;
         case 5:
-            notNetcdf((size !== 1), 'wrong size for NC_FLOAT ' + size);
-            return buffer.readFloat32();
+            var float32 = new Array(size);
+            for (var f = 0; f < size; f++) {
+                float32[f] = buffer.readFloat32();
+            }
+            return float32;
         case 6:
-            notNetcdf((size !== 1), 'wrong size for NC_DOUBLE ' + size);
-            return buffer.readFloat64();
+            var float64 = new Array(size);
+            for (var g = 0; g < size; g++) {
+                float64[g] = buffer.readFloat64();
+            }
+            return float64;
         default:
             notNetcdf(true, 'non valid type ' + type);
             return undefined;
     }
 }
 
+
+/**
+ * Reads the name
+ * @param {IOBuffer} buffer - Buffer for the file data
+ * @return {string} - Name
+ */
+function readName(buffer) {
+    // Read name
+    var nameLength = buffer.readUint32();
+    var name = buffer.readChars(nameLength);
+
+    // validate name
+    // TODO
+
+    // Apply padding
+    padding(buffer);
+    return name;
+}
+
 module.exports.notNetcdf = notNetcdf;
 module.exports.evalType = evalType;
 module.exports.padding = padding;
 module.exports.readType = readType;
+module.exports.readName = readName;

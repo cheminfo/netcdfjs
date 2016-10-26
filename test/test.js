@@ -85,10 +85,10 @@ describe('Read file', function () {
         });
     });
 
-    it.skip('public API', function () {
+    it('read non-record variable', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
 
-        var reader = new NetCDFReader(data); // read the header
-        reader.getVariable('wmoId'); // go to offset and read it
+        reader.getDataVariable('nStaticIds')[0][0].should.be.equal(145);
     });
 });

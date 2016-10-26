@@ -22,6 +22,7 @@ const NC_ATTRIBUTE = 12;
  */
 function header(buffer) {
     // Length of record dimension
+    // sum of the varSize's of all the record variables.
     var header = {recordDimension: {length: buffer.readUint32()}};
     if (header.recordDimension.length === STREAMING) {
         header.recordDimension.length = Number.Infinity;
@@ -123,7 +124,7 @@ function attributesList(buffer) {
 
             attributes[gAtt] = {
                 name: name,
-                type: types.evalType(type),
+                type: types.num2str(type),
                 value: value
             };
         }
@@ -189,7 +190,7 @@ function variablesList(buffer, recordId) {
                 name: name,
                 dimensions: dimensionsIds,
                 attributes: attributes,
-                type: types.evalType(type),
+                type: types.num2str(type),
                 size: varSize,
                 offset: offset,
                 record: (dimensionsIds[0] === recordId)

@@ -4,7 +4,6 @@ const utils = require('./utils');
 const types = require('./types');
 
 // Grammar constants
-const STREAMING = 4294967295;
 const ZERO = 0;
 const NC_DIMENSION = 10;
 const NC_VARIABLE = 11;
@@ -24,9 +23,6 @@ function header(buffer) {
     // Length of record dimension
     // sum of the varSize's of all the record variables.
     var header = {recordDimension: {length: buffer.readUint32()}};
-    if (header.recordDimension.length === STREAMING) {
-        header.recordDimension.length = Number.Infinity;
-    }
 
     // List of dimensions
     var dimList = dimensionsList(buffer);

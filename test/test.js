@@ -91,4 +91,14 @@ describe('Read file', function () {
 
         reader.getDataVariable('nStaticIds')[0][0].should.be.equal(145);
     });
+
+    it('read record variable', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        var record = reader.getDataVariable('wmoId');
+        record[0][0].should.be.equal(71419);
+        record[1][0].should.be.equal(71415);
+        record[2][0].should.be.equal(71408);
+    });
 });

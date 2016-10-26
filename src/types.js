@@ -17,7 +17,7 @@ const types = {
  * @param {number} type - integer that represents the type
  * @return {string} - parsed value of the type
  */
-function evalType(type) {
+function num2str(type) {
     switch (type) {
         case types.BYTE:
             return 'byte';
@@ -33,6 +33,31 @@ function evalType(type) {
             return 'double';
         default:
             return 'undefined';
+    }
+}
+
+/**
+ * Reverse search of num2str
+ * @ignore
+ * @param {string} type - string that represents the type
+ * @return {number} - parsed value of the type
+ */
+function str2num(type) {
+    switch (type) {
+        case 'byte':
+            return types.BYTE;
+        case 'char':
+            return types.CHAR;
+        case 'short':
+            return types.SHORT;
+        case 'int':
+            return types.INT;
+        case 'float':
+            return types.FLOAT;
+        case 'double':
+            return types.DOUBLE;
+        default:
+            return -1;
     }
 }
 
@@ -95,5 +120,6 @@ function trimNull(value) {
 }
 
 module.exports = types;
-module.exports.evalType = evalType;
+module.exports.num2str = num2str;
+module.exports.str2num = str2num;
 module.exports.readType = readType;

@@ -2,6 +2,7 @@
 
 const IOBuffer = require('iobuffer');
 const utils = require('./utils');
+const data = require('./data');
 const readHeader = require('./header');
 
 /**
@@ -26,6 +27,7 @@ class NetCDFReader {
         // Read the header
         this.header = readHeader(buffer);
         this.header.version = version;
+        this.buffer = buffer;
     }
 
     /**
@@ -77,6 +79,29 @@ class NetCDFReader {
      */
     get variables() {
         return this.header.variables;
+    }
+
+    /**
+     * Retrieves the data for a given variable
+     * @param {string} variableName - Name o the variable to search
+     * @return {object}
+     */
+    getDataVariable(variableName) {
+        // search the variable
+        var variable = this.header.variables.find(function (val) {
+            return val.name === variableName;
+        });
+
+        // go to the offset position
+        this.buffer.seek(variable.offset);
+
+        if (variable.record) {
+            // record variable case
+            return data.record(this.buffer, variable);
+        } else {
+            // non-record variable case
+            return data.nonRecord(this.buffer, variable);
+        }
     }
 }
 

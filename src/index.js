@@ -84,7 +84,7 @@ class NetCDFReader {
     /**
      * Retrieves the data for a given variable
      * @param {string} variableName - Name o the variable to search
-     * @return {object}
+     * @return {Array}
      */
     getDataVariable(variableName) {
         // search the variable
@@ -97,7 +97,7 @@ class NetCDFReader {
 
         if (variable.record) {
             // record variable case
-            return data.record(this.buffer, variable);
+            return data.record(this.buffer, variable, this.header.recordDimension);
         } else {
             // non-record variable case
             return data.nonRecord(this.buffer, variable);

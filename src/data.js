@@ -45,7 +45,7 @@ function record(buffer, variable, recordDimension) {
 
     // iterates over the data
     var data = new Array(size);
-    const step = Math.ceil((buffer.length - buffer.offset) / size);
+    const step = recordDimension.recordStep;
 
     for (var i = 0; i < size; i++) {
         var currentOffset = buffer.offset;

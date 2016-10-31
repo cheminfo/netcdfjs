@@ -19,7 +19,12 @@ describe('Read file', function () {
 
         var reader = new NetCDFReader(data);
         reader.version.should.be.equal('classic format');
-        reader.recordDimension.should.deepEqual({length: 178, id: 21, name: 'recNum'});
+        reader.recordDimension.should.deepEqual({
+            length: 178,
+            id: 21,
+            name: 'recNum',
+            recordStep: 1220
+        });
         reader.dimensions.should.deepEqual([
             {name: 'maxAutoStaLen', size: 6},
             {name: 'maxAutoWeather', size: 5},

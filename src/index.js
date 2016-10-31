@@ -42,7 +42,11 @@ class NetCDFReader {
     }
 
     /**
-     * @return {object} - Length, name and id of record dimension
+     * @return {object} - Metadata for the record dimension
+     *  * `length`: Number of elements in the record dimension
+     *  * `id`: Id number in the list of dimensions for the record dimension
+     *  * `name`: String with the name of the record dimension
+     *  * `recordStep`: Number with the record variables step size
      */
     get recordDimension() {
         return this.header.recordDimension;

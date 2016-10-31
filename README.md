@@ -17,7 +17,13 @@ Read and explore NetCDF files
 ## Example
 
 ```js
-const netcdfjs = require('netcdfjs');
+const fs = require('fs');
+const NetCDFReader = require('netcdfjs');
+
+const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+
+var reader = new NetCDFReader(data); // read the header
+reader.getVariable('wmoId'); // go to offset and read it
 ```
 
 ## License

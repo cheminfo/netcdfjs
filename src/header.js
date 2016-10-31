@@ -34,7 +34,9 @@ function header(buffer) {
     header.globalAttributes = attributesList(buffer);
 
     // List of variables
-    header.variables = variablesList(buffer, dimList.recordId);
+    var variables = variablesList(buffer, dimList.recordId);
+    header.variables = variables.variables;
+    header.recordDimension.recordStep = variables.recordStep;
 
     return header;
 }
@@ -133,7 +135,7 @@ function attributesList(buffer) {
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  * @param {number} recordId - Id if the record dimension
- * @return {Array<object>} - List of variables with:
+ * @return {object} - Number of recordStep and list of variables with:
  *  * `name`: String with the name of the variable
  *  * `dimensions`: Array with the dimension IDs of the variable
  *  * `attributes`: Array with the attributes of the variable
@@ -144,6 +146,7 @@ function attributesList(buffer) {
  */
 function variablesList(buffer, recordId) {
     const varList = buffer.readUint32();
+    var recordStep = 0;
     if (varList === ZERO) {
         utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of variables');
         return [];
@@ -182,6 +185,11 @@ function variablesList(buffer, recordId) {
             // TODO change it for supporting 64-bit
             const offset = buffer.readUint32();
 
+            // Count amount of record variables
+            if (dimensionsIds[0] === recordId) {
+                recordStep += varSize;
+            }
+
             variables[v] = {
                 name: name,
                 dimensions: dimensionsIds,
@@ -193,7 +201,11 @@ function variablesList(buffer, recordId) {
             };
         }
     }
-    return variables;
+
+    return {
+        variables: variables,
+        recordStep: recordStep
+    };
 }
 
 module.exports = header;

@@ -31,6 +31,7 @@ function num2str(type) {
             return 'float';
         case types.DOUBLE:
             return 'double';
+        /* istanbul ignore next */
         default:
             return 'undefined';
     }
@@ -56,6 +57,7 @@ function str2num(type) {
             return types.FLOAT;
         case 'double':
             return types.DOUBLE;
+        /* istanbul ignore next */
         default:
             return -1;
     }

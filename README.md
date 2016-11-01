@@ -26,7 +26,7 @@ const NetCDFReader = require('netcdfjs');
 const data = fs.readFileSync('madis-sao.nc');
 
 var reader = new NetCDFReader(data); // read the header
-reader.getVariable('wmoId'); // go to offset and read it
+reader.getDataVariable('wmoId'); // go to offset and read it
 ```
 
 ## License

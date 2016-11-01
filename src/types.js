@@ -18,7 +18,7 @@ const types = {
  * @return {string} - parsed value of the type
  */
 function num2str(type) {
-    switch (type) {
+    switch (Number(type)) {
         case types.BYTE:
             return 'byte';
         case types.CHAR:
@@ -44,7 +44,7 @@ function num2str(type) {
  * @return {number} - parsed value of the type
  */
 function str2num(type) {
-    switch (type) {
+    switch (String(type)) {
         case 'byte':
             return types.BYTE;
         case 'char':

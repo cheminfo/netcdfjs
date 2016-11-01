@@ -64,12 +64,31 @@ function str2num(type) {
 }
 
 /**
+ * Auxiliary function to read numeric data
+ * @ignore
+ * @param {number} size - Size of the element to read
+ * @param {function} bufferReader - Function to read next value
+ * @return {Array<number>|number}
+ */
+function readNumber(size, bufferReader) {
+    if (size !== 1) {
+        var numbers = new Array(size);
+        for (var i = 0; i < size; i++) {
+            numbers[i] = bufferReader();
+        }
+        return numbers;
+    } else {
+        return bufferReader();
+    }
+}
+
+/**
  * Given a type and a size reads the next element
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  * @param {number} type - Type of the data to read
  * @param {number} size - Size of the element to read
- * @return {string|Array<number>}
+ * @return {string|Array<number>|number}
  */
 function readType(buffer, type, size) {
     switch (type) {
@@ -78,45 +97,13 @@ function readType(buffer, type, size) {
         case types.CHAR:
             return trimNull(buffer.readChars(size));
         case types.SHORT:
-            if (size !== 1) {
-                var short = new Array(size);
-                for (var s = 0; s < size; s++) {
-                    short[s] = buffer.readInt16();
-                }
-                return short;
-            } else {
-                return buffer.readInt16();
-            }
+            return readNumber(size, buffer.readInt16.bind(buffer));
         case types.INT:
-            if (size !== 1) {
-                var int = new Array(size);
-                for (var i = 0; i < size; i++) {
-                    int[i] = buffer.readInt32();
-                }
-                return int;
-            } else {
-                return buffer.readInt32();
-            }
+            return readNumber(size, buffer.readInt32.bind(buffer));
         case types.FLOAT:
-            if (size !== 1) {
-                var float32 = new Array(size);
-                for (var f = 0; f < size; f++) {
-                    float32[f] = buffer.readFloat32();
-                }
-                return float32;
-            } else {
-                return buffer.readFloat32();
-            }
+            return readNumber(size, buffer.readFloat32.bind(buffer));
         case types.DOUBLE:
-            if (size !== 1) {
-                var float64 = new Array(size);
-                for (var g = 0; g < size; g++) {
-                    float64[g] = buffer.readFloat64();
-                }
-                return float64;
-            } else {
-                return buffer.readFloat64();
-            }
+            return readNumber(size, buffer.readFloat64.bind(buffer));
         /* istanbul ignore next */
         default:
             notNetcdf(true, 'non valid type ' + type);

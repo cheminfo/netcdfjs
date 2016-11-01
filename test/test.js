@@ -58,7 +58,7 @@ describe('Read file', function () {
         reader.globalAttributes[3].should.deepEqual({
             name: 'filePeriod',
             type: 'int',
-            value: [3600]
+            value: 3600
         });
 
         reader.variables[0].should.deepEqual({
@@ -67,7 +67,7 @@ describe('Read file', function () {
             attributes: [{
                 name: '_FillValue',
                 type: 'int',
-                value: [0]
+                value: 0
             }],
             type: 'int',
             size: 4,
@@ -79,7 +79,7 @@ describe('Read file', function () {
             dimensions: [21],
             attributes: [
                 {name: 'long_name', type: 'char', value: 'WMO numeric station ID'},
-                {name: '_FillValue', type: 'int', value: [-2147483647]},
+                {name: '_FillValue', type: 'int', value: -2147483647},
                 {name: 'valid_range', type: 'int', value: [1, 89999]},
                 {name: 'reference', type: 'char', value: 'station table'}
             ],
@@ -94,7 +94,7 @@ describe('Read file', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
         var reader = new NetCDFReader(data);
 
-        reader.getDataVariable('nStaticIds')[0][0].should.be.equal(145);
+        reader.getDataVariable('nStaticIds')[0].should.be.equal(145);
     });
 
     it('read record variable', function () {
@@ -102,8 +102,8 @@ describe('Read file', function () {
         var reader = new NetCDFReader(data);
 
         var record = reader.getDataVariable('wmoId');
-        record[0][0].should.be.equal(71419);
-        record[1][0].should.be.equal(71415);
-        record[2][0].should.be.equal(71408);
+        record[0].should.be.equal(71419);
+        record[1].should.be.equal(71415);
+        record[2].should.be.equal(71408);
     });
 });

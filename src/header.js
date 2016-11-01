@@ -111,7 +111,7 @@ function attributesList(buffer) {
 
             // Read type
             var type = buffer.readUint32();
-            utils.notNetcdf(((type < 1) && (type > 6)), 'non valid type ' + type);
+            utils.notNetcdf(((type < 1) || (type > 6)), 'non valid type ' + type);
 
             // Read attribute
             var size = buffer.readUint32();

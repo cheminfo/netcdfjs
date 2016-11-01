@@ -78,29 +78,45 @@ function readType(buffer, type, size) {
         case types.CHAR:
             return trimNull(buffer.readChars(size));
         case types.SHORT:
-            var short = new Array(size);
-            for (var s = 0; s < size; s++) {
-                short[s] = buffer.readInt16();
+            if (size !== 1) {
+                var short = new Array(size);
+                for (var s = 0; s < size; s++) {
+                    short[s] = buffer.readInt16();
+                }
+                return short;
+            } else {
+                return buffer.readInt16();
             }
-            return short;
         case types.INT:
-            var int = new Array(size);
-            for (var i = 0; i < size; i++) {
-                int[i] = buffer.readInt32();
+            if (size !== 1) {
+                var int = new Array(size);
+                for (var i = 0; i < size; i++) {
+                    int[i] = buffer.readInt32();
+                }
+                return int;
+            } else {
+                return buffer.readInt32();
             }
-            return int;
         case types.FLOAT:
-            var float32 = new Array(size);
-            for (var f = 0; f < size; f++) {
-                float32[f] = buffer.readFloat32();
+            if (size !== 1) {
+                var float32 = new Array(size);
+                for (var f = 0; f < size; f++) {
+                    float32[f] = buffer.readFloat32();
+                }
+                return float32;
+            } else {
+                return buffer.readFloat32();
             }
-            return float32;
         case types.DOUBLE:
-            var float64 = new Array(size);
-            for (var g = 0; g < size; g++) {
-                float64[g] = buffer.readFloat64();
+            if (size !== 1) {
+                var float64 = new Array(size);
+                for (var g = 0; g < size; g++) {
+                    float64[g] = buffer.readFloat64();
+                }
+                return float64;
+            } else {
+                return buffer.readFloat64();
             }
-            return float64;
         /* istanbul ignore next */
         default:
             notNetcdf(true, 'non valid type ' + type);

@@ -16,7 +16,7 @@ function nonRecord(buffer, variable) {
     const type = types.str2num(variable.type);
 
     // size of the data
-    var size = variable.size / 4;
+    var size = variable.size / types.num2bytes(type);
 
     // iterates over the data
     var data = new Array(size);

@@ -38,6 +38,32 @@ function num2str(type) {
 }
 
 /**
+ * Parse a number type identifier to his size in bytes
+ * @ignore
+ * @param {number} type - integer that represents the type
+ * @return {number} -size of the type
+ */
+function num2bytes(type) {
+    switch (Number(type)) {
+        case types.BYTE:
+            return 1;
+        case types.CHAR:
+            return 1;
+        case types.SHORT:
+            return 2;
+        case types.INT:
+            return 4;
+        case types.FLOAT:
+            return 4;
+        case types.DOUBLE:
+            return 8;
+        /* istanbul ignore next */
+        default:
+            return -1;
+    }
+}
+
+/**
  * Reverse search of num2str
  * @ignore
  * @param {string} type - string that represents the type
@@ -126,5 +152,6 @@ function trimNull(value) {
 
 module.exports = types;
 module.exports.num2str = num2str;
+module.exports.num2bytes = num2bytes;
 module.exports.str2num = str2num;
 module.exports.readType = readType;

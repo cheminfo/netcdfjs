@@ -143,14 +143,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * Retrieves the data for a given variable
-	     * @param {string} variableName - Name o the variable to search
+	     * @param {string|object} variableName - Name of the variable to search or variable object
 	     * @return {Array}
 	     */
 	    getDataVariable(variableName) {
-	        // search the variable
-	        var variable = this.header.variables.find(function (val) {
-	            return val.name === variableName;
-	        });
+	        var variable;
+	        if (typeof variableName === 'string') {
+	            // search the variable
+	            variable = this.header.variables.find(function (val) {
+	                return val.name === variableName;
+	            });
+	        } else {
+	            variable = variableName;
+	        }
+
+	        // throws if variable not found
+	        utils.notNetcdf((variable === undefined), 'variable not found');
 
 	        // go to the offset position
 	        this.buffer.seek(variable.offset);
@@ -494,7 +502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    const type = types.str2num(variable.type);
 
 	    // size of the data
-	    var size = variable.size / 4;
+	    var size = variable.size / types.num2bytes(type);
 
 	    // iterates over the data
 	    var data = new Array(size);
@@ -578,6 +586,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /* istanbul ignore next */
 	        default:
 	            return 'undefined';
+	    }
+	}
+
+	/**
+	 * Parse a number type identifier to his size in bytes
+	 * @ignore
+	 * @param {number} type - integer that represents the type
+	 * @return {number} -size of the type
+	 */
+	function num2bytes(type) {
+	    switch (Number(type)) {
+	        case types.BYTE:
+	            return 1;
+	        case types.CHAR:
+	            return 1;
+	        case types.SHORT:
+	            return 2;
+	        case types.INT:
+	            return 4;
+	        case types.FLOAT:
+	            return 4;
+	        case types.DOUBLE:
+	            return 8;
+	        /* istanbul ignore next */
+	        default:
+	            return -1;
 	    }
 	}
 
@@ -670,6 +704,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = types;
 	module.exports.num2str = num2str;
+	module.exports.num2bytes = num2bytes;
 	module.exports.str2num = str2num;
 	module.exports.readType = readType;
 

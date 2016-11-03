@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>netcdfjs 0.1.0 | Documentation</title>
+  <title>netcdfjs 0.3.0 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -14,7 +14,7 @@
       <div class='fixed xs-hide fix-3 overflow-auto max-height-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>netcdfjs</h3>
-          <div class='mb1'><code>0.1.0</code></div>
+          <div class='mb1'><code>0.3.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -98,7 +98,7 @@
       NetCDFReader
     </h3>
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo-js/netcdfjs/blob/379aa1c18ed9fd79e1cd02efd9d1aa3284f16419/src/index.js#L14-L110'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo-js/netcdfjs/blob/1e28ab5e0c2c571f12a119d602168880fc8b4d1d/src/index.js#L14-L118'>
       <span>src/index.js</span>
       </a>
     
@@ -447,7 +447,7 @@
   <p>Retrieves the data for a given variable</p>
 
 
-  <div class='pre p1 fill-light mt0'>getDataVariable(variableName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></div>
+  <div class='pre p1 fill-light mt0'>getDataVariable(variableName: (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></div>
 
   
 
@@ -463,7 +463,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>variableName</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code> Name o the variable to search
+            <span class='code bold'>variableName</span> <code class='quiet'>((<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>))</code> Name of the variable to search or variable object
 
           </div>
           
@@ -478,7 +478,8 @@
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>:
-        
+        List with the variable values
+
       
     
   

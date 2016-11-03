@@ -88,7 +88,7 @@ class NetCDFReader {
     /**
      * Retrieves the data for a given variable
      * @param {string|object} variableName - Name of the variable to search or variable object
-     * @return {Array}
+     * @return {Array} - List with the variable values
      */
     getDataVariable(variableName) {
         var variable;

@@ -107,7 +107,7 @@ describe('Read file', function () {
         record[2].should.be.equal(71408);
     });
 
-    it('read record variable with object', function () {
+    it('read non-record variable with object', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
         var reader = new NetCDFReader(data);
         var variables = reader.variables;
@@ -120,5 +120,13 @@ describe('Read file', function () {
         withString[0].should.be.equal(withObject[0]);
         withString[1].should.be.equal(withObject[1]);
         withString[2].should.be.equal(withObject[2]);
+    });
+
+    it('read non-existent variable string', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        reader.getDataVariable.bind(reader, 'n\'importe quoi')
+            .should.throw('Not a valid NetCDF v3.x file: variable not found');
     });
 });

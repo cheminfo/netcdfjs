@@ -87,14 +87,19 @@ class NetCDFReader {
 
     /**
      * Retrieves the data for a given variable
-     * @param {string} variableName - Name o the variable to search
+     * @param {string|object} variableName - Name of the variable to search or variable object
      * @return {Array}
      */
     getDataVariable(variableName) {
-        // search the variable
-        var variable = this.header.variables.find(function (val) {
-            return val.name === variableName;
-        });
+        var variable;
+        if (typeof variableName === 'string') {
+            // search the variable
+            variable = this.header.variables.find(function (val) {
+                return val.name === variableName;
+            });
+        } else {
+            variable = variableName;
+        }
 
         // go to the offset position
         this.buffer.seek(variable.offset);

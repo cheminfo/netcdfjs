@@ -97,7 +97,7 @@ describe('Read file', function () {
         reader.getDataVariable('nStaticIds')[0].should.be.equal(145);
     });
 
-    it('read record variable', function () {
+    it('read record variable with string', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
         var reader = new NetCDFReader(data);
 
@@ -105,5 +105,20 @@ describe('Read file', function () {
         record[0].should.be.equal(71419);
         record[1].should.be.equal(71415);
         record[2].should.be.equal(71408);
+    });
+
+    it('read record variable with object', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+        var variables = reader.variables;
+
+        var withString = reader.getDataVariable('staticIds');
+        var withObject = reader.getDataVariable(variables[1]);
+        withString[0].should.be.equal('W');
+        withString[1].should.be.equal('A');
+        withString[2].should.be.equal('F');
+        withString[0].should.be.equal(withObject[0]);
+        withString[1].should.be.equal(withObject[1]);
+        withString[2].should.be.equal(withObject[2]);
     });
 });

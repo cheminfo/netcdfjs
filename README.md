@@ -29,6 +29,41 @@ var reader = new NetCDFReader(data); // read the header
 reader.getDataVariable('wmoId'); // go to offset and read it
 ```
 
+
+### Example II: Load from URL (does not require node)
+
+```js
+// First load the netcdfjs library as normal : <script src='./dist/netcdfjs.js'></script>
+
+var urlpath =  "http://www.unidata.ucar.edu/software/netcdf/examples/madis-sao.nc"
+var reader;
+
+var oReq = new XMLHttpRequest();
+oReq.open("GET", urlpath, true);
+oReq.responseType = "blob";
+
+oReq.onload = function(oEvent) {
+  var blob = oReq.response;
+  reader_url = new FileReader();
+  
+  reader_url.onload = function(e) {
+       reader = new netcdfjs(this.result);
+      }
+      
+  reader_url.readAsArrayBuffer(blob);
+};
+oReq.send(); //start process
+
+
+
+reader.getDataVariable('wmoId'); // go to offset and read it
+
+
+
+```
+
+
+
 ## License
 
   [MIT](./LICENSE)

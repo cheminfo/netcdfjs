@@ -20,22 +20,23 @@
     "eslint": "eslint src test",
     "eslint-fix": "npm run eslint -- --fix",
     "test": "npm run test-mocha && npm run eslint",
-    "test-mocha": "mocha --require should --reporter mocha-better-spec-reporter --recursive",
-    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --require should --reporter dot --recursive",
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --require should --reporter dot --recursive",
+    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --require should --reporter dot --recursive && codecov",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --require should --reporter dot --recursive && codecov",
+    "test-mocha": "mocha --require should --reporter mocha-better-spec-reporter",
     "build": "cheminfo build"
   },
   "devDependencies": {
-    "cheminfo-tools": "^1.5.0",
-    "eslint": "^3.4.0",
-    "eslint-config-cheminfo": "^1.2.0",
+    "cheminfo-tools": "^1.15.0",
+    "codecov": "^2.1.0",
+    "eslint": "^3.18.0",
+    "eslint-config-cheminfo": "^1.7.0",
     "eslint-plugin-no-only-tests": "^1.1.0",
-    "istanbul": "^0.4.4",
-    "mocha": "^3.1.2",
-    "mocha-better-spec-reporter": "^3.0.2",
-    "should": "^11.1.1"
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "mocha-better-spec-reporter": "^3.1.0",
+    "should": "^11.2.1"
   },
   "dependencies": {
-    "iobuffer": "^2.1.0"
+    "iobuffer": "^3.2.0"
   }
 }

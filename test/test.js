@@ -97,6 +97,16 @@ describe('Read file', function () {
         reader.getDataVariable('nStaticIds')[0].should.be.equal(145);
     });
 
+    it('read 2 dimensional variable', function () {
+        const data = fs.readFileSync(pathFiles + 'ichthyop.nc');
+        var reader = new NetCDFReader(data);
+        reader.getDataVariable('time').should.have.length(49);
+        reader.getDataVariable('time')[0].should.be.equal(1547070300);
+        reader.getDataVariable('lat').should.have.length(49);
+        reader.getDataVariable('lat')[0].should.have.length(1000);
+        reader.getDataVariable('lat')[0][0].should.be.equal(53.26256561279297);
+    });
+
     it('read record variable with string', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
         var reader = new NetCDFReader(data);

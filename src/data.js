@@ -38,6 +38,7 @@ function nonRecord(buffer, variable) {
 function record(buffer, variable, recordDimension) {
     // variable type
     const type = types.str2num(variable.type);
+    const width = variable.size ? variable.size / types.num2bytes(type) : 1;
 
     // size of the data
     // TODO streaming data
@@ -49,7 +50,7 @@ function record(buffer, variable, recordDimension) {
 
     for (var i = 0; i < size; i++) {
         var currentOffset = buffer.offset;
-        data[i] = types.readType(buffer, type, 1);
+        data[i] = types.readType(buffer, type, width);
         buffer.seek(currentOffset + step);
     }
 

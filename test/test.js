@@ -139,4 +139,12 @@ describe('Read file', function () {
         reader.getDataVariable.bind(reader, 'n\'importe quoi')
             .should.throw('Not a valid NetCDF v3.x file: variable not found');
     });
+
+    it('read 64 bit offset file', function () {
+        const data = fs.readFileSync(pathFiles + 'model1_md2.nc');
+        var reader = new NetCDFReader(data);
+        reader.version.should.be.equal('64-bit offset format');
+        reader.getDataVariable('cell_angular')[0].should.be.equal('a');
+        reader.getDataVariable('cell_spatial')[0].should.be.equal('a');
+    });
 });

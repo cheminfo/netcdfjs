@@ -13,16 +13,20 @@ const NC_ATTRIBUTE = 12;
  * Read the header of the file
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
+ * @param {number} version - Version of the file
  * @return {object} - Object with the fields:
  *  * `recordDimension`: Number with the length of record dimension
  *  * `dimensions`: List of dimensions
  *  * `globalAttributes`: List of global attributes
  *  * `variables`: List of variables
  */
-function header(buffer) {
+function header(buffer, version) {
     // Length of record dimension
     // sum of the varSize's of all the record variables.
     var header = {recordDimension: {length: buffer.readUint32()}};
+
+    // Version
+    header.version = version;
 
     // List of dimensions
     var dimList = dimensionsList(buffer);
@@ -34,7 +38,7 @@ function header(buffer) {
     header.globalAttributes = attributesList(buffer);
 
     // List of variables
-    var variables = variablesList(buffer, dimList.recordId);
+    var variables = variablesList(buffer, dimList.recordId, version);
     header.variables = variables.variables;
     header.recordDimension.recordStep = variables.recordStep;
 
@@ -135,6 +139,7 @@ function attributesList(buffer) {
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  * @param {number} recordId - Id if the record dimension
+ * @param {number} version - Version of the file
  * @return {object} - Number of recordStep and list of variables with:
  *  * `name`: String with the name of the variable
  *  * `dimensions`: Array with the dimension IDs of the variable
@@ -144,7 +149,7 @@ function attributesList(buffer) {
  *  * `offset`: Number with the offset where of the variable begins
  *  * `record`: True if is a record variable, false otherwise
  */
-function variablesList(buffer, recordId) {
+function variablesList(buffer, recordId, version) {
     const varList = buffer.readUint32();
     var recordStep = 0;
     if (varList === ZERO) {
@@ -182,8 +187,11 @@ function variablesList(buffer, recordId) {
             const varSize = buffer.readUint32();
 
             // Read offset
-            // TODO change it for supporting 64-bit
-            const offset = buffer.readUint32();
+            var offset = buffer.readUint32();
+            if (version === 2) {
+                utils.notNetcdf((offset > 0), 'offsets larger than 4GB not supported');
+                offset = buffer.readUint32();
+            }
 
             // Count amount of record variables
             if (dimensionsIds[0] === recordId) {

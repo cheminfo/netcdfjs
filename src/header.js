@@ -16,11 +16,11 @@ const NC_ATTRIBUTE = 12;
  * @param {number} version - Version of the file
  * @constructor
  */
-class Header{
+class Header {
     constructor(buffer, version) {
         // Length of record dimension
         // sum of the varSize's of all the record variables.
-        this.recordDimension = {length: buffer.readUint32()};
+        this.recordDimension = { length: buffer.readUint32() };
 
         // Version
         this.version = version;
@@ -41,7 +41,7 @@ class Header{
     }
 
     /**
-     * Retrieves variable data from its name 
+     * Retrieves variable data from its name
      * @param {string|object} variableName - Name of the variable to search or variable object
      * @return {object} - variable metadata
      */
@@ -60,6 +60,40 @@ class Header{
         utils.notNetcdf((variable === undefined), 'variable not found');
 
         return variable;
+    }
+
+    /**
+     * Create a list of filter objects.
+     * @param {object} variable - filtered variable info
+     * @param {number} filterValues - Initial indexes and length of each dimension
+     * @return {Array} - filter information
+     */
+    translateToFilter(variable, filterValues) {
+        // throw if invalid values
+        filterValues.forEach((val) => {
+            var check = typeof val !== 'number' || isNaN(val) || val < 0;
+            utils.notNetcdf(check, 'incorrect filter values');
+        });
+
+        // search for dimension details of the variable
+        var variableDimensions = this.dimensions.filter((f, idx) => variable.dimensions.includes(idx));
+        // throws if filter values are insufficient
+        utils.notNetcdf((filterValues.length !== variableDimensions.length * 2), 'insufficient filter values');
+
+        var filter = [];
+        filterValues.forEach((value, idx) => {
+            var currentIndex = Math.floor(idx / 2);
+            if (!(idx % 2)) {
+                filter.push({
+                    size: variableDimensions[currentIndex].size,
+                    initialIndex: value,
+                });
+            } else {
+                filter[currentIndex].endIndex = filter[currentIndex].initialIndex + value;
+            }
+        });
+
+        return filter;
     }
 }
 

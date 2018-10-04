@@ -147,4 +147,52 @@ describe('Read file', function () {
         reader.getDataVariable('cell_angular')[0].should.be.equal('a');
         reader.getDataVariable('cell_spatial')[0].should.be.equal('a');
     });
+
+    it('read non-record variable sliced data', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        var result = reader.getDataVariableSlice('staticIds', 48, 36);
+
+        result.length.should.be.equal(36);
+        result[0].should.be.equal('W');
+        result[1].should.be.equal('B');
+        result[2].should.be.equal('G');
+    });
+
+    it('read non-record variable filtered data', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        var result = reader.getDataVariableFiltered('staticIds', 14, 5, 0, 3);
+
+        result.length.should.be.equal(15);
+        result[0].should.be.equal('W');
+        result[1].should.be.equal('C');
+        result[2].should.be.equal('I');
+        result[3].should.be.equal('W');
+        result[4].should.be.equal('C');
+        result[5].should.be.equal('J');
+        result[12].should.be.equal('W');
+        result[13].should.be.equal('C');
+        result[14].should.be.equal('T');
+    });
+
+    it('read non-record variable filtered data without enough arguments', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        (function () {
+          return reader.getDataVariableFiltered('staticIds', 14, 5);
+        }).should.throw('Not a valid NetCDF v3.x file: insufficient filter values');
+    });
+
+    it('read non-record variable filtered data with unvalid filter data', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+      (function () {
+          return reader.getDataVariableFiltered('staticIds', 0, -1, NaN, 'wrong');
+      }).should.throw('Not a valid NetCDF v3.x file: incorrect filter values');
+    });
 });

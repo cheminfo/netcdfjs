@@ -1,6 +1,7 @@
 'use strict';
 
 const IOBuffer = require('iobuffer');
+
 const utils = require('./utils');
 const data = require('./data');
 const Header = require('./header');
@@ -101,9 +102,9 @@ class NetCDFReader {
     }
 
     /**
-     * Retrieves contiguous partial data for a given variable 
+     * Retrieves contiguous partial data for a given variable
      * @param {string|object} variableName - Name of the variable to search or variable object
-     * @param {number} startIndex - Initial index where to slice the variable dataset from 
+     * @param {number} startIndex - Initial index where to slice the variable dataset from
      * @param {number} size - Length of the slice
      * @return {Array} - List with the variable values
      */
@@ -116,6 +117,26 @@ class NetCDFReader {
         } else {
             // non-record variable case
             return data.nonRecord(this.buffer, variable, startIndex, size);
+        }
+    }
+
+    /**
+     * Retrieves partial data for a given variable filter by index
+     * @param {string|object} variableName - Name of the variable to search or variable object
+     * @param {number} filterValues - Initial indexes and length of each dimension
+     * @return {Array} - List with the variable values required
+     */
+    getDataVariableFiltered(variableName, ...filterValues) {
+        var variable = this.header.getVariableInfo(variableName);
+
+        var filter = this.header.translateToFilter(variable, filterValues);
+
+        if (variable.record) {
+            // TODO record variable case
+            return null;
+        } else {
+            // non-record variable case
+            return data.nonRecordFiltered(this.buffer, variable, filter);
         }
     }
 }

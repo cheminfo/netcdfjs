@@ -11,12 +11,19 @@ const types = require('./types');
  * @param {object} variable - Variable metadata
  * @return {Array} - Data of the element
  */
-function nonRecord(buffer, variable) {
+function nonRecord(buffer, variable, initialValue = undefined, contentSize = undefined) {
     // variable type
     const type = types.str2num(variable.type);
 
+    //variable type size
+    const typeSize = types.num2bytes(type);
+
     // size of the data
-    var size = variable.size / types.num2bytes(type);
+    var size = contentSize ? contentSize : variable.size / typeSize;
+
+    // go to the variable offset position
+    var offset = variable.offset + (initialValue ? initialValue * typeSize : 0);
+    buffer.seek(offset);
 
     // iterates over the data
     var data = new Array(size);
@@ -43,6 +50,9 @@ function record(buffer, variable, recordDimension) {
     // size of the data
     // TODO streaming data
     var size = recordDimension.length;
+
+    // go to the variable offset position
+    buffer.seek(variable.offset);
 
     // iterates over the data
     var data = new Array(size);

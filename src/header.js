@@ -14,35 +14,53 @@ const NC_ATTRIBUTE = 12;
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  * @param {number} version - Version of the file
- * @return {object} - Object with the fields:
- *  * `recordDimension`: Number with the length of record dimension
- *  * `dimensions`: List of dimensions
- *  * `globalAttributes`: List of global attributes
- *  * `variables`: List of variables
+ * @constructor
  */
-function header(buffer, version) {
-    // Length of record dimension
-    // sum of the varSize's of all the record variables.
-    var header = {recordDimension: {length: buffer.readUint32()}};
+class Header{
+    constructor(buffer, version) {
+        // Length of record dimension
+        // sum of the varSize's of all the record variables.
+        this.recordDimension = {length: buffer.readUint32()};
 
-    // Version
-    header.version = version;
+        // Version
+        this.version = version;
 
-    // List of dimensions
-    var dimList = dimensionsList(buffer);
-    header.recordDimension.id = dimList.recordId;
-    header.recordDimension.name = dimList.recordName;
-    header.dimensions = dimList.dimensions;
+        // List of dimensions
+        var dimList = dimensionsList(buffer);
+        this.recordDimension.id = dimList.recordId;
+        this.recordDimension.name = dimList.recordName;
+        this.dimensions = dimList.dimensions;
 
-    // List of global attributes
-    header.globalAttributes = attributesList(buffer);
+        // List of global attributes
+        this.globalAttributes = attributesList(buffer);
 
-    // List of variables
-    var variables = variablesList(buffer, dimList.recordId, version);
-    header.variables = variables.variables;
-    header.recordDimension.recordStep = variables.recordStep;
+        // List of variables
+        var variables = variablesList(buffer, dimList.recordId, version);
+        this.variables = variables.variables;
+        this.recordDimension.recordStep = variables.recordStep;
+    }
 
-    return header;
+    /**
+     * Retrieves variable data from its name 
+     * @param {string|object} variableName - Name of the variable to search or variable object
+     * @return {object} - variable metadata
+     */
+    getVariableInfo(variableName) {
+        var variable;
+        if (typeof variableName === 'string') {
+            // search the variable
+            variable = this.variables.find(function (val) {
+                return val.name === variableName;
+            });
+        } else {
+            variable = variableName;
+        }
+
+        // throws if variable not found
+        utils.notNetcdf((variable === undefined), 'variable not found');
+
+        return variable;
+    }
 }
 
 /**
@@ -216,4 +234,4 @@ function variablesList(buffer, recordId, version) {
     };
 }
 
-module.exports = header;
+module.exports = Header;

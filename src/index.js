@@ -3,7 +3,7 @@
 const IOBuffer = require('iobuffer');
 const utils = require('./utils');
 const data = require('./data');
-const readHeader = require('./header');
+const Header = require('./header');
 
 /**
  * Reads a NetCDF v3.x file
@@ -24,7 +24,7 @@ class NetCDFReader {
         utils.notNetcdf((version > 2), 'unknown version');
 
         // Read the header
-        this.header = readHeader(buffer, version);
+        this.header = new Header(buffer, version);
         this.buffer = buffer;
     }
 
@@ -89,21 +89,7 @@ class NetCDFReader {
      * @return {Array} - List with the variable values
      */
     getDataVariable(variableName) {
-        var variable;
-        if (typeof variableName === 'string') {
-            // search the variable
-            variable = this.header.variables.find(function (val) {
-                return val.name === variableName;
-            });
-        } else {
-            variable = variableName;
-        }
-
-        // throws if variable not found
-        utils.notNetcdf((variable === undefined), 'variable not found');
-
-        // go to the offset position
-        this.buffer.seek(variable.offset);
+        var variable = this.header.getVariableInfo(variableName);
 
         if (variable.record) {
             // record variable case
@@ -111,6 +97,25 @@ class NetCDFReader {
         } else {
             // non-record variable case
             return data.nonRecord(this.buffer, variable);
+        }
+    }
+
+    /**
+     * Retrieves contiguous partial data for a given variable 
+     * @param {string|object} variableName - Name of the variable to search or variable object
+     * @param {number} startIndex - Initial index where to slice the variable dataset from 
+     * @param {number} size - Length of the slice
+     * @return {Array} - List with the variable values
+     */
+    getDataVariableSlice(variableName, startIndex, size) {
+        var variable = this.header.getVariableInfo(variableName);
+
+        if (variable.record) {
+            // TODO record variable case
+            return null;
+        } else {
+            // non-record variable case
+            return data.nonRecord(this.buffer, variable, startIndex, size);
         }
     }
 }

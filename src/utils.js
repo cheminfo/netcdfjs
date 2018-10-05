@@ -43,6 +43,17 @@ function readName(buffer) {
     return name;
 }
 
+/**
+ * Checks if the value is an integer greater than zero
+ * @ignore
+ * @param {any} value - value to be checked
+ * @return {boolean} - true if it is a positive integer, false otherwise
+ */
+function isPositiveInteger(value) {
+    return typeof value === 'number' && !isNaN(value) && value >= 0;
+}
+
 module.exports.notNetcdf = notNetcdf;
 module.exports.padding = padding;
 module.exports.readName = readName;
+module.exports.isPositiveInteger = isPositiveInteger;

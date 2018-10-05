@@ -148,6 +148,34 @@ describe('Read file', function () {
         reader.getDataVariable('cell_spatial')[0].should.be.equal('a');
     });
 
+    it('read record variable sliced data', function () {
+        const data = fs.readFileSync(pathFiles + 'ichthyop.nc');
+        var reader = new NetCDFReader(data);
+
+        var result = reader.getDataVariableSlice('depth', 2000, 20);
+
+        result.length.should.be.equal(1);
+        result[0].length.should.be.equal(20);
+        result[0][0].should.be.equal(-0.268094003200531);
+        result[0][1].should.be.equal(-0.21849104762077332);
+        result[0][2].should.be.equal(-0.664058268070221);
+    });
+
+    it('read record variable sliced data with wrong input', function () {
+        const data = fs.readFileSync(pathFiles + 'ichthyop.nc');
+        var reader = new NetCDFReader(data);
+
+        // arguments cannot be interpreted.
+        (function () {
+          return reader.getDataVariableSlice('depth', 'test', null);
+        }).should.throw('Not a valid NetCDF v3.x file: slice selection is invalid for record variables');
+
+        // The slice selection doesn't contain full records.
+        (function () {
+          return reader.getDataVariableSlice('depth', 1050, 2000);
+        }).should.throw('Not a valid NetCDF v3.x file: slice selection is invalid for record variables');
+    });
+
     it('read non-record variable sliced data', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
         var reader = new NetCDFReader(data);

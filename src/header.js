@@ -71,8 +71,7 @@ class Header {
     translateToFilter(variable, filterValues) {
         // throw if invalid values
         filterValues.forEach((val) => {
-            var check = typeof val !== 'number' || isNaN(val) || val < 0;
-            utils.notNetcdf(check, 'incorrect filter values');
+            utils.notNetcdf(!utils.isPositiveInteger(val), 'incorrect filter values');
         });
 
         // search for dimension details of the variable

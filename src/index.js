@@ -112,8 +112,8 @@ class NetCDFReader {
         var variable = this.header.getVariableInfo(variableName);
 
         if (variable.record) {
-            // TODO record variable case
-            return null;
+            // record variable case
+            return data.record(this.buffer, variable, this.header.recordDimension, startIndex, size);
         } else {
             // non-record variable case
             return data.nonRecord(this.buffer, variable, startIndex, size);

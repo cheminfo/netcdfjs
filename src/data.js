@@ -1,6 +1,7 @@
 'use strict';
 
 const types = require('./types');
+const utils = require('./utils');
 
 // const STREAMING = 4294967295;
 
@@ -107,21 +108,38 @@ function readFilteredData(buffer, type, typeSize, filter, data) {
  * @param {object} recordDimension - Record dimension metadata
  * @return {Array} - Data of the element
  */
-function record(buffer, variable, recordDimension) {
+function record(buffer, variable, recordDimension, initialValue = undefined, contentSize = undefined) {
     // variable type
     const type = types.str2num(variable.type);
-    const width = variable.size ? variable.size / types.num2bytes(type) : 1;
+    const typeSize = types.num2bytes(type);
+    var width = variable.size ? variable.size / typeSize : 1;
+
+    // check if the content is a partial record or several records.
+    if (initialValue !== undefined && contentSize !== undefined) {
+        var notIntegers = !utils.isPositiveInteger(contentSize) || !utils.isPositiveInteger(initialValue);
+        var validArguments = contentSize < width || (contentSize % width === 0 && initialValue % width === 0);
+        utils.notNetcdf(notIntegers || !validArguments, 'slice selection is invalid for record variables');
+    }
+
+    // go to the variable offset position
+    const step = recordDimension.recordStep;
+    var offset = variable.offset + (initialValue ? Math.floor(initialValue / width) * step + (initialValue % width) * typeSize : 0);
+    buffer.seek(offset);
 
     // size of the data
     // TODO streaming data
     var size = recordDimension.length;
-
-    // go to the variable offset position
-    buffer.seek(variable.offset);
+    if (contentSize || contentSize === 0) {
+        if (contentSize < width) {
+            width = contentSize;
+            size = 1;
+        } else {
+            size = contentSize / width;
+        }
+    }
 
     // iterates over the data
     var data = new Array(size);
-    const step = recordDimension.recordStep;
 
     for (var i = 0; i < size; i++) {
         var currentOffset = buffer.offset;

@@ -132,11 +132,11 @@ class NetCDFReader {
         var filter = this.header.translateToFilter(variable, filterValues);
 
         if (variable.record) {
-            // TODO record variable case
-            return null;
+            // record variable case
+            return data.filterData(this.buffer, variable, filter, this.header.recordDimension.recordStep);
         } else {
             // non-record variable case
-            return data.nonRecordFiltered(this.buffer, variable, filter);
+            return data.filterData(this.buffer, variable, filter);
         }
     }
 }

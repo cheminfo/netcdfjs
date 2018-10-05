@@ -10,13 +10,15 @@ const utils = require('./utils');
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  * @param {object} variable - Variable metadata
+ * @param {number} initialValue - Initial index where to slice the variable dataset from
+ * @param {number} contentSize - Length of the slice
  * @return {Array} - Data of the element
  */
 function nonRecord(buffer, variable, initialValue = undefined, contentSize = undefined) {
     // variable type
     const type = types.str2num(variable.type);
 
-    //variable type size
+    // variable type size
     const typeSize = types.num2bytes(type);
 
     // size of the data
@@ -40,27 +42,24 @@ function nonRecord(buffer, variable, initialValue = undefined, contentSize = und
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  * @param {object} variable - Variable metadata
- * @param {Array} filter - List of index selection of each dimension 
+ * @param {Array} filter - List of index selection of each dimension
  *                         (initial index (included) last index (not included), dimension size).
+ * @param {number} recordStep - Size of each record in bytes.
  * @return {Array} - Partial data of the element
  */
-function nonRecordFiltered(buffer, variable, filter) {
-
+function filterData(buffer, variable, filter, recordStep = undefined) {
     // variable type
     const type = types.str2num(variable.type);
 
-    //variable type size
+    // variable type size
     const typeSize = types.num2bytes(type);
-
-    // size of the data
-    var size = filter.reduce((acc, dim) => acc * (dim.endIndex - dim.initialIndex), 1);
 
     // go to the variable offset position
     buffer.seek(variable.offset);
 
     // iterates over the data
     var data = [];
-    readFilteredData(buffer, type, typeSize, filter, data);
+    readFilteredData(buffer, type, typeSize, filter, data, recordStep);
 
     return data;
 }
@@ -69,32 +68,34 @@ function nonRecordFiltered(buffer, variable, filter) {
  * Recursive function reading the data defined by each dimension filter
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
- * @param {Array} filter - List of index selection of the remaining dimension 
+ * @param {number} type - Index of data type
+ * @param {number} typeSize - Size of the each data value in bytes
+ * @param {Array} filter - List of index selection of the remaining dimension
  *                         (initial index (included) last index (not included), dimension size).
  * @param {Array} data - Data previously read through recursivity.
+ * @param {number} recordStep - Size of each record in bytes.
  * @return {Array} - Partial data of the element
  */
-function readFilteredData(buffer, type, typeSize, filter, data) {
-    //copy filter array to avoid to modify its value;
+function readFilteredData(buffer, type, typeSize, filter, data, recordStep = undefined) {
+    // copy filter array to avoid to modify its value;
     var _filter = filter.slice();
-    var currentFilter = _filter.shift();
+    const currentFilter = _filter.shift();
+    const currentOffset = buffer.offset;
+    const step = recordStep ? recordStep : _filter.reduce((acc, dim) => acc * dim.size, 1) * typeSize;
     var currentIndex = currentFilter.initialIndex;
-    var currentOffset = buffer.offset;
 
     do {
-        //go to the position of initial data for currentIndex value
-        var step = _filter.reduce((acc, dim) => acc * dim.size, 1);
-        buffer.seek(currentOffset + step * typeSize * currentIndex);
+        // go to the position of initial data for currentIndex value
+        buffer.seek(currentOffset + step * currentIndex);
 
-        //go to next dimension or read data if we've reached last index
+        // go to next dimension or read data if we've reached last index
         if (_filter.length > 0) {
             readFilteredData(buffer, type, typeSize, _filter, data);
         } else {
-            data.push(types.readType(buffer, type, 1))
+            data.push(types.readType(buffer, type, 1));
         }
 
         currentIndex++;
-
     } while (currentIndex < currentFilter.endIndex);
 
     return data.length;
@@ -106,6 +107,8 @@ function readFilteredData(buffer, type, typeSize, filter, data) {
  * @param {IOBuffer} buffer - Buffer for the file data
  * @param {object} variable - Variable metadata
  * @param {object} recordDimension - Record dimension metadata
+ * @param {number} initialValue - Initial index where to slice the variable dataset from
+ * @param {number} contentSize - Length of the slice
  * @return {Array} - Data of the element
  */
 function record(buffer, variable, recordDimension, initialValue = undefined, contentSize = undefined) {
@@ -151,5 +154,5 @@ function record(buffer, variable, recordDimension, initialValue = undefined, con
 }
 
 module.exports.nonRecord = nonRecord;
-module.exports.nonRecordFiltered = nonRecordFiltered;
+module.exports.filterData = filterData;
 module.exports.record = record;

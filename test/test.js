@@ -167,12 +167,12 @@ describe('Read file', function () {
 
         // arguments cannot be interpreted.
         (function () {
-          return reader.getDataVariableSlice('depth', 'test', null);
+            return reader.getDataVariableSlice('depth', 'test', null);
         }).should.throw('Not a valid NetCDF v3.x file: slice selection is invalid for record variables');
 
         // The slice selection doesn't contain full records.
         (function () {
-          return reader.getDataVariableSlice('depth', 1050, 2000);
+            return reader.getDataVariableSlice('depth', 1050, 2000);
         }).should.throw('Not a valid NetCDF v3.x file: slice selection is invalid for record variables');
     });
 
@@ -206,21 +206,39 @@ describe('Read file', function () {
         result[14].should.be.equal('T');
     });
 
-    it('read non-record variable filtered data without enough arguments', function () {
+    it('read record variable filtered data', function () {
+        const data = fs.readFileSync(pathFiles + 'ichthyop.nc');
+        var reader = new NetCDFReader(data);
+
+        var result = reader.getDataVariableFiltered('depth', 14, 3, 8, 5);
+
+        result.length.should.be.equal(15);
+        result[0].should.be.equal(-1.7035714387893677);
+        result[1].should.be.equal(-2.307743549346924);
+        result[2].should.be.equal(-1.5312272310256958);
+        result[6].should.be.equal(-2.373673439025879);
+        result[7].should.be.equal(-1.6136265993118286);
+        result[8].should.be.equal(-4.677360534667969);
+        result[12].should.be.equal(-1.7380928993225098);
+        result[13].should.be.equal(-4.987034320831299);
+        result[14].should.be.equal(-2.982983350753784);
+    });
+
+    it('read variable filtered data without enough arguments', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
         var reader = new NetCDFReader(data);
 
         (function () {
-          return reader.getDataVariableFiltered('staticIds', 14, 5);
+            return reader.getDataVariableFiltered('staticIds', 14, 5);
         }).should.throw('Not a valid NetCDF v3.x file: insufficient filter values');
     });
 
-    it('read non-record variable filtered data with unvalid filter data', function () {
+    it('read variable filtered data with unvalid filter data', function () {
         const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
         var reader = new NetCDFReader(data);
 
-      (function () {
-          return reader.getDataVariableFiltered('staticIds', 0, -1, NaN, 'wrong');
-      }).should.throw('Not a valid NetCDF v3.x file: incorrect filter values');
+        (function () {
+            return reader.getDataVariableFiltered('staticIds', 0, -1, NaN, 'wrong');
+        }).should.throw('Not a valid NetCDF v3.x file: incorrect filter values');
     });
 });

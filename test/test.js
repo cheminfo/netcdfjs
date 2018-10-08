@@ -168,11 +168,16 @@ describe('Read file', function () {
         // arguments cannot be interpreted.
         (function () {
             return reader.getDataVariableSlice('depth', 'test', null);
-        }).should.throw('Not a valid NetCDF v3.x file: slice selection is invalid for record variables');
+        }).should.throw('Not a valid NetCDF v3.x file: invalid slice arguments');
 
         // The slice selection doesn't contain full records.
         (function () {
             return reader.getDataVariableSlice('depth', 1050, 2000);
+        }).should.throw('Not a valid NetCDF v3.x file: slice selection is invalid for record variables');
+
+        // The slice selection goes beyond the variable data.
+        (function () {
+            return reader.getDataVariableSlice('depth', 40000, 20000);
         }).should.throw('Not a valid NetCDF v3.x file: slice selection is invalid for record variables');
     });
 
@@ -186,6 +191,31 @@ describe('Read file', function () {
         result[0].should.be.equal('W');
         result[1].should.be.equal('B');
         result[2].should.be.equal('G');
+    });
+
+    it('read non-record variable sliced data with wrong input', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        // arguments cannot be interpreted.
+        (function () {
+            return reader.getDataVariableSlice('staticIds', 'test', null);
+        }).should.throw('Not a valid NetCDF v3.x file: invalid slice arguments');
+
+        // size is 0
+        (function () {
+            return reader.getDataVariableSlice('staticIds', 48, 0);
+        }).should.throw('Not a valid NetCDF v3.x file: invalid slice arguments');
+
+        // not enough arguments
+        (function () {
+            return reader.getDataVariableSlice('staticIds', 105);
+        }).should.throw('Not a valid NetCDF v3.x file: invalid slice arguments');
+
+        // The indexes are out of bound.
+        (function () {
+            return reader.getDataVariableSlice('staticIds', 2095, 6);
+        }).should.throw('Not a valid NetCDF v3.x file: selection out of bounds');
     });
 
     it('read non-record variable filtered data', function () {

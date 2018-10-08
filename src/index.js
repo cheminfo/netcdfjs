@@ -109,6 +109,10 @@ class NetCDFReader {
      * @return {Array} - List with the variable values
      */
     getDataVariableSlice(variableName, startIndex, size) {
+        // verify entries
+        var check = utils.isPositiveInteger(startIndex) && utils.isPositiveInteger(size) && size !== 0;
+        utils.notNetcdf(!check, 'invalid slice arguments');
+
         var variable = this.header.getVariableInfo(variableName);
 
         if (variable.record) {

@@ -22,6 +22,7 @@ function nonRecord(buffer, variable, initialValue = undefined, contentSize = und
     const typeSize = types.num2bytes(type);
 
     // size of the data
+    utils.notNetcdf(initialValue + contentSize > variable.size / typeSize, 'selection out of bounds');
     var size = contentSize ? contentSize : variable.size / typeSize;
 
     // go to the variable offset position
@@ -123,9 +124,9 @@ function record(buffer, variable, recordDimension, initialValue = undefined, con
 
     // check if the content is a partial record or several records.
     if (initialValue !== undefined && contentSize !== undefined) {
-        var notIntegers = !utils.isPositiveInteger(contentSize) || !utils.isPositiveInteger(initialValue);
+        var outOfBounds = initialValue + contentSize > width * recordDimension.length;
         var validArguments = contentSize < width || (contentSize % width === 0 && initialValue % width === 0);
-        utils.notNetcdf(notIntegers || !validArguments, 'slice selection is invalid for record variables');
+        utils.notNetcdf(outOfBounds || !validArguments, 'slice selection is invalid for record variables');
     }
 
     // go to the variable offset position

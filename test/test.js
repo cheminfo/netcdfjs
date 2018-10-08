@@ -212,16 +212,17 @@ describe('Read file', function () {
 
         var result = reader.getDataVariableFiltered('depth', 14, 3, 8, 5);
 
-        result.length.should.be.equal(15);
-        result[0].should.be.equal(-1.7035714387893677);
-        result[1].should.be.equal(-2.307743549346924);
-        result[2].should.be.equal(-1.5312272310256958);
-        result[6].should.be.equal(-2.373673439025879);
-        result[7].should.be.equal(-1.6136265993118286);
-        result[8].should.be.equal(-4.677360534667969);
-        result[12].should.be.equal(-1.7380928993225098);
-        result[13].should.be.equal(-4.987034320831299);
-        result[14].should.be.equal(-2.982983350753784);
+        result.length.should.be.equal(3);
+        result[0].length.should.be.equal(5);
+        result[0][0].should.be.equal(-1.7035714387893677);
+        result[0][1].should.be.equal(-2.307743549346924);
+        result[0][2].should.be.equal(-1.5312272310256958);
+        result[1][1].should.be.equal(-2.373673439025879);
+        result[1][2].should.be.equal(-1.6136265993118286);
+        result[1][3].should.be.equal(-4.677360534667969);
+        result[2][2].should.be.equal(-1.7380928993225098);
+        result[2][3].should.be.equal(-4.987034320831299);
+        result[2][4].should.be.equal(-2.982983350753784);
     });
 
     it('read variable filtered data without enough arguments', function () {

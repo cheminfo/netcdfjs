@@ -82,21 +82,25 @@ function readFilteredData(buffer, type, typeSize, filter, data, recordStep = und
     const currentFilter = _filter.shift();
     const currentOffset = buffer.offset;
     const step = recordStep ? recordStep : _filter.reduce((acc, dim) => acc * dim.size, 1) * typeSize;
-    var currentIndex = currentFilter.initialIndex;
 
-    do {
-        // go to the position of initial data for currentIndex value
-        buffer.seek(currentOffset + step * currentIndex);
+    if (recordStep) {
+        var size = currentFilter.endIndex - currentFilter.initialIndex;
+        for (var j = 0; j < size; j++) {
+            data[j] = [];
+        }
+    }
+
+    for (var i = currentFilter.initialIndex; i < currentFilter.endIndex; i++) {
+        // go to the position of initial data for current index value
+        buffer.seek(currentOffset + step * i);
 
         // go to next dimension or read data if we've reached last index
         if (_filter.length > 0) {
-            readFilteredData(buffer, type, typeSize, _filter, data);
+            readFilteredData(buffer, type, typeSize, _filter, recordStep ? data[i - currentFilter.initialIndex] : data);
         } else {
             data.push(types.readType(buffer, type, 1));
         }
-
-        currentIndex++;
-    } while (currentIndex < currentFilter.endIndex);
+    }
 
     return data.length;
 }

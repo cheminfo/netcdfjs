@@ -1,6 +1,6 @@
 'use strict';
 
-const { IOBuffer } = require('iobuffer');
+const io = require('iobuffer');
 
 const utils = require('./utils');
 const data = require('./data');
@@ -14,7 +14,7 @@ const Header = require('./header');
  */
 class NetCDFReader {
     constructor(data) {
-        const buffer = new IOBuffer(data);
+        const buffer = new io.IOBuffer(data);
         buffer.setBigEndian();
 
         // Validate that it's a NetCDF file

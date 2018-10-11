@@ -27,16 +27,16 @@
   },
   "devDependencies": {
     "cheminfo-tools": "^1.15.0",
-    "codecov": "^2.1.0",
+    "codecov": "^3.1.0",
     "eslint": "^3.18.0",
     "eslint-config-cheminfo": "^1.7.0",
     "eslint-plugin-no-only-tests": "^1.1.0",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
+    "mocha": "^5.2.0",
     "mocha-better-spec-reporter": "^3.1.0",
     "should": "^11.2.1"
   },
   "dependencies": {
-    "iobuffer": "^3.2.0"
+    "iobuffer": "^4.0.0"
   }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-const IOBuffer = require('iobuffer');
+const { IOBuffer } = require('iobuffer');
 
 const utils = require('./utils');
 const data = require('./data');

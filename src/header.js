@@ -75,7 +75,7 @@ class Header {
         });
 
         // search for dimension details of the variable
-        var variableDimensions = this.dimensions.filter((f, idx) => variable.dimensions.includes(idx));
+        var variableDimensions = variable.dimensions.map((dimId) => this.dimensions[dimId]);
         // throws if filter values are insufficient
         utils.notNetcdf((filterValues.length !== variableDimensions.length * 2), 'insufficient filter values');
 

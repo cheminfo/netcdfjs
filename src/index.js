@@ -1,9 +1,10 @@
 'use strict';
 
-const IOBuffer = require('iobuffer');
+const IOBuffer = require('iobuffer').IOBuffer;
+
 const utils = require('./utils');
 const data = require('./data');
-const readHeader = require('./header');
+const Header = require('./header');
 
 /**
  * Reads a NetCDF v3.x file
@@ -24,7 +25,7 @@ class NetCDFReader {
         utils.notNetcdf((version > 2), 'unknown version');
 
         // Read the header
-        this.header = readHeader(buffer, version);
+        this.header = new Header(buffer, version);
         this.buffer = buffer;
     }
 
@@ -89,21 +90,7 @@ class NetCDFReader {
      * @return {Array} - List with the variable values
      */
     getDataVariable(variableName) {
-        var variable;
-        if (typeof variableName === 'string') {
-            // search the variable
-            variable = this.header.variables.find(function (val) {
-                return val.name === variableName;
-            });
-        } else {
-            variable = variableName;
-        }
-
-        // throws if variable not found
-        utils.notNetcdf((variable === undefined), 'variable not found');
-
-        // go to the offset position
-        this.buffer.seek(variable.offset);
+        var variable = this.header.getVariableInfo(variableName);
 
         if (variable.record) {
             // record variable case
@@ -111,6 +98,49 @@ class NetCDFReader {
         } else {
             // non-record variable case
             return data.nonRecord(this.buffer, variable);
+        }
+    }
+
+    /**
+     * Retrieves contiguous partial data for a given variable
+     * @param {string|object} variableName - Name of the variable to search or variable object
+     * @param {number} startIndex - Initial index where to slice the variable dataset from
+     * @param {number} size - Length of the slice
+     * @return {Array} - List with the variable values
+     */
+    getDataVariableSlice(variableName, startIndex, size) {
+        // verify entries
+        var check = utils.isPositiveInteger(startIndex) && utils.isPositiveInteger(size) && size !== 0;
+        utils.notNetcdf(!check, 'invalid slice arguments');
+
+        var variable = this.header.getVariableInfo(variableName);
+
+        if (variable.record) {
+            // record variable case
+            return data.record(this.buffer, variable, this.header.recordDimension, startIndex, size);
+        } else {
+            // non-record variable case
+            return data.nonRecord(this.buffer, variable, startIndex, size);
+        }
+    }
+
+    /**
+     * Retrieves partial data for a given variable filter by index
+     * @param {string|object} variableName - Name of the variable to search or variable object
+     * @param {number} filterValues - Initial indexes and length of each dimension
+     * @return {Array} - List with the variable values required
+     */
+    getDataVariableFiltered(variableName, ...filterValues) {
+        var variable = this.header.getVariableInfo(variableName);
+
+        var filter = this.header.translateToFilter(variable, filterValues);
+
+        if (variable.record) {
+            // record variable case
+            return data.filterData(this.buffer, variable, filter, this.header.recordDimension.recordStep);
+        } else {
+            // non-record variable case
+            return data.filterData(this.buffer, variable, filter);
         }
     }
 }

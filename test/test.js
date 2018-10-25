@@ -147,4 +147,129 @@ describe('Read file', function () {
         reader.getDataVariable('cell_angular')[0].should.be.equal('a');
         reader.getDataVariable('cell_spatial')[0].should.be.equal('a');
     });
+
+    it('read record variable sliced data', function () {
+        const data = fs.readFileSync(pathFiles + 'ichthyop.nc');
+        var reader = new NetCDFReader(data);
+
+        var result = reader.getDataVariableSlice('depth', 2000, 20);
+
+        result.length.should.be.equal(1);
+        result[0].length.should.be.equal(20);
+        result[0][0].should.be.equal(-0.268094003200531);
+        result[0][1].should.be.equal(-0.21849104762077332);
+        result[0][2].should.be.equal(-0.664058268070221);
+    });
+
+    it('read record variable sliced data with wrong input', function () {
+        const data = fs.readFileSync(pathFiles + 'ichthyop.nc');
+        var reader = new NetCDFReader(data);
+
+        // arguments cannot be interpreted.
+        (function () {
+            return reader.getDataVariableSlice('depth', 'test', null);
+        }).should.throw('Not a valid NetCDF v3.x file: invalid slice arguments');
+
+        // The slice selection doesn't contain full records.
+        (function () {
+            return reader.getDataVariableSlice('depth', 1050, 2000);
+        }).should.throw('Not a valid NetCDF v3.x file: slice selection is invalid for record variables');
+
+        // The slice selection goes beyond the variable data.
+        (function () {
+            return reader.getDataVariableSlice('depth', 40000, 20000);
+        }).should.throw('Not a valid NetCDF v3.x file: slice selection is invalid for record variables');
+    });
+
+    it('read non-record variable sliced data', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        var result = reader.getDataVariableSlice('staticIds', 48, 36);
+
+        result.length.should.be.equal(36);
+        result[0].should.be.equal('W');
+        result[1].should.be.equal('B');
+        result[2].should.be.equal('G');
+    });
+
+    it('read non-record variable sliced data with wrong input', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        // arguments cannot be interpreted.
+        (function () {
+            return reader.getDataVariableSlice('staticIds', 'test', null);
+        }).should.throw('Not a valid NetCDF v3.x file: invalid slice arguments');
+
+        // size is 0
+        (function () {
+            return reader.getDataVariableSlice('staticIds', 48, 0);
+        }).should.throw('Not a valid NetCDF v3.x file: invalid slice arguments');
+
+        // not enough arguments
+        (function () {
+            return reader.getDataVariableSlice('staticIds', 105);
+        }).should.throw('Not a valid NetCDF v3.x file: invalid slice arguments');
+
+        // The indexes are out of bound.
+        (function () {
+            return reader.getDataVariableSlice('staticIds', 2095, 6);
+        }).should.throw('Not a valid NetCDF v3.x file: selection out of bounds');
+    });
+
+    it('read non-record variable filtered data', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        var result = reader.getDataVariableFiltered('staticIds', 14, 5, 0, 3);
+
+        result.length.should.be.equal(15);
+        result[0].should.be.equal('W');
+        result[1].should.be.equal('C');
+        result[2].should.be.equal('I');
+        result[3].should.be.equal('W');
+        result[4].should.be.equal('C');
+        result[5].should.be.equal('J');
+        result[12].should.be.equal('W');
+        result[13].should.be.equal('C');
+        result[14].should.be.equal('T');
+    });
+
+    it('read record variable filtered data', function () {
+        const data = fs.readFileSync(pathFiles + 'ichthyop.nc');
+        var reader = new NetCDFReader(data);
+
+        var result = reader.getDataVariableFiltered('depth', 14, 3, 8, 5);
+
+        result.length.should.be.equal(3);
+        result[0].length.should.be.equal(5);
+        result[0][0].should.be.equal(-1.7035714387893677);
+        result[0][1].should.be.equal(-2.307743549346924);
+        result[0][2].should.be.equal(-1.5312272310256958);
+        result[1][1].should.be.equal(-2.373673439025879);
+        result[1][2].should.be.equal(-1.6136265993118286);
+        result[1][3].should.be.equal(-4.677360534667969);
+        result[2][2].should.be.equal(-1.7380928993225098);
+        result[2][3].should.be.equal(-4.987034320831299);
+        result[2][4].should.be.equal(-2.982983350753784);
+    });
+
+    it('read variable filtered data without enough arguments', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        (function () {
+            return reader.getDataVariableFiltered('staticIds', 14, 5);
+        }).should.throw('Not a valid NetCDF v3.x file: insufficient filter values');
+    });
+
+    it('read variable filtered data with unvalid filter data', function () {
+        const data = fs.readFileSync(pathFiles + 'madis-sao.nc');
+        var reader = new NetCDFReader(data);
+
+        (function () {
+            return reader.getDataVariableFiltered('staticIds', 0, -1, NaN, 'wrong');
+        }).should.throw('Not a valid NetCDF v3.x file: incorrect filter values');
+    });
 });

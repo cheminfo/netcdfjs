@@ -1,3 +1,8 @@
+<a name="0.3.3"></a>
+## [0.3.3](https://github.com/cheminfo-js/netcdfjs/compare/v0.3.2...v0.3.3) (2018-11-02)
+
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2016-10-31)
 

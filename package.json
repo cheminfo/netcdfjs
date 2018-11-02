@@ -1,6 +1,6 @@
 {
   "name": "netcdfjs",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Read and explore NetCDF files",
   "keywords": [
     "netcdf",

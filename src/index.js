@@ -5,6 +5,7 @@ const IOBuffer = require('iobuffer');
 const utils = require('./utils');
 const data = require('./data');
 const readHeader = require('./header');
+const toString = require('./toString');
 
 /**
  * Reads a NetCDF v3.x file
@@ -82,6 +83,10 @@ class NetCDFReader {
    */
   get variables() {
     return this.header.variables;
+  }
+
+  toString() {
+    toString.call(this);
   }
 
   /**

@@ -5,13 +5,13 @@ function toString() {
 
   result.push('DIMENSIONS');
   for (let dimension of this.dimensions) {
-    result.push(`  ${dimension.name.padEnd(40)} = size: ${dimension.size}`);
+    result.push(`  ${dimension.name.padEnd(30)} = size: ${dimension.size}`);
   }
 
   result.push('');
   result.push('GLOBAL ATTRIBUTES');
   for (let attribute of this.globalAttributes) {
-    result.push(`  ${attribute.name.padEnd(40)} = ${attribute.value}`);
+    result.push(`  ${attribute.name.padEnd(30)} = ${attribute.value}`);
   }
 
   let variables = JSON.parse(JSON.stringify(this.variables));
@@ -24,7 +24,7 @@ function toString() {
     if (!isNaN(variable.value.length)) {
       stringify += ` (length: ${variable.value.length})`;
     }
-    result.push(`  ${variable.name.padEnd(40)} = ${stringify}`);
+    result.push(`  ${variable.name.padEnd(30)} = ${stringify}`);
   }
 
   return result.join('\n');

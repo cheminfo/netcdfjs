@@ -30,8 +30,8 @@ function header(buffer, version) {
 
   // List of dimensions
   var dimList = dimensionsList(buffer);
-  header.recordDimension.id = dimList.recordId;
-  header.recordDimension.name = dimList.recordName;
+  header.recordDimension.id = dimList.recordId; // id of the unlimited dimension
+  header.recordDimension.name = dimList.recordName; // name of the unlimited dimension
   header.dimensions = dimList.dimensions;
 
   // List of global attributes
@@ -45,13 +45,18 @@ function header(buffer, version) {
   return header;
 }
 
+const NC_UNLIMITED = 0;
+
 /**
  * List of dimensions
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
- * @return {object} - List of dimensions and record dimension with:
- *  * `name`: String with the name of the dimension
- *  * `size`: Number with the size of the dimension
+ * @return {object} - Ojbect containing the following properties:
+ *  * `dimensions` that is an array of dimension object:
+  *  * `name`: String with the name of the dimension
+  *  * `size`: Number with the size of the dimension dimensions: dimensions
+ *  * `recordId`: the id of the dimension that has unlimited size or undefined,
+ *  * `recordName`: name of the dimension that has unlimited size
  */
 function dimensionsList(buffer) {
   var recordId, recordName;
@@ -71,7 +76,7 @@ function dimensionsList(buffer) {
 
       // Read dimension size
       const size = buffer.readUint32();
-      if (size === 0) {
+      if (size === NC_UNLIMITED) { // in netcdf 3 one field can be of size unlimmited
         recordId = dim;
         recordName = name;
       }
@@ -138,7 +143,8 @@ function attributesList(buffer) {
  * List of variables
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
- * @param {number} recordId - Id if the record dimension
+ * @param {number} recordId - Id of the unlimited dimension (also called record dimension)
+ *                            This value may be undefined if there is no unlimited dimension
  * @param {number} version - Version of the file
  * @return {object} - Number of recordStep and list of variables with:
  *  * `name`: String with the name of the variable
@@ -147,8 +153,9 @@ function attributesList(buffer) {
  *  * `type`: String with the type of the variable
  *  * `size`: Number with the size of the variable
  *  * `offset`: Number with the offset where of the variable begins
- *  * `record`: True if is a record variable, false otherwise
+ *  * `record`: True if is a record variable, false otherwise (unlimited size)
  */
+
 function variablesList(buffer, recordId, version) {
   const varList = buffer.readUint32();
   var recordStep = 0;
@@ -193,19 +200,23 @@ function variablesList(buffer, recordId, version) {
         offset = buffer.readUint32();
       }
 
+      let record=false;
       // Count amount of record variables
-      if (dimensionsIds[0] === recordId) {
+      if ((typeof recordId !== 'undefined') && (dimensionsIds[0] === recordId)) {
         recordStep += varSize;
+        record=true;
       }
-
+      if (name === 'actual_sampling_interval') {
+        debugger;
+      }
       variables[v] = {
         name: name,
         dimensions: dimensionsIds,
-        attributes: attributes,
+        attributes,
         type: types.num2str(type),
         size: varSize,
-        offset: offset,
-        record: (dimensionsIds[0] === recordId)
+        offset,
+        record
       };
     }
   }

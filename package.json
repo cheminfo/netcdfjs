@@ -34,6 +34,8 @@
     "eslint-plugin-jest": "^21.26.2",
     "eslint-plugin-no-only-tests": "^1.1.0",
     "istanbul": "^0.4.5",
+    "jest": "^23.6.0",
+    "jest-codemods": "^0.16.0",
     "mocha": "^3.2.0",
     "mocha-better-spec-reporter": "^3.1.0",
     "should": "^11.2.1"

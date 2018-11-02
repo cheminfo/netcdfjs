@@ -12,19 +12,19 @@ const types = require('./types');
  * @return {Array} - Data of the element
  */
 function nonRecord(buffer, variable) {
-    // variable type
-    const type = types.str2num(variable.type);
+  // variable type
+  const type = types.str2num(variable.type);
 
-    // size of the data
-    var size = variable.size / types.num2bytes(type);
+  // size of the data
+  var size = variable.size / types.num2bytes(type);
 
-    // iterates over the data
-    var data = new Array(size);
-    for (var i = 0; i < size; i++) {
-        data[i] = types.readType(buffer, type, 1);
-    }
+  // iterates over the data
+  var data = new Array(size);
+  for (var i = 0; i < size; i++) {
+    data[i] = types.readType(buffer, type, 1);
+  }
 
-    return data;
+  return data;
 }
 
 /**
@@ -36,25 +36,25 @@ function nonRecord(buffer, variable) {
  * @return {Array} - Data of the element
  */
 function record(buffer, variable, recordDimension) {
-    // variable type
-    const type = types.str2num(variable.type);
-    const width = variable.size ? variable.size / types.num2bytes(type) : 1;
+  // variable type
+  const type = types.str2num(variable.type);
+  const width = variable.size ? variable.size / types.num2bytes(type) : 1;
 
-    // size of the data
-    // TODO streaming data
-    var size = recordDimension.length;
+  // size of the data
+  // TODO streaming data
+  var size = recordDimension.length;
 
-    // iterates over the data
-    var data = new Array(size);
-    const step = recordDimension.recordStep;
+  // iterates over the data
+  var data = new Array(size);
+  const step = recordDimension.recordStep;
 
-    for (var i = 0; i < size; i++) {
-        var currentOffset = buffer.offset;
-        data[i] = types.readType(buffer, type, width);
-        buffer.seek(currentOffset + step);
-    }
+  for (var i = 0; i < size; i++) {
+    var currentOffset = buffer.offset;
+    data[i] = types.readType(buffer, type, width);
+    buffer.seek(currentOffset + step);
+  }
 
-    return data;
+  return data;
 }
 
 module.exports.nonRecord = nonRecord;

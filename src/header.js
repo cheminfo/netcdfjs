@@ -21,28 +21,28 @@ const NC_ATTRIBUTE = 12;
  *  * `variables`: List of variables
  */
 function header(buffer, version) {
-    // Length of record dimension
-    // sum of the varSize's of all the record variables.
-    var header = {recordDimension: {length: buffer.readUint32()}};
+  // Length of record dimension
+  // sum of the varSize's of all the record variables.
+  var header = { recordDimension: { length: buffer.readUint32() } };
 
-    // Version
-    header.version = version;
+  // Version
+  header.version = version;
 
-    // List of dimensions
-    var dimList = dimensionsList(buffer);
-    header.recordDimension.id = dimList.recordId;
-    header.recordDimension.name = dimList.recordName;
-    header.dimensions = dimList.dimensions;
+  // List of dimensions
+  var dimList = dimensionsList(buffer);
+  header.recordDimension.id = dimList.recordId;
+  header.recordDimension.name = dimList.recordName;
+  header.dimensions = dimList.dimensions;
 
-    // List of global attributes
-    header.globalAttributes = attributesList(buffer);
+  // List of global attributes
+  header.globalAttributes = attributesList(buffer);
 
-    // List of variables
-    var variables = variablesList(buffer, dimList.recordId, version);
-    header.variables = variables.variables;
-    header.recordDimension.recordStep = variables.recordStep;
+  // List of variables
+  var variables = variablesList(buffer, dimList.recordId, version);
+  header.variables = variables.variables;
+  header.recordDimension.recordStep = variables.recordStep;
 
-    return header;
+  return header;
 }
 
 /**
@@ -54,39 +54,39 @@ function header(buffer, version) {
  *  * `size`: Number with the size of the dimension
  */
 function dimensionsList(buffer) {
-    var recordId, recordName;
-    const dimList = buffer.readUint32();
-    if (dimList === ZERO) {
-        utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of dimensions');
-        return [];
-    } else {
-        utils.notNetcdf((dimList !== NC_DIMENSION), 'wrong tag for list of dimensions');
+  var recordId, recordName;
+  const dimList = buffer.readUint32();
+  if (dimList === ZERO) {
+    utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of dimensions');
+    return [];
+  } else {
+    utils.notNetcdf((dimList !== NC_DIMENSION), 'wrong tag for list of dimensions');
 
-        // Length of dimensions
-        const dimensionSize = buffer.readUint32();
-        var dimensions = new Array(dimensionSize);
-        for (var dim = 0; dim < dimensionSize; dim++) {
-            // Read name
-            var name = utils.readName(buffer);
+    // Length of dimensions
+    const dimensionSize = buffer.readUint32();
+    var dimensions = new Array(dimensionSize);
+    for (var dim = 0; dim < dimensionSize; dim++) {
+      // Read name
+      var name = utils.readName(buffer);
 
-            // Read dimension size
-            const size = buffer.readUint32();
-            if (size === 0) {
-                recordId = dim;
-                recordName = name;
-            }
+      // Read dimension size
+      const size = buffer.readUint32();
+      if (size === 0) {
+        recordId = dim;
+        recordName = name;
+      }
 
-            dimensions[dim] = {
-                name: name,
-                size: size
-            };
-        }
+      dimensions[dim] = {
+        name: name,
+        size: size
+      };
     }
-    return {
-        dimensions: dimensions,
-        recordId: recordId,
-        recordName: recordName
-    };
+  }
+  return {
+    dimensions: dimensions,
+    recordId: recordId,
+    recordName: recordName
+  };
 }
 
 /**
@@ -99,39 +99,39 @@ function dimensionsList(buffer) {
  *  * `value`: A number or string with the value of the attribute
  */
 function attributesList(buffer) {
-    const gAttList = buffer.readUint32();
-    if (gAttList === ZERO) {
-        utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of attributes');
-        return [];
-    } else {
-        utils.notNetcdf((gAttList !== NC_ATTRIBUTE), 'wrong tag for list of attributes');
+  const gAttList = buffer.readUint32();
+  if (gAttList === ZERO) {
+    utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of attributes');
+    return [];
+  } else {
+    utils.notNetcdf((gAttList !== NC_ATTRIBUTE), 'wrong tag for list of attributes');
 
-        // Length of attributes
-        const attributeSize = buffer.readUint32();
-        var attributes = new Array(attributeSize);
-        for (var gAtt = 0; gAtt < attributeSize; gAtt++) {
-            // Read name
-            var name = utils.readName(buffer);
+    // Length of attributes
+    const attributeSize = buffer.readUint32();
+    var attributes = new Array(attributeSize);
+    for (var gAtt = 0; gAtt < attributeSize; gAtt++) {
+      // Read name
+      var name = utils.readName(buffer);
 
-            // Read type
-            var type = buffer.readUint32();
-            utils.notNetcdf(((type < 1) || (type > 6)), 'non valid type ' + type);
+      // Read type
+      var type = buffer.readUint32();
+      utils.notNetcdf(((type < 1) || (type > 6)), `non valid type ${type}`);
 
-            // Read attribute
-            var size = buffer.readUint32();
-            var value = types.readType(buffer, type, size);
+      // Read attribute
+      var size = buffer.readUint32();
+      var value = types.readType(buffer, type, size);
 
-            // Apply padding
-            utils.padding(buffer);
+      // Apply padding
+      utils.padding(buffer);
 
-            attributes[gAtt] = {
-                name: name,
-                type: types.num2str(type),
-                value: value
-            };
-        }
+      attributes[gAtt] = {
+        name: name,
+        type: types.num2str(type),
+        value: value
+      };
     }
-    return attributes;
+  }
+  return attributes;
 }
 
 /**
@@ -150,70 +150,70 @@ function attributesList(buffer) {
  *  * `record`: True if is a record variable, false otherwise
  */
 function variablesList(buffer, recordId, version) {
-    const varList = buffer.readUint32();
-    var recordStep = 0;
-    if (varList === ZERO) {
-        utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of variables');
-        return [];
-    } else {
-        utils.notNetcdf((varList !== NC_VARIABLE), 'wrong tag for list of variables');
+  const varList = buffer.readUint32();
+  var recordStep = 0;
+  if (varList === ZERO) {
+    utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of variables');
+    return [];
+  } else {
+    utils.notNetcdf((varList !== NC_VARIABLE), 'wrong tag for list of variables');
 
-        // Length of variables
-        const variableSize = buffer.readUint32();
-        var variables = new Array(variableSize);
-        for (var v = 0; v < variableSize; v++) {
-            // Read name
-            var name = utils.readName(buffer);
+    // Length of variables
+    const variableSize = buffer.readUint32();
+    var variables = new Array(variableSize);
+    for (var v = 0; v < variableSize; v++) {
+      // Read name
+      var name = utils.readName(buffer);
 
-            // Read dimensionality of the variable
-            const dimensionality = buffer.readUint32();
+      // Read dimensionality of the variable
+      const dimensionality = buffer.readUint32();
 
-            // Index into the list of dimensions
-            var dimensionsIds = new Array(dimensionality);
-            for (var dim = 0; dim < dimensionality; dim++) {
-                dimensionsIds[dim] = buffer.readUint32();
-            }
+      // Index into the list of dimensions
+      var dimensionsIds = new Array(dimensionality);
+      for (var dim = 0; dim < dimensionality; dim++) {
+        dimensionsIds[dim] = buffer.readUint32();
+      }
 
-            // Read variables size
-            var attributes = attributesList(buffer);
+      // Read variables size
+      var attributes = attributesList(buffer);
 
-            // Read type
-            var type = buffer.readUint32();
-            utils.notNetcdf(((type < 1) && (type > 6)), 'non valid type ' + type);
+      // Read type
+      var type = buffer.readUint32();
+      utils.notNetcdf(((type < 1) && (type > 6)), `non valid type ${type}`);
 
-            // Read variable size
-            // The 32-bit varSize field is not large enough to contain the size of variables that require
-            // more than 2^32 - 4 bytes, so 2^32 - 1 is used in the varSize field for such variables.
-            const varSize = buffer.readUint32();
+      // Read variable size
+      // The 32-bit varSize field is not large enough to contain the size of variables that require
+      // more than 2^32 - 4 bytes, so 2^32 - 1 is used in the varSize field for such variables.
+      const varSize = buffer.readUint32();
 
-            // Read offset
-            var offset = buffer.readUint32();
-            if (version === 2) {
-                utils.notNetcdf((offset > 0), 'offsets larger than 4GB not supported');
-                offset = buffer.readUint32();
-            }
+      // Read offset
+      var offset = buffer.readUint32();
+      if (version === 2) {
+        utils.notNetcdf((offset > 0), 'offsets larger than 4GB not supported');
+        offset = buffer.readUint32();
+      }
 
-            // Count amount of record variables
-            if (dimensionsIds[0] === recordId) {
-                recordStep += varSize;
-            }
+      // Count amount of record variables
+      if (dimensionsIds[0] === recordId) {
+        recordStep += varSize;
+      }
 
-            variables[v] = {
-                name: name,
-                dimensions: dimensionsIds,
-                attributes: attributes,
-                type: types.num2str(type),
-                size: varSize,
-                offset: offset,
-                record: (dimensionsIds[0] === recordId)
-            };
-        }
+      variables[v] = {
+        name: name,
+        dimensions: dimensionsIds,
+        attributes: attributes,
+        type: types.num2str(type),
+        size: varSize,
+        offset: offset,
+        record: (dimensionsIds[0] === recordId)
+      };
     }
+  }
 
-    return {
-        variables: variables,
-        recordStep: recordStep
-    };
+  return {
+    variables: variables,
+    recordStep: recordStep
+  };
 }
 
 module.exports = header;

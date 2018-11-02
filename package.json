@@ -17,12 +17,11 @@
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
-    "eslint": "eslint src test",
+    "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
-    "test": "npm run test-mocha && npm run eslint",
+    "test": "jest && npm run eslint",
     "test-cov": "istanbul cover node_modules/.bin/_mocha -- --require should --reporter dot --recursive && codecov",
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --require should --reporter dot --recursive && codecov",
-    "test-mocha": "mocha --require should --reporter mocha-better-spec-reporter",
+    "test-travis": "eslint src && jest --coverage && codecov",
     "build": "cheminfo build"
   },
   "devDependencies": {
@@ -34,11 +33,7 @@
     "eslint-plugin-jest": "^21.26.2",
     "eslint-plugin-no-only-tests": "^1.1.0",
     "istanbul": "^0.4.5",
-    "jest": "^23.6.0",
-    "jest-codemods": "^0.16.0",
-    "mocha": "^3.2.0",
-    "mocha-better-spec-reporter": "^3.1.0",
-    "should": "^11.2.1"
+    "jest": "^23.6.0"
   },
   "dependencies": {
     "iobuffer": "^3.2.0"

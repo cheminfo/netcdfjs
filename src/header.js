@@ -200,14 +200,11 @@ function variablesList(buffer, recordId, version) {
         offset = buffer.readUint32();
       }
 
-      let record=false;
+      let record = false;
       // Count amount of record variables
       if ((typeof recordId !== 'undefined') && (dimensionsIds[0] === recordId)) {
         recordStep += varSize;
-        record=true;
-      }
-      if (name === 'actual_sampling_interval') {
-        debugger;
+        record = true;
       }
       variables[v] = {
         name: name,

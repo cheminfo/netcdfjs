@@ -2,19 +2,20 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>netcdfjs 0.3.0 | Documentation</title>
+  <title>netcdfjs 0.3.3 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
   <link href='assets/github.css' type='text/css' rel='stylesheet' />
+  <link href='assets/split.css' type='text/css' rel='stylesheet' />
+  <meta name='description' content='Read and explore NetCDF files'>
 </head>
-<body class='documentation'>
-  <div class='max-width-4 mx-auto'>
-    <div class='clearfix md-mxn2'>
-      <div class='fixed xs-hide fix-3 overflow-auto max-height-100'>
+<body class='documentation m0'>
+    <div class='flex'>
+      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>netcdfjs</h3>
-          <div class='mb1'><code>0.3.0</code></div>
+          <div class='mb1'><code>0.3.3</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -38,42 +39,43 @@
                       <li class='h5'><span>Instance members</span></li>
                       
                       <li><a
-                        href='#NetCDFReader#version'
-                        class='regular pre-open'>
-                        #version
-                      </a></li>
-                      
-                      <li><a
-                        href='#NetCDFReader#recordDimension'
-                        class='regular pre-open'>
-                        #recordDimension
-                      </a></li>
-                      
-                      <li><a
-                        href='#NetCDFReader#dimensions'
+                        href='#netcdfreaderdimensions'
                         class='regular pre-open'>
                         #dimensions
                       </a></li>
                       
                       <li><a
-                        href='#NetCDFReader#globalAttributes'
+                        href='#netcdfreadergetdatavariable'
+                        class='regular pre-open'>
+                        #getDataVariable
+                      </a></li>
+                      
+                      <li><a
+                        href='#netcdfreaderglobalattributes'
                         class='regular pre-open'>
                         #globalAttributes
                       </a></li>
                       
                       <li><a
-                        href='#NetCDFReader#variables'
+                        href='#netcdfreaderrecorddimension'
+                        class='regular pre-open'>
+                        #recordDimension
+                      </a></li>
+                      
+                      <li><a
+                        href='#netcdfreadervariables'
                         class='regular pre-open'>
                         #variables
                       </a></li>
                       
                       <li><a
-                        href='#NetCDFReader#getDataVariable'
+                        href='#netcdfreaderversion'
                         class='regular pre-open'>
-                        #getDataVariable
+                        #version
                       </a></li>
                       
                     </ul>
+                  
                   
                   
                 </div>
@@ -87,18 +89,20 @@
           </div>
         </div>
       </div>
-      <div class='fix-margin-3'>
+      <div id='split-right' class='relative overflow-auto height-viewport-100'>
         
           
-            <section class='p2 mb2 clearfix bg-white minishadow'>
+          <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
   <div class='clearfix'>
+    
     <h3 class='fl m0' id='netcdfreader'>
       NetCDFReader
     </h3>
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/cheminfo-js/netcdfjs/blob/1e28ab5e0c2c571f12a119d602168880fc8b4d1d/src/index.js#L14-L118'>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:cheminfo-js/netcdfjs/blob/04401a7a50eca035bf72081638d69aca9f123eaf/src/index.js#L15-L117'>
       <span>src/index.js</span>
       </a>
     
@@ -108,11 +112,14 @@
   <p>Reads a NetCDF v3.x file
 <a href="https://www.unidata.ucar.edu/software/netcdf/docs/file_format_specifications.html">https://www.unidata.ucar.edu/software/netcdf/docs/file_format_specifications.html</a></p>
 
-
-  <div class='pre p1 fill-light mt0'>new NetCDFReader(data: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">ArrayBuffer</a>)</div>
-
+ 
+  
+    <div class='pre p1 fill-light mt0'>new NetCDFReader(data: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">ArrayBuffer</a>)</div>
+   
+  
   
 
+  
   
   
   
@@ -125,7 +132,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>data</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">ArrayBuffer</a>)</code> ArrayBuffer or any Typed Array (including Node.js&#x27; Buffer from v4) with the data
+            <span class='code bold'>data</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">ArrayBuffer</a>)</code>
+	    ArrayBuffer or any Typed Array (including Node.js' Buffer from v4) with the data
 
           </div>
           
@@ -148,24 +156,36 @@
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
-    <div class='border-bottom' id='NetCDFReader#version'>
+    <div class='border-bottom' id='netcdfreaderdimensions'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>version</span>
+            <span class='code strong strong truncate'>dimensions</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
-
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:cheminfo-js/netcdfjs/blob/04401a7a50eca035bf72081638d69aca9f123eaf/src/index.js#L59-L61'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
   
 
-  <div class='pre p1 fill-light mt0'>version</div>
-
+  
+ 
+  
+    <div class='pre p1 fill-light mt0'>dimensions</div>
+   
+  
   
 
+  
   
   
   
@@ -179,8 +199,12 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
-        Version for the NetCDF format
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>></code>:
+        List of dimensions with:
+<ul>
+<li><code>name</code>: String with the name of the dimension</li>
+<li><code>size</code>: Number with the size of the dimension</li>
+</ul>
 
       
     
@@ -200,24 +224,115 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='NetCDFReader#recordDimension'>
+    <div class='border-bottom' id='netcdfreadergetdatavariable'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>recordDimension</span>
+            <span class='code strong strong truncate'>getDataVariable(variableName)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:cheminfo-js/netcdfjs/blob/04401a7a50eca035bf72081638d69aca9f123eaf/src/index.js#L92-L116'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Retrieves the data for a given variable</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>getDataVariable(variableName: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></div>
+   
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>variableName</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>))</code>
+	    Name of the variable to search or variable object
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
 
   
 
-  <div class='pre p1 fill-light mt0'>recordDimension</div>
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>:
+        List with the variable values
+
+      
+    
+  
 
   
 
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='netcdfreaderglobalattributes'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>globalAttributes</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:cheminfo-js/netcdfjs/blob/04401a7a50eca035bf72081638d69aca9f123eaf/src/index.js#L69-L71'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  
+ 
+  
+    <div class='pre p1 fill-light mt0'>globalAttributes</div>
+   
+  
+  
+
+  
   
   
   
@@ -231,7 +346,76 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>:
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>></code>:
+        List of global attributes with:
+<ul>
+<li><code>name</code>: String with the name of the attribute</li>
+<li><code>type</code>: String with the type of the attribute</li>
+<li><code>value</code>: A number or string with the value of the attribute</li>
+</ul>
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='netcdfreaderrecorddimension'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>recordDimension</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:cheminfo-js/netcdfjs/blob/04401a7a50eca035bf72081638d69aca9f123eaf/src/index.js#L50-L52'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  
+ 
+  
+    <div class='pre p1 fill-light mt0'>recordDimension</div>
+   
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>:
         Metadata for the record dimension
 <ul>
 <li><code>length</code>: Number of elements in the record dimension</li>
@@ -258,120 +442,7 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='NetCDFReader#dimensions'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>dimensions</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  
-
-  <div class='pre p1 fill-light mt0'>dimensions</div>
-
-  
-
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>&gt;</code>:
-        List of dimensions with:
-<ul>
-<li><code>name</code>: String with the name of the dimension</li>
-<li><code>size</code>: Number with the size of the dimension</li>
-</ul>
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='NetCDFReader#globalAttributes'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>globalAttributes</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  
-
-  <div class='pre p1 fill-light mt0'>globalAttributes</div>
-
-  
-
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>&gt;</code>:
-        List of global attributes with:
-<ul>
-<li><code>name</code>: String with the name of the attribute</li>
-<li><code>type</code>: String with the type of the attribute</li>
-<li><code>value</code>: A number or string with the value of the attribute</li>
-</ul>
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='NetCDFReader#variables'>
+    <div class='border-bottom' id='netcdfreadervariables'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
@@ -382,13 +453,25 @@
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
-
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:cheminfo-js/netcdfjs/blob/04401a7a50eca035bf72081638d69aca9f123eaf/src/index.js#L83-L85'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
   
 
-  <div class='pre p1 fill-light mt0'>variables</div>
-
+  
+ 
+  
+    <div class='pre p1 fill-light mt0'>variables</div>
+   
+  
   
 
+  
   
   
   
@@ -402,7 +485,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>&gt;</code>:
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>></code>:
         List of variables with:
 <ul>
 <li><code>name</code>: String with the name of the variable</li>
@@ -432,23 +515,33 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='NetCDFReader#getDataVariable'>
+    <div class='border-bottom' id='netcdfreaderversion'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getDataVariable(variableName)</span>
+            <span class='code strong strong truncate'>version</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:cheminfo-js/netcdfjs/blob/04401a7a50eca035bf72081638d69aca9f123eaf/src/index.js#L35-L41'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
 
-  <p>Retrieves the data for a given variable</p>
-
-
-  <div class='pre p1 fill-light mt0'>getDataVariable(variableName: (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></div>
-
+  
+ 
+  
+    <div class='pre p1 fill-light mt0'>version</div>
+   
+  
   
 
   
@@ -456,20 +549,8 @@
   
   
   
-
   
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>variableName</span> <code class='quiet'>((<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>))</code> Name of the variable to search or variable object
 
-          </div>
-          
-        </div>
-      
-    </div>
   
 
   
@@ -477,8 +558,8 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>:
-        List with the variable values
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+        Version for the NetCDF format
 
       
     
@@ -505,12 +586,11 @@
   
 </section>
 
-          
         
       </div>
     </div>
-  </div>
   <script src='assets/anchor.js'></script>
+  <script src='assets/split.js'></script>
   <script src='assets/site.js'></script>
 </body>
 </html>

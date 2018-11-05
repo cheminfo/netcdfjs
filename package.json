@@ -1,6 +1,6 @@
 {
   "name": "netcdfjs",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Read and explore NetCDF files",
   "keywords": [
     "netcdf",
@@ -30,7 +30,7 @@
     "eslint": "^5.0.0",
     "eslint-config-cheminfo": "^1.7.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.26.2",
+    "eslint-plugin-jest": "^21.27.1",
     "eslint-plugin-no-only-tests": "^1.1.0",
     "istanbul": "^0.4.5",
     "jest": "^23.6.0"

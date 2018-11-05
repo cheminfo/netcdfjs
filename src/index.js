@@ -159,6 +159,18 @@ class NetCDFReader {
     });
     return variable !== undefined;
   }
+
+  /**
+   * Check if an attribute exists
+   * @param {string} attributeName - Name of the attribute to find
+   * @return {boolean}
+   */
+  attributeExists(attributeName) {
+    let attribute = this.globalAttributes.find(
+      (val) => val.name === attributeName
+    );
+    return attribute !== undefined;
+  }
 }
 
 module.exports = NetCDFReader;

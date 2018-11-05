@@ -86,7 +86,7 @@ class NetCDFReader {
   }
 
   toString() {
-    toString.call(this);
+    return toString.call(this);
   }
 
   /**

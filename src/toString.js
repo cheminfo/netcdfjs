@@ -26,7 +26,6 @@ function toString() {
     }
     result.push(`  ${variable.name.padEnd(30)} = ${stringify}`);
   }
-
   return result.join('\n');
 }
 

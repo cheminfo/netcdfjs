@@ -6,9 +6,9 @@ const fs = require('fs');
 
 const pathFiles = `${__dirname}/files/`;
 
-test('toString', function () {
+test('getAttribute', function () {
   const data = fs.readFileSync(`${pathFiles}P071.CDF`);
 
   var reader = new NetCDFReader(data);
-  expect(reader.toString()).toMatchSnapshot();
+  expect(reader.getAttributeAsString('operator_name')).toBe('SC');
 });

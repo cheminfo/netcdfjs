@@ -6,9 +6,11 @@ const fs = require('fs');
 
 const pathFiles = `${__dirname}/files/`;
 
-test('toString', function () {
+test('getDataVariableAsString', function () {
   const data = fs.readFileSync(`${pathFiles}P071.CDF`);
 
   var reader = new NetCDFReader(data);
-  expect(reader.toString()).toMatchSnapshot();
+  expect(reader.getDataVariableAsString('instrument_name')).toBe(
+    'Gas Chromatograph'
+  );
 });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Read file toString 1`] = `
+exports[`toString 1`] = `
 "DIMENSIONS
   _2_byte_string                 = size: 2
   _4_byte_string                 = size: 4

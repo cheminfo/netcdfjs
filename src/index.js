@@ -72,6 +72,34 @@ class NetCDFReader {
   }
 
   /**
+   * Returns the value of an attribute
+   * @param {string} attributeName
+   * @return {string} Value of the attributeName or undefined
+   */
+  getAttributeAsString(attributeName) {
+    let attribute = this.globalAttributes.find(
+      (val) => val.name === attributeName
+    );
+    if (attribute) return attribute.value.trim();
+    return undefined;
+  }
+
+  /**
+   * Returns the value of a variable as a string
+   * @param {string} variableName
+   * @return {string} Value of the variable as a string or undefined
+   */
+  getDataVariableAsString(variableName) {
+    try {
+      return this.getDataVariable(variableName)
+        .join('')
+        .trim();
+    } catch (e) {
+      return undefined;
+    }
+  }
+
+  /**
    * @return {Array<object>} - List of variables with:
    *  * `name`: String with the name of the variable
    *  * `dimensions`: Array with the dimension IDs of the variable

@@ -134,7 +134,10 @@ class NetCDFReader {
     }
 
     // throws if variable not found
-    utils.notNetcdf(variable === undefined, 'variable not found');
+    utils.notNetcdf(
+      variable === undefined,
+      `variable not found: ${variableName}`
+    );
 
     // go to the offset position
     this.buffer.seek(variable.offset);

@@ -76,7 +76,7 @@ class NetCDFReader {
    * @param {string} attributeName
    * @return {string} Value of the attributeName or undefined
    */
-  getAttributeAsString(attributeName) {
+  getAttribute(attributeName) {
     let attribute = this.globalAttributes.find(
       (val) => val.name === attributeName
     );
@@ -146,6 +146,18 @@ class NetCDFReader {
       // non-record variable case
       return data.nonRecord(this.buffer, variable);
     }
+  }
+
+  /**
+   * Check if a dataVariable exists
+   * @param {string} variableName - Name of the variable to find
+   * @return {boolean}
+   */
+  dataVariableExists(variableName) {
+    let variable = this.header.variables.find(function (val) {
+      return val.name === variableName;
+    });
+    return variable !== undefined;
   }
 }
 

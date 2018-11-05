@@ -10,5 +10,5 @@ test('getAttribute', function () {
   const data = fs.readFileSync(`${pathFiles}P071.CDF`);
 
   var reader = new NetCDFReader(data);
-  expect(reader.getAttributeAsString('operator_name')).toBe('SC');
+  expect(reader.getAttribute('operator_name')).toBe('SC');
 });

@@ -1,0 +1,5 @@
+demo
+docs
+__tests__
+.eslintrc.yml
+.travis.yml

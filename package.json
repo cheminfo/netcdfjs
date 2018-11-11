@@ -1,6 +1,6 @@
 {
   "name": "netcdfjs",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Read and explore NetCDF files",
   "keywords": [
     "netcdf",
@@ -25,12 +25,12 @@
     "build": "cheminfo build"
   },
   "devDependencies": {
-    "cheminfo-tools": "^1.15.0",
+    "cheminfo-tools": "^1.22.4",
     "codecov": "^2.1.0",
-    "eslint": "^5.0.0",
+    "eslint": "^5.9.0",
     "eslint-config-cheminfo": "^1.7.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.27.1",
+    "eslint-plugin-jest": "^21.27.2",
     "eslint-plugin-no-only-tests": "^1.1.0",
     "istanbul": "^0.4.5",
     "jest": "^23.6.0"

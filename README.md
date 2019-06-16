@@ -11,7 +11,7 @@ Read and explore NetCDF v3 files.
 
 `$ npm install netcdfjs`
 
-## [API Documentation](https://cheminfo-js.github.io/netcdfjs/)
+## [API Documentation](https://cheminfo.github.io/netcdfjs/)
 
 For further information about the grammar you should go to [this link](https://www.unidata.ucar.edu/software/netcdf/docs/file_format_specifications.html).
 
@@ -154,9 +154,9 @@ function updateProgress(evt) {
 
 [npm-image]: https://img.shields.io/npm/v/netcdfjs.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/netcdfjs
-[travis-image]: https://img.shields.io/travis/cheminfo-js/netcdfjs/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/cheminfo-js/netcdfjs
-[coveralls-image]: https://img.shields.io/coveralls/cheminfo-js/netcdfjs.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/github/cheminfo-js/netcdfjs
+[travis-image]: https://img.shields.io/travis/cheminfo/netcdfjs/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/cheminfo/netcdfjs
+[coveralls-image]: https://img.shields.io/coveralls/cheminfo/netcdfjs.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/github/cheminfo/netcdfjs
 [download-image]: https://img.shields.io/npm/dm/netcdfjs.svg?style=flat-square
 [download-url]: https://www.npmjs.com/package/netcdfjs

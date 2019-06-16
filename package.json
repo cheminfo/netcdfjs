@@ -9,11 +9,11 @@
     "format"
   ],
   "author": "Miguel Asencio <maasencioh@gmail.com> (https://github.com/maasencioh)",
-  "repository": "cheminfo-js/netcdfjs",
+  "repository": "cheminfo/netcdfjs",
   "bugs": {
-    "url": "https://github.com/cheminfo-js/netcdfjs/issues"
+    "url": "https://github.com/cheminfo/netcdfjs/issues"
   },
-  "homepage": "https://github.com/cheminfo-js/netcdfjs",
+  "homepage": "https://github.com/cheminfo/netcdfjs",
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {

@@ -19,23 +19,20 @@
   "scripts": {
     "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
-    "test": "jest && npm run eslint",
-    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --require should --reporter dot --recursive && codecov",
-    "test-travis": "eslint src && jest --coverage && codecov",
+    "test": "npm run test-coverage && npm run eslint",
+    "test-coverage": "jest --coverage",
+    "test-only": "jest",
     "build": "cheminfo build"
   },
   "devDependencies": {
-    "cheminfo-tools": "^1.22.4",
-    "codecov": "^2.1.0",
-    "eslint": "^5.9.0",
-    "eslint-config-cheminfo": "^1.7.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.27.2",
-    "eslint-plugin-no-only-tests": "^1.1.0",
-    "istanbul": "^0.4.5",
-    "jest": "^23.6.0"
+    "cheminfo-tools": "^1.23.2",
+    "eslint": "^5.16.0",
+    "eslint-config-cheminfo": "^1.20.1",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jest": "^22.6.4",
+    "jest": "^24.8.0"
   },
   "dependencies": {
-    "iobuffer": "^3.2.0"
+    "iobuffer": "^4.0.1"
   }
 }

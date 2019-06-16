@@ -7,27 +7,27 @@ const fs = require('fs');
 const pathFiles = `${__dirname}/files/`;
 
 describe('Read file', function () {
-  test('Throws on non NetCDF file', function () {
+  it('Throws on non NetCDF file', function () {
     const data = fs.readFileSync(`${pathFiles}not_nc.txt`);
     expect(function notValid() {
       return new NetCDFReader(data);
-    }).toThrowError('Not a valid NetCDF v3.x file: should start with CDF');
+    }).toThrow('Not a valid NetCDF v3.x file: should start with CDF');
   });
 
-  test('read header information', function () {
+  it('read header information', function () {
     // http://www.unidata.ucar.edu/software/netcdf/examples/files.html
     // http://www.unidata.ucar.edu/software/netcdf/examples/madis-sao.cdl
     const data = fs.readFileSync(`${pathFiles}madis-sao.nc`);
 
     var reader = new NetCDFReader(data);
     expect(reader.version).toBe('classic format');
-    expect(reader.recordDimension).toEqual({
+    expect(reader.recordDimension).toStrictEqual({
       length: 178,
       id: 21,
       name: 'recNum',
       recordStep: 1220
     });
-    expect(reader.dimensions).toEqual([
+    expect(reader.dimensions).toStrictEqual([
       { name: 'maxAutoStaLen', size: 6 },
       { name: 'maxAutoWeather', size: 5 },
       { name: 'maxAutoWeaLen', size: 12 },
@@ -52,18 +52,18 @@ describe('Read file', function () {
       { name: 'recNum', size: 0 }
     ]);
 
-    expect(reader.globalAttributes[0]).toEqual({
+    expect(reader.globalAttributes[0]).toStrictEqual({
       name: 'cdlDate',
       type: 'char',
       value: '20010327'
     });
-    expect(reader.globalAttributes[3]).toEqual({
+    expect(reader.globalAttributes[3]).toStrictEqual({
       name: 'filePeriod',
       type: 'int',
       value: 3600
     });
 
-    expect(reader.variables[0]).toEqual({
+    expect(reader.variables[0]).toStrictEqual({
       name: 'nStaticIds',
       dimensions: [],
       attributes: [
@@ -78,7 +78,7 @@ describe('Read file', function () {
       offset: 39208,
       record: false
     });
-    expect(reader.variables[11]).toEqual({
+    expect(reader.variables[11]).toStrictEqual({
       name: 'wmoId',
       dimensions: [21],
       attributes: [
@@ -94,14 +94,14 @@ describe('Read file', function () {
     });
   });
 
-  test('read non-record variable', function () {
+  it('read non-record variable', function () {
     const data = fs.readFileSync(`${pathFiles}madis-sao.nc`);
     var reader = new NetCDFReader(data);
 
     expect(reader.getDataVariable('nStaticIds')[0]).toBe(145);
   });
 
-  test('read 2 dimensional variable', function () {
+  it('read 2 dimensional variable', function () {
     const data = fs.readFileSync(`${pathFiles}ichthyop.nc`);
     var reader = new NetCDFReader(data);
     expect(reader.getDataVariable('time')).toHaveLength(49);
@@ -111,7 +111,7 @@ describe('Read file', function () {
     expect(reader.getDataVariable('lat')[0][0]).toBe(53.26256561279297);
   });
 
-  test('read record variable with string', function () {
+  it('read record variable with string', function () {
     const data = fs.readFileSync(`${pathFiles}madis-sao.nc`);
     var reader = new NetCDFReader(data);
 
@@ -121,7 +121,7 @@ describe('Read file', function () {
     expect(record[2]).toBe(71408);
   });
 
-  test('read non-record variable with object', function () {
+  it('read non-record variable with object', function () {
     const data = fs.readFileSync(`${pathFiles}madis-sao.nc`);
     var reader = new NetCDFReader(data);
     var variables = reader.variables;
@@ -136,16 +136,16 @@ describe('Read file', function () {
     expect(withString[2]).toBe(withObject[2]);
   });
 
-  test('read non-existent variable string', function () {
+  it('read non-existent variable string', function () {
     const data = fs.readFileSync(`${pathFiles}madis-sao.nc`);
     var reader = new NetCDFReader(data);
 
-    expect(reader.getDataVariable.bind(reader, "n'importe quoi")).toThrowError(
+    expect(reader.getDataVariable.bind(reader, "n'importe quoi")).toThrow(
       'Not a valid NetCDF v3.x file: variable not found'
     );
   });
 
-  test('read 64 bit offset file', function () {
+  it('read 64 bit offset file', function () {
     const data = fs.readFileSync(`${pathFiles}model1_md2.nc`);
     var reader = new NetCDFReader(data);
     expect(reader.version).toBe('64-bit offset format');
@@ -153,7 +153,7 @@ describe('Read file', function () {
     expect(reader.getDataVariable('cell_spatial')[0]).toBe('a');
   });
 
-  test('read agilent hplc file file', function () {
+  it('read agilent hplc file file', function () {
     const data = fs.readFileSync(`${pathFiles}agilent_hplc.cdf`);
     var reader = new NetCDFReader(data);
 
@@ -164,7 +164,7 @@ describe('Read file', function () {
       variables.push(variable);
       variable.value = reader.getDataVariable(variable);
     }
-    expect(variables[3].value).toEqual([0.012000000104308128]);
+    expect(variables[3].value).toStrictEqual([0.012000000104308128]);
     expect(variables).toHaveLength(24);
     expect(reader.getDataVariable('ordinate_values')).toHaveLength(4651);
   });

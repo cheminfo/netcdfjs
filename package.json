@@ -8,6 +8,9 @@
     "data",
     "format"
   ],
+  "files": [
+    "src"
+  ],
   "author": "Miguel Asencio <maasencioh@gmail.com> (https://github.com/maasencioh)",
   "repository": "cheminfo/netcdfjs",
   "bugs": {

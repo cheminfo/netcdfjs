@@ -1,12 +1,11 @@
 # netcdfjs
 
-  [![NPM version][npm-image]][npm-url]
-  [![build status][travis-image]][travis-url]
-  [![Test coverage][coveralls-image]][coveralls-url]
-  [![David deps][david-image]][david-url]
-  [![npm download][download-image]][download-url]
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+[![Test coverage][coveralls-image]][coveralls-url]
+[![npm download][download-image]][download-url]
 
-Read and explore NetCDF files
+Read and explore NetCDF v3 files.
 
 ## Installation
 
@@ -29,28 +28,28 @@ var reader = new NetCDFReader(data); // read the header
 reader.getDataVariable('wmoId'); // go to offset and read it
 ```
 
-
 ### Example II: Load from URL (does not require node)
 
 ```js
 // First load the netcdfjs library as normal : <script src='./dist/netcdfjs.js'></script>
 // You could use the oficial CDN: <script src='http://www.lactame.com/lib/netcdfjs/0.3.0/netcdfjs.min.js'></script>
 
-var urlpath =  "http://www.unidata.ucar.edu/software/netcdf/examples/madis-sao.nc"
+var urlpath =
+  'http://www.unidata.ucar.edu/software/netcdf/examples/madis-sao.nc';
 var reader;
 
 var oReq = new XMLHttpRequest();
-oReq.open("GET", urlpath, true);
-oReq.responseType = "blob";
+oReq.open('GET', urlpath, true);
+oReq.responseType = 'blob';
 
 oReq.onload = function(oEvent) {
   var blob = oReq.response;
   reader_url = new FileReader();
-  
+
   reader_url.onload = function(e) {
     reader = new netcdfjs(this.result);
-  }
-      
+  };
+
   reader_url.readAsArrayBuffer(blob);
 };
 oReq.send(); //start process
@@ -58,15 +57,16 @@ oReq.send(); //start process
 reader.getDataVariable('wmoId'); // go to offset and read it
 ```
 
+### Example III: Client side file upload
 
-### Example III: Client side file upload.
-
-This example creates a file input element and allows the user to select a file from their personal machine. 
+This example creates a file input element and allows the user to select a file from their personal machine.
 
 ```js
 var reader;
 var progress = document.querySelector('.percent');
-function abortRead() {  reader.abort(); }
+function abortRead() {
+  reader.abort();
+}
 
 function handleFileSelect(evt) {
   // Reset progress indicator on new file selection.
@@ -83,7 +83,6 @@ function handleFileSelect(evt) {
     document.getElementById('progress_bar').className = 'loading';
   };
   reader.onload = function(e) {
-
     // Ensure that the progress bar displays 100% at the end.
     progress.style.width = '100%';
     progress.textContent = '100%';
@@ -94,41 +93,46 @@ function handleFileSelect(evt) {
     reader = new netcdfjs(this.result);
     reader.getDataVariable('wmoId'); // go to offset and read it
 
-   //... your program here  ..//
-
-  }
+    //... your program here  ..//
+  };
   reader.readAsArrayBuffer(evt.target.files[0]);
 }
 
 // Make input element <input type="file" id="files" name="file" />
-var input = document.createElement("input");
-input.id='files'
-input.type = "file";
-input.className = "file"; 
+var input = document.createElement('input');
+input.id = 'files';
+input.type = 'file';
+input.className = 'file';
 document.body.appendChild(input); // put it into the DOM
 
 // Make a Progress bar <div id="progress_bar"><div class="percent">0%</div></div>
-var progress = document.createElement("div");
-progress.id='progress_bar';
-inner = document.createElement("div");
-inner.className = "percent";
-inner.id='innerdiv' // set the CSS class
+var progress = document.createElement('div');
+progress.id = 'progress_bar';
+inner = document.createElement('div');
+inner.className = 'percent';
+inner.id = 'innerdiv'; // set the CSS class
 progress.appendChild(inner);
 document.body.appendChild(progress); // put it into the DOM
 
 //Start event listener to check if a file has been selected
-run = document.getElementById('files').addEventListener('change', handleFileSelect, false);
+run = document
+  .getElementById('files')
+  .addEventListener('change', handleFileSelect, false);
 
-///Progress bar and other functions 
+///Progress bar and other functions
 function errorHandler(evt) {
-  switch(evt.target.error.code) {
+  switch (evt.target.error.code) {
     case evt.target.error.NOT_FOUND_ERR:
-      alert('File Not Found!'); break;
+      alert('File Not Found!');
+      break;
     case evt.target.error.NOT_READABLE_ERR:
-      alert('File is not readable');break;
-    case evt.target.error.ABORT_ERR: break;
-    default: alert('An error occurred reading this file.');
-  };
+      alert('File is not readable');
+      break;
+    case evt.target.error.ABORT_ERR:
+      break;
+    default:
+      alert('An error occurred reading this file.');
+  }
 }
 
 function updateProgress(evt) {
@@ -146,7 +150,7 @@ function updateProgress(evt) {
 
 ## License
 
-  [MIT](./LICENSE)
+[MIT](./LICENSE)
 
 [npm-image]: https://img.shields.io/npm/v/netcdfjs.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/netcdfjs
@@ -154,7 +158,5 @@ function updateProgress(evt) {
 [travis-url]: https://travis-ci.org/cheminfo-js/netcdfjs
 [coveralls-image]: https://img.shields.io/coveralls/cheminfo-js/netcdfjs.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/github/cheminfo-js/netcdfjs
-[david-image]: https://img.shields.io/david/cheminfo-js/netcdfjs.svg?style=flat-square
-[david-url]: https://david-dm.org/cheminfo-js/netcdfjs
 [download-image]: https://img.shields.io/npm/dm/netcdfjs.svg?style=flat-square
 [download-url]: https://www.npmjs.com/package/netcdfjs

@@ -74,7 +74,7 @@ class NetCDFReader {
   /**
    * Returns the value of an attribute
    * @param {string} attributeName
-   * @return {string} Value of the attributeName or undefined
+   * @return {string} Value of the attributeName or null
    */
   getAttribute(attributeName) {
     const attribute = this.globalAttributes.find(
@@ -87,7 +87,7 @@ class NetCDFReader {
   /**
    * Returns the value of a variable as a string
    * @param {string} variableName
-   * @return {string} Value of the variable as a string or undefined
+   * @return {string} Value of the variable as a string or null
    */
   getDataVariableAsString(variableName) {
     const variable = this.getDataVariable(variableName);
@@ -119,7 +119,7 @@ class NetCDFReader {
    * @return {Array} - List with the variable values
    */
   getDataVariable(variableName) {
-    var variable;
+    let variable;
     if (typeof variableName === 'string') {
       // search the variable
       variable = this.header.variables.find(function (val) {
@@ -153,7 +153,7 @@ class NetCDFReader {
    * @return {boolean}
    */
   dataVariableExists(variableName) {
-    let variable = this.header.variables.find(function (val) {
+    const variable = this.header.variables.find(function (val) {
       return val.name === variableName;
     });
     return variable !== undefined;
@@ -165,7 +165,7 @@ class NetCDFReader {
    * @return {boolean}
    */
   attributeExists(attributeName) {
-    let attribute = this.globalAttributes.find(
+    const attribute = this.globalAttributes.find(
       (val) => val.name === attributeName
     );
     return attribute !== undefined;

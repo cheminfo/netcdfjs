@@ -29,4 +29,4 @@ function toString() {
   return result.join('\n');
 }
 
-module.exports = toString;
+export default toString

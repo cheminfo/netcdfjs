@@ -1,6 +1,6 @@
 'use strict';
 
-const types = require('./types');
+import * as types from './types.js'
 
 // const STREAMING = 4294967295;
 
@@ -57,5 +57,7 @@ function record(buffer, variable, recordDimension) {
   return data;
 }
 
-module.exports.nonRecord = nonRecord;
-module.exports.record = record;
+export {
+  nonRecord,
+  record
+}

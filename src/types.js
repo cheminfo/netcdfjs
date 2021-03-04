@@ -1,6 +1,6 @@
 'use strict';
 
-const notNetcdf = require('./utils').notNetcdf;
+import { notNetcdf } from './utils.js'
 
 const types = {
   BYTE: 1,
@@ -31,7 +31,7 @@ function num2str(type) {
       return 'float';
     case types.DOUBLE:
       return 'double';
-      /* istanbul ignore next */
+    /* istanbul ignore next */
     default:
       return 'undefined';
   }
@@ -57,7 +57,7 @@ function num2bytes(type) {
       return 4;
     case types.DOUBLE:
       return 8;
-      /* istanbul ignore next */
+    /* istanbul ignore next */
     default:
       return -1;
   }
@@ -83,7 +83,7 @@ function str2num(type) {
       return types.FLOAT;
     case 'double':
       return types.DOUBLE;
-      /* istanbul ignore next */
+    /* istanbul ignore next */
     default:
       return -1;
   }
@@ -130,7 +130,7 @@ function readType(buffer, type, size) {
       return readNumber(size, buffer.readFloat32.bind(buffer));
     case types.DOUBLE:
       return readNumber(size, buffer.readFloat64.bind(buffer));
-      /* istanbul ignore next */
+    /* istanbul ignore next */
     default:
       notNetcdf(true, `non valid type ${type}`);
       return undefined;
@@ -150,8 +150,11 @@ function trimNull(value) {
   return value;
 }
 
-module.exports = types;
-module.exports.num2str = num2str;
-module.exports.num2bytes = num2bytes;
-module.exports.str2num = str2num;
-module.exports.readType = readType;
+export default types
+
+export {
+  num2bytes,
+  num2str,
+  str2num,
+  readType
+}

@@ -1,11 +1,11 @@
 'use strict';
 
-const { IOBuffer } = require('iobuffer');
+import { IOBuffer } from 'iobuffer'
 
-const utils = require('./utils');
-const data = require('./data');
-const readHeader = require('./header');
-const toString = require('./toString');
+import * as utils from './utils.js'
+import * as data from './data.js'
+import readHeader from './header.js'
+import toString from './toString.js'
 
 /**
  * Reads a NetCDF v3.x file
@@ -172,4 +172,4 @@ class NetCDFReader {
   }
 }
 
-module.exports = NetCDFReader;
+export default NetCDFReader

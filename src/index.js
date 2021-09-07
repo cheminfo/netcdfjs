@@ -1,11 +1,9 @@
-'use strict';
+import { IOBuffer } from "iobuffer";
 
-import { IOBuffer } from 'iobuffer'
-
-import * as utils from './utils.js'
-import * as data from './data.js'
-import readHeader from './header.js'
-import toString from './toString.js'
+import { record, nonRecord } from "./data.js";
+import { header } from "./header.js";
+import { toString } from "./toString.js";
+import { notNetcdf } from "./utils.js";
 
 /**
  * Reads a NetCDF v3.x file
@@ -13,20 +11,20 @@ import toString from './toString.js'
  * @param {ArrayBuffer} data - ArrayBuffer or any Typed Array (including Node.js' Buffer from v4) with the data
  * @constructor
  */
-class NetCDFReader {
+export class NetCDFReader {
   constructor(data) {
     const buffer = new IOBuffer(data);
     buffer.setBigEndian();
 
     // Validate that it's a NetCDF file
-    utils.notNetcdf(buffer.readChars(3) !== 'CDF', 'should start with CDF');
+    notNetcdf(buffer.readChars(3) !== "CDF", "should start with CDF");
 
     // Check the NetCDF format
     const version = buffer.readByte();
-    utils.notNetcdf(version > 2, 'unknown version');
+    notNetcdf(version > 2, "unknown version");
 
     // Read the header
-    this.header = readHeader(buffer, version);
+    this.header = header(buffer, version);
     this.buffer = buffer;
   }
 
@@ -35,9 +33,9 @@ class NetCDFReader {
    */
   get version() {
     if (this.header.version === 1) {
-      return 'classic format';
+      return "classic format";
     } else {
-      return '64-bit offset format';
+      return "64-bit offset format";
     }
   }
 
@@ -91,7 +89,7 @@ class NetCDFReader {
    */
   getDataVariableAsString(variableName) {
     const variable = this.getDataVariable(variableName);
-    if (variable) return variable.join('');
+    if (variable) return variable.join("");
     return null;
   }
 
@@ -120,9 +118,9 @@ class NetCDFReader {
    */
   getDataVariable(variableName) {
     let variable;
-    if (typeof variableName === 'string') {
+    if (typeof variableName === "string") {
       // search the variable
-      variable = this.header.variables.find(function (val) {
+      variable = this.header.variables.find((val) => {
         return val.name === variableName;
       });
     } else {
@@ -130,20 +128,17 @@ class NetCDFReader {
     }
 
     // throws if variable not found
-    utils.notNetcdf(
-      variable === undefined,
-      `variable not found: ${variableName}`
-    );
+    notNetcdf(variable === undefined, `variable not found: ${variableName}`);
 
     // go to the offset position
     this.buffer.seek(variable.offset);
 
     if (variable.record) {
       // record variable case
-      return data.record(this.buffer, variable, this.header.recordDimension);
+      return record(this.buffer, variable, this.header.recordDimension);
     } else {
       // non-record variable case
-      return data.nonRecord(this.buffer, variable);
+      return nonRecord(this.buffer, variable);
     }
   }
 
@@ -153,7 +148,7 @@ class NetCDFReader {
    * @return {boolean}
    */
   dataVariableExists(variableName) {
-    const variable = this.header.variables.find(function (val) {
+    const variable = this.header.variables.find((val) => {
       return val.name === variableName;
     });
     return variable !== undefined;
@@ -171,5 +166,3 @@ class NetCDFReader {
     return attribute !== undefined;
   }
 }
-
-export default NetCDFReader

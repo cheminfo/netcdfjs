@@ -1,6 +1,4 @@
-'use strict';
-
-import * as types from './types.js'
+import { num2bytes, str2num, readType } from "./types.js";
 
 // const STREAMING = 4294967295;
 
@@ -11,17 +9,17 @@ import * as types from './types.js'
  * @param {object} variable - Variable metadata
  * @return {Array} - Data of the element
  */
-function nonRecord(buffer, variable) {
+export function nonRecord(buffer, variable) {
   // variable type
-  const type = types.str2num(variable.type);
+  const type = str2num(variable.type);
 
   // size of the data
-  var size = variable.size / types.num2bytes(type);
+  let size = variable.size / num2bytes(type);
 
   // iterates over the data
-  var data = new Array(size);
-  for (var i = 0; i < size; i++) {
-    data[i] = types.readType(buffer, type, 1);
+  let data = new Array(size);
+  for (let i = 0; i < size; i++) {
+    data[i] = readType(buffer, type, 1);
   }
 
   return data;
@@ -35,29 +33,24 @@ function nonRecord(buffer, variable) {
  * @param {object} recordDimension - Record dimension metadata
  * @return {Array} - Data of the element
  */
-function record(buffer, variable, recordDimension) {
+export function record(buffer, variable, recordDimension) {
   // variable type
-  const type = types.str2num(variable.type);
-  const width = variable.size ? variable.size / types.num2bytes(type) : 1;
+  const type = str2num(variable.type);
+  const width = variable.size ? variable.size / num2bytes(type) : 1;
 
   // size of the data
   // TODO streaming data
-  var size = recordDimension.length;
+  let size = recordDimension.length;
 
   // iterates over the data
-  var data = new Array(size);
+  let data = new Array(size);
   const step = recordDimension.recordStep;
 
-  for (var i = 0; i < size; i++) {
-    var currentOffset = buffer.offset;
-    data[i] = types.readType(buffer, type, width);
+  for (let i = 0; i < size; i++) {
+    let currentOffset = buffer.offset;
+    data[i] = readType(buffer, type, width);
     buffer.seek(currentOffset + step);
   }
 
   return data;
-}
-
-export {
-  nonRecord,
-  record
 }

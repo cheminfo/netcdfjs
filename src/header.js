@@ -1,7 +1,5 @@
-'use strict';
-
-import * as utils from './utils.js'
-import * as types from './types.js'
+import { num2str, readType } from "./types.js";
+import { padding, notNetcdf, readName } from "./utils.js";
 
 // Grammar constants
 const ZERO = 0;
@@ -20,16 +18,16 @@ const NC_ATTRIBUTE = 12;
  *  * `globalAttributes`: List of global attributes
  *  * `variables`: List of variables
  */
-function header(buffer, version) {
+export function header(buffer, version) {
   // Length of record dimension
   // sum of the varSize's of all the record variables.
-  var header = { recordDimension: { length: buffer.readUint32() } };
+  let header = { recordDimension: { length: buffer.readUint32() } };
 
   // Version
   header.version = version;
 
   // List of dimensions
-  var dimList = dimensionsList(buffer);
+  let dimList = dimensionsList(buffer);
   header.recordDimension.id = dimList.recordId; // id of the unlimited dimension
   header.recordDimension.name = dimList.recordName; // name of the unlimited dimension
   header.dimensions = dimList.dimensions;
@@ -38,7 +36,7 @@ function header(buffer, version) {
   header.globalAttributes = attributesList(buffer);
 
   // List of variables
-  var variables = variablesList(buffer, dimList.recordId, version);
+  let variables = variablesList(buffer, dimList.recordId, version);
   header.variables = variables.variables;
   header.recordDimension.recordStep = variables.recordStep;
 
@@ -53,44 +51,49 @@ const NC_UNLIMITED = 0;
  * @param {IOBuffer} buffer - Buffer for the file data
  * @return {object} - Ojbect containing the following properties:
  *  * `dimensions` that is an array of dimension object:
-  *  * `name`: String with the name of the dimension
-  *  * `size`: Number with the size of the dimension dimensions: dimensions
+ *  * `name`: String with the name of the dimension
+ *  * `size`: Number with the size of the dimension dimensions: dimensions
  *  * `recordId`: the id of the dimension that has unlimited size or undefined,
  *  * `recordName`: name of the dimension that has unlimited size
  */
 function dimensionsList(buffer) {
-  var recordId, recordName;
+  let recordId, recordName;
   const dimList = buffer.readUint32();
+  let dimensions;
   if (dimList === ZERO) {
-    utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of dimensions');
+    notNetcdf(
+      buffer.readUint32() !== ZERO,
+      "wrong empty tag for list of dimensions"
+    );
     return [];
   } else {
-    utils.notNetcdf((dimList !== NC_DIMENSION), 'wrong tag for list of dimensions');
+    notNetcdf(dimList !== NC_DIMENSION, "wrong tag for list of dimensions");
 
     // Length of dimensions
     const dimensionSize = buffer.readUint32();
-    var dimensions = new Array(dimensionSize);
-    for (var dim = 0; dim < dimensionSize; dim++) {
+    dimensions = new Array(dimensionSize);
+    for (let dim = 0; dim < dimensionSize; dim++) {
       // Read name
-      var name = utils.readName(buffer);
+      let name = readName(buffer);
 
       // Read dimension size
       const size = buffer.readUint32();
-      if (size === NC_UNLIMITED) { // in netcdf 3 one field can be of size unlimmited
+      if (size === NC_UNLIMITED) {
+        // in netcdf 3 one field can be of size unlimmited
         recordId = dim;
         recordName = name;
       }
 
       dimensions[dim] = {
         name: name,
-        size: size
+        size: size,
       };
     }
   }
   return {
-    dimensions: dimensions,
-    recordId: recordId,
-    recordName: recordName
+    dimensions,
+    recordId,
+    recordName,
   };
 }
 
@@ -105,34 +108,38 @@ function dimensionsList(buffer) {
  */
 function attributesList(buffer) {
   const gAttList = buffer.readUint32();
+  let attributes;
   if (gAttList === ZERO) {
-    utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of attributes');
+    notNetcdf(
+      buffer.readUint32() !== ZERO,
+      "wrong empty tag for list of attributes"
+    );
     return [];
   } else {
-    utils.notNetcdf((gAttList !== NC_ATTRIBUTE), 'wrong tag for list of attributes');
+    notNetcdf(gAttList !== NC_ATTRIBUTE, "wrong tag for list of attributes");
 
     // Length of attributes
     const attributeSize = buffer.readUint32();
-    var attributes = new Array(attributeSize);
-    for (var gAtt = 0; gAtt < attributeSize; gAtt++) {
+    attributes = new Array(attributeSize);
+    for (let gAtt = 0; gAtt < attributeSize; gAtt++) {
       // Read name
-      var name = utils.readName(buffer);
+      let name = readName(buffer);
 
       // Read type
-      var type = buffer.readUint32();
-      utils.notNetcdf(((type < 1) || (type > 6)), `non valid type ${type}`);
+      let type = buffer.readUint32();
+      notNetcdf(type < 1 || type > 6, `non valid type ${type}`);
 
       // Read attribute
-      var size = buffer.readUint32();
-      var value = types.readType(buffer, type, size);
+      let size = buffer.readUint32();
+      let value = readType(buffer, type, size);
 
       // Apply padding
-      utils.padding(buffer);
+      padding(buffer);
 
       attributes[gAtt] = {
-        name: name,
-        type: types.num2str(type),
-        value: value
+        name,
+        type: num2str(type),
+        value,
       };
     }
   }
@@ -158,35 +165,39 @@ function attributesList(buffer) {
 
 function variablesList(buffer, recordId, version) {
   const varList = buffer.readUint32();
-  var recordStep = 0;
+  let recordStep = 0;
+  let variables;
   if (varList === ZERO) {
-    utils.notNetcdf((buffer.readUint32() !== ZERO), 'wrong empty tag for list of variables');
+    notNetcdf(
+      buffer.readUint32() !== ZERO,
+      "wrong empty tag for list of variables"
+    );
     return [];
   } else {
-    utils.notNetcdf((varList !== NC_VARIABLE), 'wrong tag for list of variables');
+    notNetcdf(varList !== NC_VARIABLE, "wrong tag for list of variables");
 
     // Length of variables
     const variableSize = buffer.readUint32();
-    var variables = new Array(variableSize);
-    for (var v = 0; v < variableSize; v++) {
+    variables = new Array(variableSize);
+    for (let v = 0; v < variableSize; v++) {
       // Read name
-      var name = utils.readName(buffer);
+      let name = readName(buffer);
 
       // Read dimensionality of the variable
       const dimensionality = buffer.readUint32();
 
       // Index into the list of dimensions
-      var dimensionsIds = new Array(dimensionality);
-      for (var dim = 0; dim < dimensionality; dim++) {
+      let dimensionsIds = new Array(dimensionality);
+      for (let dim = 0; dim < dimensionality; dim++) {
         dimensionsIds[dim] = buffer.readUint32();
       }
 
       // Read variables size
-      var attributes = attributesList(buffer);
+      let attributes = attributesList(buffer);
 
       // Read type
-      var type = buffer.readUint32();
-      utils.notNetcdf(((type < 1) && (type > 6)), `non valid type ${type}`);
+      let type = buffer.readUint32();
+      notNetcdf(type < 1 && type > 6, `non valid type ${type}`);
 
       // Read variable size
       // The 32-bit varSize field is not large enough to contain the size of variables that require
@@ -194,15 +205,15 @@ function variablesList(buffer, recordId, version) {
       const varSize = buffer.readUint32();
 
       // Read offset
-      var offset = buffer.readUint32();
+      let offset = buffer.readUint32();
       if (version === 2) {
-        utils.notNetcdf((offset > 0), 'offsets larger than 4GB not supported');
+        notNetcdf(offset > 0, "offsets larger than 4GB not supported");
         offset = buffer.readUint32();
       }
 
       let record = false;
       // Count amount of record variables
-      if ((typeof recordId !== 'undefined') && (dimensionsIds[0] === recordId)) {
+      if (typeof recordId !== "undefined" && dimensionsIds[0] === recordId) {
         recordStep += varSize;
         record = true;
       }
@@ -210,18 +221,16 @@ function variablesList(buffer, recordId, version) {
         name: name,
         dimensions: dimensionsIds,
         attributes,
-        type: types.num2str(type),
+        type: num2str(type),
         size: varSize,
         offset,
-        record
+        record,
       };
     }
   }
 
   return {
-    variables: variables,
-    recordStep: recordStep
+    variables,
+    recordStep,
   };
 }
-
-export default header

@@ -1,6 +1,4 @@
-'use strict';
-
-import { notNetcdf } from './utils.js'
+import { notNetcdf } from "./utils.js";
 
 const types = {
   BYTE: 1,
@@ -8,7 +6,7 @@ const types = {
   SHORT: 3,
   INT: 4,
   FLOAT: 5,
-  DOUBLE: 6
+  DOUBLE: 6,
 };
 
 /**
@@ -17,23 +15,23 @@ const types = {
  * @param {number} type - integer that represents the type
  * @return {string} - parsed value of the type
  */
-function num2str(type) {
+export function num2str(type) {
   switch (Number(type)) {
     case types.BYTE:
-      return 'byte';
+      return "byte";
     case types.CHAR:
-      return 'char';
+      return "char";
     case types.SHORT:
-      return 'short';
+      return "short";
     case types.INT:
-      return 'int';
+      return "int";
     case types.FLOAT:
-      return 'float';
+      return "float";
     case types.DOUBLE:
-      return 'double';
+      return "double";
     /* istanbul ignore next */
     default:
-      return 'undefined';
+      return "undefined";
   }
 }
 
@@ -43,7 +41,7 @@ function num2str(type) {
  * @param {number} type - integer that represents the type
  * @return {number} -size of the type
  */
-function num2bytes(type) {
+export function num2bytes(type) {
   switch (Number(type)) {
     case types.BYTE:
       return 1;
@@ -69,19 +67,19 @@ function num2bytes(type) {
  * @param {string} type - string that represents the type
  * @return {number} - parsed value of the type
  */
-function str2num(type) {
+export function str2num(type) {
   switch (String(type)) {
-    case 'byte':
+    case "byte":
       return types.BYTE;
-    case 'char':
+    case "char":
       return types.CHAR;
-    case 'short':
+    case "short":
       return types.SHORT;
-    case 'int':
+    case "int":
       return types.INT;
-    case 'float':
+    case "float":
       return types.FLOAT;
-    case 'double':
+    case "double":
       return types.DOUBLE;
     /* istanbul ignore next */
     default:
@@ -98,8 +96,8 @@ function str2num(type) {
  */
 function readNumber(size, bufferReader) {
   if (size !== 1) {
-    var numbers = new Array(size);
-    for (var i = 0; i < size; i++) {
+    let numbers = new Array(size);
+    for (let i = 0; i < size; i++) {
       numbers[i] = bufferReader();
     }
     return numbers;
@@ -116,7 +114,7 @@ function readNumber(size, bufferReader) {
  * @param {number} size - Size of the element to read
  * @return {string|Array<number>|number}
  */
-function readType(buffer, type, size) {
+export function readType(buffer, type, size) {
   switch (type) {
     case types.BYTE:
       return buffer.readBytes(size);
@@ -148,13 +146,4 @@ function trimNull(value) {
     return value.substring(0, value.length - 1);
   }
   return value;
-}
-
-export default types
-
-export {
-  num2bytes,
-  num2str,
-  str2num,
-  readType
 }

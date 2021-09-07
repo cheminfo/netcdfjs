@@ -2,7 +2,8 @@
   "name": "netcdfjs",
   "version": "1.0.0",
   "description": "Read and explore NetCDF files",
-  "type": "module",
+  "main": "lib/index.js",
+  "module": "src/index.js",
   "keywords": [
     "netcdf",
     "nc",
@@ -10,7 +11,8 @@
     "format"
   ],
   "files": [
-    "src"
+    "src",
+    "lib"
   ],
   "author": "Miguel Asencio <maasencioh@gmail.com> (https://github.com/maasencioh)",
   "repository": "cheminfo/netcdfjs",
@@ -19,7 +21,6 @@
   },
   "homepage": "https://github.com/cheminfo/netcdfjs",
   "license": "MIT",
-  "main": "./src/index.js",
   "scripts": {
     "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
@@ -30,13 +31,13 @@
   },
   "devDependencies": {
     "cheminfo-tools": "^1.23.2",
-    "eslint": "^5.16.0",
-    "eslint-config-cheminfo": "^1.20.1",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-jest": "^22.6.4",
-    "jest": "^24.8.0"
+    "eslint": "^7.32.0",
+    "eslint-config-cheminfo": "^5.4.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.4.0",
+    "jest": "^27.1.0"
   },
   "dependencies": {
-    "iobuffer": "^4.0.1"
+    "iobuffer": "^5.0.3"
   }
 }

@@ -1,14 +1,12 @@
-'use strict';
+import { readFileSync } from "fs";
 
-const NetCDFReader = require('..');
-
-const fs = require('fs');
+const { NetCDFReader } = require("..");
 
 const pathFiles = `${__dirname}/files/`;
 
-test('getAttribute', function () {
-  const data = fs.readFileSync(`${pathFiles}P071.CDF`);
+test("getAttribute", () => {
+  const data = readFileSync(`${pathFiles}P071.CDF`);
 
-  var reader = new NetCDFReader(data);
-  expect(reader.getAttribute('operator_name')).toBe('SC');
+  let reader = new NetCDFReader(data);
+  expect(reader.getAttribute("operator_name")).toBe("SC");
 });

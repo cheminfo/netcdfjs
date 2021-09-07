@@ -1,12 +1,10 @@
-'use strict';
-
 /**
  * Throws a non-valid NetCDF exception if the statement it's true
  * @ignore
  * @param {boolean} statement - Throws if true
  * @param {string} reason - Reason to throw
  */
-function notNetcdf(statement, reason) {
+export function notNetcdf(statement, reason) {
   if (statement) {
     throw new TypeError(`Not a valid NetCDF v3.x file: ${reason}`);
   }
@@ -17,12 +15,11 @@ function notNetcdf(statement, reason) {
  * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
  */
-function padding(buffer) {
-  if ((buffer.offset % 4) !== 0) {
+export function padding(buffer) {
+  if (buffer.offset % 4 !== 0) {
     buffer.skip(4 - (buffer.offset % 4));
   }
 }
-
 
 /**
  * Reads the name
@@ -30,10 +27,10 @@ function padding(buffer) {
  * @param {IOBuffer} buffer - Buffer for the file data
  * @return {string} - Name
  */
-function readName(buffer) {
+export function readName(buffer) {
   // Read name
-  var nameLength = buffer.readUint32();
-  var name = buffer.readChars(nameLength);
+  let nameLength = buffer.readUint32();
+  let name = buffer.readChars(nameLength);
 
   // validate name
   // TODO
@@ -41,10 +38,4 @@ function readName(buffer) {
   // Apply padding
   padding(buffer);
   return name;
-}
-
-export {
-  notNetcdf,
-  padding,
-  readName
 }

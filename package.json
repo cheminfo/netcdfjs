@@ -23,7 +23,7 @@
   "license": "MIT",
   "scripts": {
     "build": "cheminfo-build --entry src/index.js --root NetCDF",
-    "eslint": "eslint src __tests__",
+    "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
     "prepack": "rollup -c",
     "test": "npm run test-coverage && npm run eslint",

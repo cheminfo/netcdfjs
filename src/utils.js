@@ -43,6 +43,8 @@ function readName(buffer) {
   return name;
 }
 
-module.exports.notNetcdf = notNetcdf;
-module.exports.padding = padding;
-module.exports.readName = readName;
+export {
+  notNetcdf,
+  padding,
+  readName
+}

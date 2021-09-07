@@ -2,6 +2,7 @@
   "name": "netcdfjs",
   "version": "1.0.0",
   "description": "Read and explore NetCDF files",
+  "type": "module",
   "keywords": [
     "netcdf",
     "nc",

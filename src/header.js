@@ -1,7 +1,7 @@
 'use strict';
 
-const utils = require('./utils');
-const types = require('./types');
+import * as utils from './utils.js'
+import * as types from './types.js'
 
 // Grammar constants
 const ZERO = 0;
@@ -224,4 +224,4 @@ function variablesList(buffer, recordId, version) {
   };
 }
 
-module.exports = header;
+export default header

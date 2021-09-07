@@ -3,7 +3,7 @@
 const fs = require('fs');
 const join = require('path').join;
 
-const NetCDFReader = require('../src');
+import NetCDFReader from '../index.js'
 
 const data = fs.readFileSync(
   join(__dirname, '../src/__tests__/files/agilent_hplc.cdf')

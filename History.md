@@ -1,3 +1,21 @@
+## [2.0.0](https://github.com/cheminfo/netcdfjs/compare/v0.7.0...v2.0.0) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* No more default export
+You need to import the class using `const { NetCDFReader } = require("netcdfjs")`
+
+### Bug Fixes
+
+* do not trime attribute values ([d8dd69c](https://github.com/cheminfo/netcdfjs/commit/d8dd69c6582a7372630fb991e537e2dbff1da68b))
+* use npm's "files" array instead of npmignore ([fd69b25](https://github.com/cheminfo/netcdfjs/commit/fd69b2575103c4cc16a91472c702a8716115066c))
+
+
+### Miscellaneous Chores
+
+* Finalise es6 module migration ([3667a0b](https://github.com/cheminfo/netcdfjs/commit/3667a0b6be1c1ab444e46b620f38234dcac5c87c))
+
 <a name="0.3.3"></a>
 ## [0.3.3](https://github.com/cheminfo-js/netcdfjs/compare/v0.3.2...v0.3.3) (2018-11-02)
 

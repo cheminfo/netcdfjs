@@ -28,22 +28,20 @@
     "prepack": "rollup -c",
     "prettier": "prettier --check src",
     "prettier-write": "prettier --write src",
-    "test": "npm run test-coverage && npm run eslint",
-    "test-coverage": "jest --coverage"
+    "test": "npm run test-only && npm run eslint && npm run prettier",
+    "test-only": "jest --coverage"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.15.4",
-    "@types/jest": "^27.0.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.19.6",
+    "@types/jest": "^29.2.0",
     "cheminfo-build": "^1.1.11",
-    "eslint": "^7.32.0",
-    "eslint-config-cheminfo": "^5.4.0",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jest": "^24.4.0",
-    "jest": "^27.1.0",
-    "prettier": "^2.3.2",
-    "rollup": "^2.56.3"
+    "eslint": "^8.25.0",
+    "eslint-config-cheminfo": "^8.0.2",
+    "jest": "^29.2.1",
+    "prettier": "^2.7.1",
+    "rollup": "^3.2.3"
   },
   "dependencies": {
-    "iobuffer": "^5.0.3"
+    "iobuffer": "^5.2.1"
   }
 }

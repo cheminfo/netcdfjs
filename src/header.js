@@ -85,8 +85,8 @@ function dimensionsList(buffer) {
       }
 
       dimensions[dim] = {
-        name: name,
-        size: size,
+        name,
+        size,
       };
     }
   }
@@ -218,7 +218,7 @@ function variablesList(buffer, recordId, version) {
         record = true;
       }
       variables[v] = {
-        name: name,
+        name,
         dimensions: dimensionsIds,
         attributes,
         type: num2str(type),

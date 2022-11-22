@@ -6,3 +6,4 @@ dist/
 .vscode
 docs
 lib
+coverage

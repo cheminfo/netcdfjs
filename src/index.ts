@@ -107,7 +107,7 @@ export class NetCDFReader {
   /**
    * Retrieves the data for a given variable
    * @param variableName - Name of the variable to search or variable object
-   * @return {Array} - List with the variable values
+   * @return The variable values
    */
   getDataVariable(variableName: string | Header['variables'][number]) {
     let variable;
@@ -140,7 +140,7 @@ export class NetCDFReader {
   /**
    * Check if a dataVariable exists
    * @param variableName - Name of the variable to find
-   * @return {boolean}
+   * @return boolean
    */
   dataVariableExists(variableName: string) {
     const variable = this.header.variables.find((val) => {
@@ -152,7 +152,7 @@ export class NetCDFReader {
   /**
    * Check if an attribute exists
    * @param attributeName - Name of the attribute to find
-   * @return {boolean}
+   * @return boolean
    */
   attributeExists(attributeName: string) {
     const attribute = this.globalAttributes.find(

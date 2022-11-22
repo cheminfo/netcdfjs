@@ -1,7 +1,7 @@
 import { IOBuffer } from 'iobuffer';
 
-import { num2str, readType } from './types.js';
-import { padding, notNetcdf, readName } from './utils.js';
+import { num2str, readType } from './types';
+import { padding, notNetcdf, readName } from './utils';
 
 // Grammar constants
 const ZERO = 0;
@@ -25,7 +25,7 @@ export interface Header {
   /* `globalAttributes`: List of global attributes*/
   globalAttributes: AttributesList[];
   /* `variables`: List of variables*/
-  variables: Variables[];
+  variables: Variables['variables'];
 }
 /**
  * Read the header of the file
@@ -62,13 +62,6 @@ export function header(buffer: IOBuffer, version: number): Header {
 
 const NC_UNLIMITED = 0;
 
-/**
- * List of dimensions
- * @ignore
- * @param {IOBuffer} buffer - Buffer for the file data
- * @return List of dimensions
- */
-
 interface Dimensions {
   /* `dimensions` that is an array of dimension object:*/
   dimensions: {
@@ -83,6 +76,11 @@ interface Dimensions {
   recordName?: string;
 }
 
+/**
+ * List of dimensions
+ * @param buffer - Buffer for the file data
+ * @return List of dimensions
+ */
 function dimensionsList(buffer: IOBuffer): Dimensions | [] {
   const result: Partial<Dimensions> = {};
   let recordId: number | undefined, recordName: string | undefined;
@@ -131,12 +129,6 @@ function dimensionsList(buffer: IOBuffer): Dimensions | [] {
   return result as Dimensions;
 }
 
-/**
- * List of attributes
- * @ignore
- * @param buffer - Buffer for the file data
- * @return - List of attributes with:
- */
 interface AttributesList {
   /* `name`: String with the name of the attribute*/
   name: string;
@@ -145,6 +137,11 @@ interface AttributesList {
   /* `value`: A number or string with the value of the attribute*/
   value: number | string;
 }
+/**
+ * List of attributes
+ * @param buffer - Buffer for the file data
+ * @return - List of attributes with:
+ */
 function attributesList(buffer: IOBuffer): AttributesList[] {
   const gAttList = buffer.readUint32();
   let attributes;
@@ -185,7 +182,7 @@ function attributesList(buffer: IOBuffer): AttributesList[] {
   return attributes;
 }
 
-interface Variables {
+interface Variable {
   /* `name`: String with the name of the variable */
   name: string;
   /* `dimensions`: Array with the dimension IDs of the variable*/
@@ -201,7 +198,7 @@ interface Variables {
   /* `record`: True if is a record variable, false otherwise (unlimited size) */
   record: boolean;
 }
-
+type Variables = { variables: Variable[]; recordStep: number };
 /**
  * List of variables
  * @ignore
@@ -216,7 +213,7 @@ function variablesList(
   buffer: IOBuffer,
   recordId: number | undefined,
   version: number,
-): { variables: Variables[]; recordStep: number } | [] {
+): Variables | [] {
   const varList = buffer.readUint32();
   let recordStep = 0;
   let variables;

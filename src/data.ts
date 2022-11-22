@@ -1,7 +1,7 @@
 import { IOBuffer } from 'iobuffer';
 
 import { Header } from './header';
-import { num2bytes, str2num, readType } from './types.js';
+import { num2bytes, str2num, readType } from './types';
 // const STREAMING = 4294967295;
 
 /**
@@ -14,7 +14,7 @@ import { num2bytes, str2num, readType } from './types.js';
 export function nonRecord(
   buffer: IOBuffer,
   variable: Header['variables'][number],
-) {
+): ReturnType<typeof readType>[] {
   // variable type
   const type = str2num(variable.type);
 
@@ -32,7 +32,7 @@ export function nonRecord(
 
 /**
  * Read data for the given record variable
- * @param {IOBuffer} buffer - Buffer for the file data
+ * @param buffer - Buffer for the file data
  * @param variable - Variable metadata
  * @param recordDimension - Record dimension metadata
  * @return {Array} - Data of the element
@@ -41,7 +41,7 @@ export function record(
   buffer: IOBuffer,
   variable: Header['variables'][number],
   recordDimension: Header['recordDimension'],
-) {
+): ReturnType<typeof readType>[] {
   // variable type
   const type = str2num(variable.type);
   const width = variable.size ? variable.size / num2bytes(type) : 1;
@@ -53,11 +53,14 @@ export function record(
   // iterates over the data
   let data = new Array(size);
   const step = recordDimension.recordStep;
-
-  for (let i = 0; i < size; i++) {
-    let currentOffset = buffer.offset;
-    data[i] = readType(buffer, type, width);
-    buffer.seek(currentOffset + step);
+  if (step) {
+    for (let i = 0; i < size; i++) {
+      let currentOffset = buffer.offset;
+      data[i] = readType(buffer, type, width);
+      buffer.seek(currentOffset + step);
+    }
+  } else {
+    throw new Error('recordDimension.recordStep is undefined');
   }
 
   return data;

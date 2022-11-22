@@ -106,7 +106,8 @@ describe('Read file', () => {
     expect(reader.getDataVariable('time')[0]).toBe(1547070300);
     expect(reader.getDataVariable('lat')).toHaveLength(49);
     expect(reader.getDataVariable('lat')[0]).toHaveLength(1000);
-    expect(reader.getDataVariable('lat')[0][0]).toBe(53.26256561279297);
+    const lat = reader.getDataVariable('lat')[0] as number[];
+    expect(lat[0]).toBe(53.26256561279297);
   });
 
   it('read record variable with string', () => {
@@ -158,9 +159,10 @@ describe('Read file', () => {
     expect(reader.version).toBe('classic format');
 
     let variables = [];
+
     for (let variable of reader.variables) {
-      variables.push(variable);
-      variable.value = reader.getDataVariable(variable);
+      const value = reader.getDataVariable(variable);
+      variables.push({ value, ...variable });
     }
     expect(variables[3].value).toStrictEqual([0.012000000104308128]);
     expect(variables).toHaveLength(24);

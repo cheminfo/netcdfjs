@@ -6,10 +6,9 @@ import { num2bytes, str2num, readType } from './types';
 
 /**
  * Read data for the given non-record variable
- * @ignore
  * @param buffer - Buffer for the file data
  * @param variable - Variable metadata
- * @return {Array} - Data of the element
+ * @return - Data of the element
  */
 export function nonRecord(
   buffer: IOBuffer,
@@ -19,7 +18,7 @@ export function nonRecord(
   const type = str2num(variable.type);
 
   // size of the data
-  let size = variable.size / num2bytes(type);
+  const size = variable.size / num2bytes(type);
 
   // iterates over the data
   let data = new Array(size);
@@ -35,7 +34,7 @@ export function nonRecord(
  * @param buffer - Buffer for the file data
  * @param variable - Variable metadata
  * @param recordDimension - Record dimension metadata
- * @return {Array} - Data of the element
+ * @return - Data of the element
  */
 export function record(
   buffer: IOBuffer,
@@ -48,7 +47,7 @@ export function record(
 
   // size of the data
   // TODO streaming data
-  let size = recordDimension.length;
+  const size = recordDimension.length;
 
   // iterates over the data
   let data = new Array(size);

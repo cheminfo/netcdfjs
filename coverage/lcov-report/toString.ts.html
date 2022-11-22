@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.72% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/22</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.8% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/21</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -92,66 +92,63 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { NetCDFReader } from '.';
 &nbsp;
 export function toString(this: NetCDFReader) {
   let result = [];
-  console.log(this.dimensions);
   result.push('DIMENSIONS');
   for (let dimension of this.dimensions) {
-<span class="cstat-no" title="statement not covered" >    result.push(`  ${dimension.name.padEnd(30)} = size: ${dimension.size}`);</span>
+    result.push(`  ${dimension.name.padEnd(30)} = size: ${dimension.size}`);
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  result.push('');</span>
-<span class="cstat-no" title="statement not covered" >  result.push('GLOBAL ATTRIBUTES');</span>
-<span class="cstat-no" title="statement not covered" >  for (let attribute of this.globalAttributes) {</span>
-<span class="cstat-no" title="statement not covered" >    result.push(`  ${attribute.name.padEnd(30)} = ${attribute.value}`);</span>
+  result.push('');
+  result.push('GLOBAL ATTRIBUTES');
+  for (let attribute of this.globalAttributes) {
+    result.push(`  ${attribute.name.padEnd(30)} = ${attribute.value}`);
   }
 &nbsp;
-  let variables = <span class="cstat-no" title="statement not covered" >JSON.parse(JSON.stringify(this.variables));</span>
-<span class="cstat-no" title="statement not covered" >  result.push('');</span>
-<span class="cstat-no" title="statement not covered" >  result.push('VARIABLES:');</span>
-<span class="cstat-no" title="statement not covered" >  for (let variable of variables) {</span>
-<span class="cstat-no" title="statement not covered" >    variable.value = this.getDataVariable(variable);</span>
-    let stringify = <span class="cstat-no" title="statement not covered" >JSON.stringify(variable.value);</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (stringify.length &gt; 50) <span class="cstat-no" title="statement not covered" >stringify = stringify.substring(0, 50);</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!isNaN(variable.value.length)) {</span>
-<span class="cstat-no" title="statement not covered" >      stringify += ` (length: ${variable.value.length})`;</span>
+  let variables = JSON.parse(JSON.stringify(this.variables));
+  result.push('');
+  result.push('VARIABLES:');
+  for (let variable of variables) {
+    variable.value = this.getDataVariable(variable);
+    let stringify = JSON.stringify(variable.value);
+    if (stringify.length &gt; 50) stringify = stringify.substring(0, 50);
+    if (!isNaN(variable.value.length)) {
+      stringify += ` (length: ${variable.value.length})`;
     }
-<span class="cstat-no" title="statement not covered" >    result.push(`  ${variable.name.padEnd(30)} = ${stringify}`);</span>
+    result.push(`  ${variable.name.padEnd(30)} = ${stringify}`);
   }
-<span class="cstat-no" title="statement not covered" >  return result.join('\n');</span>
+  return result.join('\n');
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -160,7 +157,7 @@ export function toString(this: NetCDFReader) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-22T20:18:23.143Z
+                at 2022-11-22T22:58:27.499Z
             </div>
         <script src="prettify.js"></script>
         <script>

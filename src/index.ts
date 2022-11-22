@@ -32,7 +32,7 @@ export class NetCDFReader {
   }
 
   /**
-   * @return {string} - Version for the NetCDF format
+   * @return - Version for the NetCDF format
    */
   get version() {
     if (this.header.version === 1) {
@@ -43,7 +43,7 @@ export class NetCDFReader {
   }
 
   /**
-   * @return {object} - Metadata for the record dimension
+   * @return - Metadata for the record dimension
    *  * `length`: Number of elements in the record dimension
    *  * `id`: Id number in the list of dimensions for the record dimension
    *  * `name`: String with the name of the record dimension
@@ -54,7 +54,7 @@ export class NetCDFReader {
   }
 
   /**
-   * @return {Array<object>} - List of dimensions with:
+   * @return - List of dimensions with:
    *  * `name`: String with the name of the dimension
    *  * `size`: Number with the size of the dimension
    */
@@ -63,7 +63,7 @@ export class NetCDFReader {
   }
 
   /**
-   * @return {Array<object>} - List of global attributes with:
+   * @return - List of global attributes with:
    *  * `name`: String with the name of the attribute
    *  * `type`: String with the type of the attribute
    *  * `value`: A number or string with the value of the attribute
@@ -75,7 +75,7 @@ export class NetCDFReader {
   /**
    * Returns the value of an attribute
    * @param attributeName
-   * @return {string} Value of the attributeName or null
+   * @return Value of the attributeName or null
    */
   getAttribute(attributeName: string) {
     const attribute = this.globalAttributes.find(
@@ -88,7 +88,7 @@ export class NetCDFReader {
   /**
    * Returns the value of a variable as a string
    * @param variableName
-   * @return {string} Value of the variable as a string or null
+   * @return Value of the variable as a string or null
    */
   getDataVariableAsString(variableName: string) {
     const variable = this.getDataVariable(variableName);
@@ -100,10 +100,7 @@ export class NetCDFReader {
     return this.header.variables;
   }
 
-  toString() {
-    return toString.call(this);
-  }
-
+  toString = toString;
   /**
    * Retrieves the data for a given variable
    * @param variableName - Name of the variable to search or variable object
@@ -121,8 +118,8 @@ export class NetCDFReader {
     }
 
     // throws if variable not found
-    if (!variable) {
-      throw new Error(`variable not found: ${variableName as string}`);
+    if (variable === undefined) {
+      throw new Error('Not a valid NetCDF v3.x file: variable not found');
     }
 
     // go to the offset position

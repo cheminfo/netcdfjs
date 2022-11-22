@@ -34,18 +34,26 @@ export interface Header {
  * @return - Object with the fields:
  */
 export function header(buffer: IOBuffer, version: number): Header {
-  // sum of the varSize's of all the record variables.
   const header: Partial<Header> = {};
 
+  // Length of record dimension
+  // sum of the varSize's of all the record variables.
   const recordDimension: Header['recordDimension'] = {
     length: buffer.readUint32(),
   };
 
+  // Version
+  header.version = version;
+
   // List of dimensions
   const dimList = dimensionsList(buffer);
+
   if (!Array.isArray(dimList)) {
-    Object.assign(recordDimension, dimList);
+    recordDimension.id = dimList.recordId;
+    recordDimension.name = dimList.recordName;
+    header.dimensions = dimList.dimensions;
   }
+
   // List of global attributes
   header.globalAttributes = attributesList(buffer);
 
@@ -159,15 +167,15 @@ function attributesList(buffer: IOBuffer): AttributesList[] {
     attributes = new Array(attributeSize);
     for (let gAtt = 0; gAtt < attributeSize; gAtt++) {
       // Read name
-      let name = readName(buffer);
+      const name = readName(buffer);
 
       // Read type
-      let type = buffer.readUint32();
+      const type = buffer.readUint32();
       notNetcdf(type < 1 || type > 6, `non valid type ${type}`);
 
       // Read attribute
-      let size = buffer.readUint32();
-      let value = readType(buffer, type, size);
+      const size = buffer.readUint32();
+      const value = readType(buffer, type, size);
 
       // Apply padding
       padding(buffer);
@@ -182,7 +190,7 @@ function attributesList(buffer: IOBuffer): AttributesList[] {
   return attributes;
 }
 
-interface Variable {
+export interface Variable {
   /* `name`: String with the name of the variable */
   name: string;
   /* `dimensions`: Array with the dimension IDs of the variable*/
@@ -200,15 +208,12 @@ interface Variable {
 }
 type Variables = { variables: Variable[]; recordStep: number };
 /**
- * List of variables
- * @ignore
  * @param buffer - Buffer for the file data
  * @param recordId - Id of the unlimited dimension (also called record dimension)
  * This value may be undefined if there is no unlimited dimension
  * @param version - Version of the file
  * @return - Number of recordStep and list of variables @see [VariablesList]{@link VariablesList}] :
  */
-
 function variablesList(
   buffer: IOBuffer,
   recordId: number | undefined,

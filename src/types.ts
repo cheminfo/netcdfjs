@@ -89,7 +89,6 @@ export function str2num(type: string) {
 
 /**
  * Auxiliary function to read numeric data
- * @ignore
  * @param size - Size of the element to read
  * @param bufferReader - Function to read next value
  * @return
@@ -111,7 +110,6 @@ function readNumber(
 
 /**
  * Given a type and a size reads the next element
- * @ignore
  * @param buffer - Buffer for the file data
  * @param type - Type of the data to read
  * @param size - Size of the element to read
@@ -143,7 +141,6 @@ export function readType(
 
 /**
  * Removes null terminate value
- * @ignore
  * @param value - String to trim
  * @return - Trimmed string
  */

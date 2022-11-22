@@ -28,8 +28,8 @@ export function padding(buffer: IOBuffer) {
  */
 export function readName(buffer: IOBuffer) {
   // Read name
-  let nameLength = buffer.readUint32();
-  let name = buffer.readChars(nameLength);
+  const nameLength = buffer.readUint32();
+  const name = buffer.readChars(nameLength);
 
   // validate name
   // TODO

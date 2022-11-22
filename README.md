@@ -17,6 +17,8 @@ For further information about the grammar you should go to [this link](https://w
 
 ### Example
 
+You can now also use `import` syntax.
+
 ```js
 const { readFileSync } = require('fs');
 const { NetCDFReader } = require('netcdfjs');

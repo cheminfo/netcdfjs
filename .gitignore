@@ -5,5 +5,6 @@ node_modules
 dist/
 .vscode
 docs
-lib
 coverage
+lib
+lib-esm

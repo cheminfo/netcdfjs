@@ -15,7 +15,7 @@ export class NetCDFReader {
   public header: Header;
   public buffer: IOBuffer;
 
-  constructor(data: ArrayBuffer) {
+  constructor(data: BinaryData) {
     const buffer = new IOBuffer(data);
     buffer.setBigEndian();
 
@@ -54,7 +54,7 @@ export class NetCDFReader {
   }
 
   /**
-   * @return - List of dimensions with:
+   * @return - Array of dimensions with:
    *  * `name`: String with the name of the dimension
    *  * `size`: Number with the size of the dimension
    */
@@ -63,12 +63,12 @@ export class NetCDFReader {
   }
 
   /**
-   * @return - List of global attributes with:
+   * @return - Array of global attributes with:
    *  * `name`: String with the name of the attribute
    *  * `type`: String with the type of the attribute
    *  * `value`: A number or string with the value of the attribute
    */
-  get globalAttributes() {
+  get globalAttributes(): Header['globalAttributes'] {
     return this.header.globalAttributes;
   }
 

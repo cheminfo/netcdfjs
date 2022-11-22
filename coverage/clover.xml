@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1669136025335" clover="3.2.0">
+  <project timestamp="1669136025336" name="All files">
+    <metrics statements="193" coveredstatements="183" conditionals="66" coveredconditionals="54" methods="32" coveredmethods="32" elements="291" coveredelements="269" complexity="0" loc="193" ncloc="193" packages="1" files="6" classes="6"/>
+    <file name="data.js" path="/home/sm/clones/cheminfo/netcdfjs/src/data.js">
+      <metrics statements="16" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
+      <line num="14" count="57" type="stmt"/>
+      <line num="17" count="57" type="stmt"/>
+      <line num="20" count="57" type="stmt"/>
+      <line num="21" count="57" type="stmt"/>
+      <line num="22" count="110120" type="stmt"/>
+      <line num="25" count="57" type="stmt"/>
+      <line num="38" count="9" type="stmt"/>
+      <line num="39" count="9" type="cond" truecount="1" falsecount="1"/>
+      <line num="43" count="9" type="stmt"/>
+      <line num="46" count="9" type="stmt"/>
+      <line num="47" count="9" type="stmt"/>
+      <line num="49" count="9" type="stmt"/>
+      <line num="50" count="472026" type="stmt"/>
+      <line num="51" count="472026" type="stmt"/>
+      <line num="52" count="472026" type="stmt"/>
+      <line num="55" count="9" type="stmt"/>
+    </file>
+    <file name="header.js" path="/home/sm/clones/cheminfo/netcdfjs/src/header.js">
+      <metrics statements="75" coveredstatements="71" conditionals="18" coveredconditionals="15" methods="4" coveredmethods="4"/>
+      <line num="5" count="6" type="stmt"/>
+      <line num="6" count="6" type="stmt"/>
+      <line num="7" count="6" type="stmt"/>
+      <line num="8" count="6" type="stmt"/>
+      <line num="24" count="13" type="stmt"/>
+      <line num="27" count="13" type="stmt"/>
+      <line num="30" count="13" type="stmt"/>
+      <line num="31" count="13" type="stmt"/>
+      <line num="32" count="13" type="stmt"/>
+      <line num="33" count="13" type="stmt"/>
+      <line num="36" count="13" type="stmt"/>
+      <line num="39" count="13" type="stmt"/>
+      <line num="40" count="13" type="stmt"/>
+      <line num="41" count="13" type="stmt"/>
+      <line num="43" count="13" type="stmt"/>
+      <line num="46" count="6" type="stmt"/>
+      <line num="61" count="13" type="stmt"/>
+      <line num="63" count="13" type="cond" truecount="1" falsecount="1"/>
+      <line num="64" count="0" type="stmt"/>
+      <line num="68" count="0" type="stmt"/>
+      <line num="70" count="13" type="stmt"/>
+      <line num="73" count="13" type="stmt"/>
+      <line num="74" count="13" type="stmt"/>
+      <line num="75" count="13" type="stmt"/>
+      <line num="77" count="195" type="stmt"/>
+      <line num="80" count="195" type="stmt"/>
+      <line num="81" count="195" type="cond" truecount="2" falsecount="0"/>
+      <line num="83" count="12" type="stmt"/>
+      <line num="84" count="12" type="stmt"/>
+      <line num="87" count="195" type="stmt"/>
+      <line num="93" count="13" type="stmt"/>
+      <line num="110" count="765" type="stmt"/>
+      <line num="112" count="765" type="cond" truecount="2" falsecount="0"/>
+      <line num="113" count="151" type="stmt"/>
+      <line num="117" count="151" type="stmt"/>
+      <line num="119" count="614" type="stmt"/>
+      <line num="122" count="614" type="stmt"/>
+      <line num="123" count="614" type="stmt"/>
+      <line num="124" count="614" type="stmt"/>
+      <line num="126" count="3988" type="stmt"/>
+      <line num="129" count="3988" type="stmt"/>
+      <line num="130" count="3988" type="cond" truecount="2" falsecount="0"/>
+      <line num="133" count="3988" type="stmt"/>
+      <line num="134" count="3988" type="stmt"/>
+      <line num="137" count="3988" type="stmt"/>
+      <line num="139" count="3988" type="stmt"/>
+      <line num="146" count="614" type="stmt"/>
+      <line num="167" count="13" type="stmt"/>
+      <line num="168" count="13" type="stmt"/>
+      <line num="170" count="13" type="cond" truecount="1" falsecount="1"/>
+      <line num="171" count="0" type="stmt"/>
+      <line num="175" count="0" type="stmt"/>
+      <line num="177" count="13" type="stmt"/>
+      <line num="180" count="13" type="stmt"/>
+      <line num="181" count="13" type="stmt"/>
+      <line num="182" count="13" type="stmt"/>
+      <line num="184" count="752" type="stmt"/>
+      <line num="187" count="752" type="stmt"/>
+      <line num="190" count="752" type="stmt"/>
+      <line num="191" count="752" type="stmt"/>
+      <line num="192" count="924" type="stmt"/>
+      <line num="196" count="752" type="stmt"/>
+      <line num="199" count="752" type="stmt"/>
+      <line num="200" count="752" type="cond" truecount="1" falsecount="1"/>
+      <line num="205" count="752" type="stmt"/>
+      <line num="208" count="752" type="stmt"/>
+      <line num="209" count="752" type="cond" truecount="2" falsecount="0"/>
+      <line num="210" count="7" type="stmt"/>
+      <line num="211" count="7" type="stmt"/>
+      <line num="214" count="752" type="stmt"/>
+      <line num="216" count="752" type="cond" truecount="4" falsecount="0"/>
+      <line num="217" count="544" type="stmt"/>
+      <line num="218" count="544" type="stmt"/>
+      <line num="220" count="752" type="stmt"/>
+      <line num="232" count="13" type="stmt"/>
+    </file>
+    <file name="index.js" path="/home/sm/clones/cheminfo/netcdfjs/src/index.js">
+      <metrics statements="37" coveredstatements="35" conditionals="10" coveredconditionals="8" methods="16" coveredmethods="16"/>
+      <line num="16" count="14" type="stmt"/>
+      <line num="17" count="14" type="stmt"/>
+      <line num="20" count="14" type="stmt"/>
+      <line num="23" count="13" type="stmt"/>
+      <line num="24" count="13" type="stmt"/>
+      <line num="27" count="13" type="stmt"/>
+      <line num="28" count="13" type="stmt"/>
+      <line num="35" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="36" count="2" type="stmt"/>
+      <line num="38" count="1" type="stmt"/>
+      <line num="50" count="1" type="stmt"/>
+      <line num="59" count="2" type="stmt"/>
+      <line num="69" count="6" type="stmt"/>
+      <line num="78" count="1" type="stmt"/>
+      <line num="79" count="10" type="stmt"/>
+      <line num="81" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="82" count="0" type="stmt"/>
+      <line num="91" count="1" type="stmt"/>
+      <line num="92" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="93" count="0" type="stmt"/>
+      <line num="107" count="5" type="stmt"/>
+      <line num="111" count="1" type="stmt"/>
+      <line num="121" count="67" type="cond" truecount="2" falsecount="0"/>
+      <line num="123" count="13" type="stmt"/>
+      <line num="124" count="175" type="stmt"/>
+      <line num="127" count="54" type="stmt"/>
+      <line num="131" count="67" type="stmt"/>
+      <line num="134" count="66" type="stmt"/>
+      <line num="136" count="66" type="cond" truecount="2" falsecount="0"/>
+      <line num="138" count="9" type="stmt"/>
+      <line num="141" count="57" type="stmt"/>
+      <line num="151" count="2" type="stmt"/>
+      <line num="152" count="49" type="stmt"/>
+      <line num="154" count="2" type="stmt"/>
+      <line num="163" count="2" type="stmt"/>
+      <line num="164" count="37" type="stmt"/>
+      <line num="166" count="2" type="stmt"/>
+    </file>
+    <file name="toString.js" path="/home/sm/clones/cheminfo/netcdfjs/src/toString.js">
+      <metrics statements="19" coveredstatements="19" conditionals="4" coveredconditionals="2" methods="1" coveredmethods="1"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="13" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+      <line num="11" count="1" type="stmt"/>
+      <line num="12" count="27" type="stmt"/>
+      <line num="15" count="1" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="17" count="1" type="stmt"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="19" count="29" type="stmt"/>
+      <line num="20" count="29" type="stmt"/>
+      <line num="21" count="29" type="cond" truecount="1" falsecount="1"/>
+      <line num="22" count="29" type="cond" truecount="1" falsecount="1"/>
+      <line num="23" count="29" type="stmt"/>
+      <line num="25" count="29" type="stmt"/>
+      <line num="27" count="1" type="stmt"/>
+    </file>
+    <file name="types.js" path="/home/sm/clones/cheminfo/netcdfjs/src/types.js">
+      <metrics statements="38" coveredstatements="34" conditionals="28" coveredconditionals="24" methods="6" coveredmethods="6"/>
+      <line num="3" count="6" type="stmt"/>
+      <line num="19" count="4740" type="cond" truecount="5" falsecount="1"/>
+      <line num="21" count="0" type="stmt"/>
+      <line num="23" count="3825" type="stmt"/>
+      <line num="25" count="26" type="stmt"/>
+      <line num="27" count="419" type="stmt"/>
+      <line num="29" count="342" type="stmt"/>
+      <line num="31" count="128" type="stmt"/>
+      <line num="45" count="66" type="cond" truecount="5" falsecount="1"/>
+      <line num="47" count="0" type="stmt"/>
+      <line num="49" count="18" type="stmt"/>
+      <line num="51" count="2" type="stmt"/>
+      <line num="53" count="6" type="stmt"/>
+      <line num="55" count="28" type="stmt"/>
+      <line num="57" count="12" type="stmt"/>
+      <line num="71" count="66" type="cond" truecount="5" falsecount="1"/>
+      <line num="73" count="0" type="stmt"/>
+      <line num="75" count="18" type="stmt"/>
+      <line num="77" count="2" type="stmt"/>
+      <line num="79" count="6" type="stmt"/>
+      <line num="81" count="28" type="stmt"/>
+      <line num="83" count="12" type="stmt"/>
+      <line num="98" count="577811" type="cond" truecount="2" falsecount="0"/>
+      <line num="99" count="152" type="stmt"/>
+      <line num="100" count="152" type="stmt"/>
+      <line num="101" count="147010" type="stmt"/>
+      <line num="103" count="152" type="stmt"/>
+      <line num="105" count="577659" type="stmt"/>
+      <line num="118" count="586134" type="cond" truecount="5" falsecount="1"/>
+      <line num="120" count="0" type="stmt"/>
+      <line num="122" count="8323" type="stmt"/>
+      <line num="124" count="6420" type="stmt"/>
+      <line num="126" count="25891" type="stmt"/>
+      <line num="128" count="481327" type="stmt"/>
+      <line num="130" count="64173" type="stmt"/>
+      <line num="145" count="8323" type="cond" truecount="2" falsecount="0"/>
+      <line num="146" count="3556" type="stmt"/>
+      <line num="148" count="4767" type="stmt"/>
+    </file>
+    <file name="utils.js" path="/home/sm/clones/cheminfo/netcdfjs/src/utils.js">
+      <metrics statements="8" coveredstatements="8" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
+      <line num="8" count="5632" type="cond" truecount="2" falsecount="0"/>
+      <line num="9" count="2" type="stmt"/>
+      <line num="19" count="8923" type="cond" truecount="2" falsecount="0"/>
+      <line num="20" count="6926" type="stmt"/>
+      <line num="32" count="4935" type="stmt"/>
+      <line num="33" count="4935" type="stmt"/>
+      <line num="39" count="4935" type="stmt"/>
+      <line num="40" count="4935" type="stmt"/>
+    </file>
+  </project>
+</coverage>

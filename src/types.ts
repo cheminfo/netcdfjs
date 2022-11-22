@@ -1,4 +1,4 @@
-import { notNetcdf } from "./utils.js";
+import { IOBuffer } from 'iobuffer';
 
 const types = {
   BYTE: 1,
@@ -12,36 +12,36 @@ const types = {
 /**
  * Parse a number into their respective type
  * @ignore
- * @param {number} type - integer that represents the type
- * @return {string} - parsed value of the type
+ * @param type - integer that represents the type
+ * @return - parsed value of the type
  */
-export function num2str(type) {
+export function num2str(type: number): string {
   switch (Number(type)) {
     case types.BYTE:
-      return "byte";
+      return 'byte';
     case types.CHAR:
-      return "char";
+      return 'char';
     case types.SHORT:
-      return "short";
+      return 'short';
     case types.INT:
-      return "int";
+      return 'int';
     case types.FLOAT:
-      return "float";
+      return 'float';
     case types.DOUBLE:
-      return "double";
+      return 'double';
     /* istanbul ignore next */
     default:
-      return "undefined";
+      return 'undefined';
   }
 }
 
 /**
  * Parse a number type identifier to his size in bytes
  * @ignore
- * @param {number} type - integer that represents the type
- * @return {number} -size of the type
+ * @param type - integer that represents the type
+ * @return size of the type
  */
-export function num2bytes(type) {
+export function num2bytes(type: number): number {
   switch (Number(type)) {
     case types.BYTE:
       return 1;
@@ -64,22 +64,22 @@ export function num2bytes(type) {
 /**
  * Reverse search of num2str
  * @ignore
- * @param {string} type - string that represents the type
- * @return {number} - parsed value of the type
+ * @param type - string that represents the type
+ * @return parsed value of the type
  */
-export function str2num(type) {
+export function str2num(type: string) {
   switch (String(type)) {
-    case "byte":
+    case 'byte':
       return types.BYTE;
-    case "char":
+    case 'char':
       return types.CHAR;
-    case "short":
+    case 'short':
       return types.SHORT;
-    case "int":
+    case 'int':
       return types.INT;
-    case "float":
+    case 'float':
       return types.FLOAT;
-    case "double":
+    case 'double':
       return types.DOUBLE;
     /* istanbul ignore next */
     default:
@@ -90,11 +90,14 @@ export function str2num(type) {
 /**
  * Auxiliary function to read numeric data
  * @ignore
- * @param {number} size - Size of the element to read
- * @param {function} bufferReader - Function to read next value
- * @return {Array<number>|number}
+ * @param size - Size of the element to read
+ * @param bufferReader - Function to read next value
+ * @return
  */
-function readNumber(size, bufferReader) {
+function readNumber(
+  size: number,
+  bufferReader: () => number,
+): number | number[] {
   if (size !== 1) {
     let numbers = new Array(size);
     for (let i = 0; i < size; i++) {
@@ -109,15 +112,19 @@ function readNumber(size, bufferReader) {
 /**
  * Given a type and a size reads the next element
  * @ignore
- * @param {IOBuffer} buffer - Buffer for the file data
- * @param {number} type - Type of the data to read
- * @param {number} size - Size of the element to read
- * @return {string|Array<number>|number}
+ * @param buffer - Buffer for the file data
+ * @param type - Type of the data to read
+ * @param size - Size of the element to read
+ * @return
  */
-export function readType(buffer, type, size) {
+export function readType(
+  buffer: IOBuffer,
+  type: number,
+  size: number,
+): string | number | number[] {
   switch (type) {
     case types.BYTE:
-      return buffer.readBytes(size);
+      return Array.from(buffer.readBytes(size));
     case types.CHAR:
       return trimNull(buffer.readChars(size));
     case types.SHORT:
@@ -130,18 +137,17 @@ export function readType(buffer, type, size) {
       return readNumber(size, buffer.readFloat64.bind(buffer));
     /* istanbul ignore next */
     default:
-      notNetcdf(true, `non valid type ${type}`);
-      return undefined;
+      throw new Error(`non valid type ${type}`);
   }
 }
 
 /**
  * Removes null terminate value
  * @ignore
- * @param {string} value - String to trim
- * @return {string} - Trimmed string
+ * @param value - String to trim
+ * @return - Trimmed string
  */
-function trimNull(value) {
+function trimNull(value: string): string {
   if (value.charCodeAt(value.length - 1) === 0) {
     return value.substring(0, value.length - 1);
   }

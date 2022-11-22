@@ -4,15 +4,17 @@
   "description": "Read and explore NetCDF files",
   "main": "lib/index.js",
   "module": "src/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "src",
+    "lib",
+    "lib-esm"
+  ],
   "keywords": [
     "netcdf",
     "nc",
     "data",
     "format"
-  ],
-  "files": [
-    "src",
-    "lib"
   ],
   "author": "Miguel Asencio <maasencioh@gmail.com> (https://github.com/maasencioh)",
   "repository": "cheminfo/netcdfjs",
@@ -22,24 +24,29 @@
   "homepage": "https://github.com/cheminfo/netcdfjs",
   "license": "MIT",
   "scripts": {
-    "build": "cheminfo-build --entry src/index.js --root NetCDF",
-    "eslint": "eslint src",
+    "check-types": "tsc --noEmit",
+    "clean": "rimraf lib lib-esm",
+    "eslint": "eslint src --cache",
     "eslint-fix": "npm run eslint -- --fix",
-    "prepack": "rollup -c",
+    "prepack": "npm run tsc",
     "prettier": "prettier --check src",
     "prettier-write": "prettier --write src",
-    "test": "npm run test-only && npm run eslint && npm run prettier",
-    "test-only": "jest --coverage"
+    "test": "npm run test-only && npm run eslint && npm run prettier && npm run check-types",
+    "test-only": "jest --coverage",
+    "tsc": "npm run clean && npm run tsc-cjs && npm run tsc-esm",
+    "tsc-cjs": "tsc --project tsconfig.cjs.json",
+    "tsc-esm": "tsc --project tsconfig.esm.json"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.19.6",
-    "@types/jest": "^29.2.0",
+    "@types/jest": "^29.2.3",
     "cheminfo-build": "^1.1.11",
+    "cheminfo-types": "^1.4.0",
     "eslint": "^8.25.0",
-    "eslint-config-cheminfo": "^8.0.2",
-    "jest": "^29.2.1",
+    "eslint-config-cheminfo-typescript": "^11.2.2",
+    "jest": "^29.3.1",
     "prettier": "^2.7.1",
-    "rollup": "^3.2.3"
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.3"
   },
   "dependencies": {
     "iobuffer": "^5.2.1"

@@ -1,15 +1,20 @@
-import { num2bytes, str2num, readType } from "./types.js";
+import { IOBuffer } from 'iobuffer';
 
+import { Header } from './header';
+import { num2bytes, str2num, readType } from './types.js';
 // const STREAMING = 4294967295;
 
 /**
  * Read data for the given non-record variable
  * @ignore
- * @param {IOBuffer} buffer - Buffer for the file data
- * @param {object} variable - Variable metadata
+ * @param buffer - Buffer for the file data
+ * @param variable - Variable metadata
  * @return {Array} - Data of the element
  */
-export function nonRecord(buffer, variable) {
+export function nonRecord(
+  buffer: IOBuffer,
+  variable: Header['variables'][number],
+) {
   // variable type
   const type = str2num(variable.type);
 
@@ -27,13 +32,16 @@ export function nonRecord(buffer, variable) {
 
 /**
  * Read data for the given record variable
- * @ignore
  * @param {IOBuffer} buffer - Buffer for the file data
- * @param {object} variable - Variable metadata
- * @param {object} recordDimension - Record dimension metadata
+ * @param variable - Variable metadata
+ * @param recordDimension - Record dimension metadata
  * @return {Array} - Data of the element
  */
-export function record(buffer, variable, recordDimension) {
+export function record(
+  buffer: IOBuffer,
+  variable: Header['variables'][number],
+  recordDimension: Header['recordDimension'],
+) {
   // variable type
   const type = str2num(variable.type);
   const width = variable.size ? variable.size / num2bytes(type) : 1;

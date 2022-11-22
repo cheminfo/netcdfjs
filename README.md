@@ -2,7 +2,7 @@
 
 [![NPM version][npm-image]][npm-url]
 [![build status][ci-image]][ci-url]
-[![Test coverage][covecov-image]][codecov-url]
+[![Test coverage][codecov-image]][codecov-url]
 [![npm download][download-image]][download-url]
 
 Read and explore NetCDF v3 files.

@@ -11,7 +11,6 @@ const types = {
 
 /**
  * Parse a number into their respective type
- * @ignore
  * @param type - integer that represents the type
  * @return - parsed value of the type
  */
@@ -37,7 +36,6 @@ export function num2str(type: number): string {
 
 /**
  * Parse a number type identifier to his size in bytes
- * @ignore
  * @param type - integer that represents the type
  * @return size of the type
  */
@@ -68,7 +66,7 @@ export function num2bytes(type: number): number {
  * @return parsed value of the type
  */
 export function str2num(type: string) {
-  switch (String(type)) {
+  switch (type) {
     case 'byte':
       return types.BYTE;
     case 'char':

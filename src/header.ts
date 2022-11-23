@@ -70,7 +70,7 @@ export function header(buffer: IOBuffer, version: number): Header {
 
 const NC_UNLIMITED = 0;
 
-interface Dimensions {
+export interface Dimensions {
   /* `dimensions` that is an array of dimension object:*/
   dimensions: {
     /*  `name`: String with the name of the dimension*/
@@ -137,7 +137,7 @@ function dimensionsList(buffer: IOBuffer): Dimensions | [] {
   return result as Dimensions;
 }
 
-interface AttributesList {
+export interface AttributesList {
   /* `name`: String with the name of the attribute*/
   name: string;
   /* `type`: String with the type of the attribute*/

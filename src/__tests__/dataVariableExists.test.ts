@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 
-import { NetCDFReader } from '../index';
+import { NetCDFReader } from '../parser';
 
 const pathFiles = `${__dirname}/files/`;
 

@@ -1,4 +1,4 @@
-import { NetCDFReader } from '.';
+import { NetCDFReader } from './parser';
 
 export function toString(this: NetCDFReader) {
   let result = [];

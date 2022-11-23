@@ -5,9 +5,7 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2020",
-    "noImplicitAny": true,
-    "noImplicitThis":true
+    "target": "es2020"
   },
   "include": ["./src/**/*"]
 }

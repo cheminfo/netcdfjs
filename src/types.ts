@@ -28,7 +28,6 @@ export function num2str(type: number): string {
       return 'float';
     case types.DOUBLE:
       return 'double';
-    /* istanbul ignore next */
     default:
       return 'undefined';
   }
@@ -53,7 +52,6 @@ export function num2bytes(type: number): number {
       return 4;
     case types.DOUBLE:
       return 8;
-    /* istanbul ignore next */
     default:
       return -1;
   }
@@ -61,7 +59,6 @@ export function num2bytes(type: number): number {
 
 /**
  * Reverse search of num2str
- * @ignore
  * @param type - string that represents the type
  * @return parsed value of the type
  */
@@ -131,7 +128,6 @@ export function readType(
       return readNumber(size, buffer.readFloat32.bind(buffer));
     case types.DOUBLE:
       return readNumber(size, buffer.readFloat64.bind(buffer));
-    /* istanbul ignore next */
     default:
       throw new Error(`non valid type ${type}`);
   }

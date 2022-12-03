@@ -1,2 +1,2 @@
 export * from './parser';
-export type { Header, AttributesList, Variable } from './header';
+export type { Header, Attribute, Variable } from './header';

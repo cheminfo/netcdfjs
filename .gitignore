@@ -1,9 +1,11 @@
 .idea
 node_modules
 .DS_Store
-coverage
 *.log
 dist/
 .vscode
 docs
+coverage
 lib
+lib-esm
+.eslintcache

@@ -140,7 +140,7 @@ export class NetCDFReader {
    * @param variableName - Name of the variable to find
    * @return boolean
    */
-  dataVariableExists(variableName: string) { {
+  dataVariableExists(variableName: string) {
     const variable = this.header.variables.find((val) => {
       return val.name === variableName;
     });

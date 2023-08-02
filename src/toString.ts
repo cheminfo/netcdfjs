@@ -1,7 +1,8 @@
-export function toString() {
-  let result = [];
+import { NetCDFReader } from './parser';
 
-  result.push("DIMENSIONS");
+export function toString(this: NetCDFReader) {
+  let result = [];
+  result.push('DIMENSIONS');
   for (let dimension of this.dimensions) {
     result.push(`  ${dimension.name.padEnd(30)} = size: ${dimension.size}`);
   }

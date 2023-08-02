@@ -1,12 +1,12 @@
 import { readFileSync } from "fs";
 
-const { NetCDFReader } = require("..");
+import { NetCDFReader } from '../parser';
 
 const pathFiles = `${__dirname}/files/`;
 
-test("getAttribute", () => {
+test("toString", () => {
   const data = readFileSync(`${pathFiles}P071.CDF`);
 
   let reader = new NetCDFReader(data);
-  expect(reader.getAttribute("operator_name")).toBe("SC");
+  expect(reader.toString()).toMatchSnapshot();
 });

@@ -1,3 +1,4 @@
 extends: cheminfo
 parserOptions:
   sourceType: module
+extends: cheminfo-typescript

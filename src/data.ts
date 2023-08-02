@@ -45,8 +45,8 @@ export function record(
   const type = str2num(variable.type);
   const width = variable.size ? variable.size / num2bytes(type) : 1;
 
-// size of the data
-// TODO streaming data
+  // size of the data
+  // TODO streaming data
   const size = recordDimension.length;
 
   // iterates over the data

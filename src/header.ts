@@ -93,11 +93,11 @@ function dimensionsList(buffer: IOBuffer): Dimensions | [] {
 
   if (dimList === ZERO) {
     notNetcdf(
-       buffer.readUint32() !== ZERO,
+      buffer.readUint32() !== ZERO,
       'wrong empty tag for list of dimensions',
     );
     return [];
-    } else {
+  } else {
     notNetcdf(dimList !== NC_DIMENSION, 'wrong tag for list of dimensions');
 
     // Length of dimensions
@@ -225,7 +225,7 @@ function variablesList(
       'wrong empty tag for list of variables',
     );
     return [];
-    } else {
+  } else {
     notNetcdf(varList !== NC_VARIABLE, 'wrong tag for list of variables');
 
     // Length of variables

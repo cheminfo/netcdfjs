@@ -14,22 +14,22 @@ const types = {
  * @param type - integer that represents the type
  * @return - parsed value of the type
  */
-export function num2str(type: number): string  {
+export function num2str(type: number): string {
   switch (Number(type)) {
     case types.BYTE:
-      return "byte";
+      return 'byte';
     case types.CHAR:
-      return "char";
+      return 'char';
     case types.SHORT:
-      return "short";
+      return 'short';
     case types.INT:
-      return "int";
+      return 'int';
     case types.FLOAT:
-      return "float";
+      return 'float';
     case types.DOUBLE:
-      return "double";
+      return 'double';
     default:
-      return "undefined";
+      return 'undefined';
   }
 }
 
@@ -64,17 +64,17 @@ export function num2bytes(type: number): number {
  */
 export function str2num(type: string) {
   switch (String(type)) {
-    case "byte":
+    case 'byte':
       return types.BYTE;
-    case "char":
+    case 'char':
       return types.CHAR;
-    case "short":
+    case 'short':
       return types.SHORT;
-    case "int":
+    case 'int':
       return types.INT;
-    case "float":
+    case 'float':
       return types.FLOAT;
-    case "double":
+    case 'double':
       return types.DOUBLE;
     /* istanbul ignore next */
     default:

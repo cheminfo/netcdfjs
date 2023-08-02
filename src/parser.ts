@@ -1,9 +1,9 @@
-import { IOBuffer } from "iobuffer";
+import { IOBuffer } from 'iobuffer';
 
-import { record, nonRecord } from "./data";
-import { Header, header } from "./header";
-import { toString } from "./toString";
-import { notNetcdf } from "./utils";
+import { record, nonRecord } from './data';
+import { Header, header } from './header';
+import { toString } from './toString';
+import { notNetcdf } from './utils';
 
 /**
  * Reads a NetCDF v3.x file
@@ -20,11 +20,11 @@ export class NetCDFReader {
     buffer.setBigEndian();
 
     // Validate that it's a NetCDF file
-    notNetcdf(buffer.readChars(3) !== "CDF", "should start with CDF");
+    notNetcdf(buffer.readChars(3) !== 'CDF', 'should start with CDF');
 
     // Check the NetCDF format
     const version = buffer.readByte();
-    notNetcdf(version > 2, "unknown version");
+    notNetcdf(version > 2, 'unknown version');
 
     // Read the header
     this.header = header(buffer, version);
@@ -36,9 +36,9 @@ export class NetCDFReader {
    */
   get version() {
     if (this.header.version === 1) {
-      return "classic format";
+      return 'classic format';
     } else {
-      return "64-bit offset format";
+      return '64-bit offset format';
     }
   }
 
@@ -79,7 +79,7 @@ export class NetCDFReader {
    */
   getAttribute(attributeName: string) {
     const attribute = this.globalAttributes.find(
-      (val) => val.name === attributeName
+      (val) => val.name === attributeName,
     );
     if (attribute) return attribute.value;
     return null;
@@ -92,7 +92,7 @@ export class NetCDFReader {
    */
   getDataVariableAsString(variableName: string) {
     const variable = this.getDataVariable(variableName);
-    if (variable) return variable.join("");
+    if (variable) return variable.join('');
     return null;
   }
 
@@ -109,7 +109,7 @@ export class NetCDFReader {
    */
   getDataVariable(variableName: string | Header['variables'][number]) {
     let variable;
-    if (typeof variableName === "string") {
+    if (typeof variableName === 'string') {
       // search the variable
       variable = this.header.variables.find((val) => {
         return val.name === variableName;
@@ -119,7 +119,7 @@ export class NetCDFReader {
     }
 
     // throws if variable not found
-     if (variable === undefined) {
+    if (variable === undefined) {
       throw new Error('Not a valid NetCDF v3.x file: variable not found');
     }
 
@@ -152,10 +152,10 @@ export class NetCDFReader {
    * @param attributeName - Name of the attribute to find
    * @return boolean
    */
-    attributeExists(attributeName: string) {
-        const attribute = this.globalAttributes.find(
-        (val) => val.name === attributeName,
-        );
-        return attribute !== undefined;
-    }
+  attributeExists(attributeName: string) {
+    const attribute = this.globalAttributes.find(
+      (val) => val.name === attributeName,
+    );
+    return attribute !== undefined;
+  }
 }

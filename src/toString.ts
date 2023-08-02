@@ -7,15 +7,15 @@ export function toString(this: NetCDFReader) {
     result.push(`  ${dimension.name.padEnd(30)} = size: ${dimension.size}`);
   }
 
-  result.push("");
-  result.push("GLOBAL ATTRIBUTES");
+  result.push('');
+  result.push('GLOBAL ATTRIBUTES');
   for (let attribute of this.globalAttributes) {
     result.push(`  ${attribute.name.padEnd(30)} = ${attribute.value}`);
   }
 
   let variables = JSON.parse(JSON.stringify(this.variables));
-  result.push("");
-  result.push("VARIABLES:");
+  result.push('');
+  result.push('VARIABLES:');
   for (let variable of variables) {
     variable.value = this.getDataVariable(variable);
     let stringify = JSON.stringify(variable.value);
@@ -25,5 +25,5 @@ export function toString(this: NetCDFReader) {
     }
     result.push(`  ${variable.name.padEnd(30)} = ${stringify}`);
   }
-  return result.join("\n");
+  return result.join('\n');
 }

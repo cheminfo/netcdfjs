@@ -93,7 +93,7 @@ function readNumber(
   bufferReader: () => number,
 ): number | number[] {
   if (size !== 1) {
-    let numbers = new Array(size);
+    const numbers = new Array(size);
     for (let i = 0; i < size; i++) {
       numbers[i] = bufferReader();
     }

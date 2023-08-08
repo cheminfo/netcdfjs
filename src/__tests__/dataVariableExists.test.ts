@@ -7,7 +7,7 @@ const pathFiles = `${__dirname}/files/`;
 test('dataVariableExists', () => {
   const data = readFileSync(`${pathFiles}P071.CDF`);
 
-  let reader = new NetCDFReader(data);
+  const reader = new NetCDFReader(data);
   expect(reader.dataVariableExists('instrument_name')).toBe(true);
   expect(reader.dataVariableExists('instrument_nameXX')).toBe(false);
 });

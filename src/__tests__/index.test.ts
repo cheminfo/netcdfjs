@@ -17,7 +17,7 @@ describe('Read file', () => {
     // http://www.unidata.ucar.edu/software/netcdf/examples/madis-sao.cdl
     const data = readFileSync(`${pathFiles}madis-sao.nc`);
 
-    let reader = new NetCDFReader(data);
+    const reader = new NetCDFReader(data);
     expect(reader.version).toBe('classic format');
     expect(reader.recordDimension).toStrictEqual({
       length: 178,
@@ -94,14 +94,14 @@ describe('Read file', () => {
 
   it('read non-record variable', () => {
     const data = readFileSync(`${pathFiles}madis-sao.nc`);
-    let reader = new NetCDFReader(data);
+    const reader = new NetCDFReader(data);
 
     expect(reader.getDataVariable('nStaticIds')[0]).toBe(145);
   });
 
   it('read 2 dimensional variable', () => {
     const data = readFileSync(`${pathFiles}ichthyop.nc`);
-    let reader = new NetCDFReader(data);
+    const reader = new NetCDFReader(data);
     expect(reader.getDataVariable('time')).toHaveLength(49);
     expect(reader.getDataVariable('time')[0]).toBe(1547070300);
     expect(reader.getDataVariable('lat')).toHaveLength(49);
@@ -112,9 +112,9 @@ describe('Read file', () => {
 
   it('read record variable with string', () => {
     const data = readFileSync(`${pathFiles}madis-sao.nc`);
-    let reader = new NetCDFReader(data);
+    const reader = new NetCDFReader(data);
 
-    let record = reader.getDataVariable('wmoId');
+    const record = reader.getDataVariable('wmoId');
     expect(record[0]).toBe(71419);
     expect(record[1]).toBe(71415);
     expect(record[2]).toBe(71408);
@@ -122,11 +122,11 @@ describe('Read file', () => {
 
   it('read non-record variable with object', () => {
     const data = readFileSync(`${pathFiles}madis-sao.nc`);
-    let reader = new NetCDFReader(data);
-    let variables = reader.variables;
+    const reader = new NetCDFReader(data);
+    const variables = reader.variables;
 
-    let withString = reader.getDataVariable('staticIds');
-    let withObject = reader.getDataVariable(variables[1]);
+    const withString = reader.getDataVariable('staticIds');
+    const withObject = reader.getDataVariable(variables[1]);
     expect(withString[0]).toBe('W');
     expect(withString[1]).toBe('A');
     expect(withString[2]).toBe('F');
@@ -137,7 +137,7 @@ describe('Read file', () => {
 
   it('read non-existent variable string', () => {
     const data = readFileSync(`${pathFiles}madis-sao.nc`);
-    let reader = new NetCDFReader(data);
+    const reader = new NetCDFReader(data);
 
     expect(reader.getDataVariable.bind(reader, "n'importe quoi")).toThrow(
       'Not a valid NetCDF v3.x file: variable not found',
@@ -146,7 +146,7 @@ describe('Read file', () => {
 
   it('read 64 bit offset file', () => {
     const data = readFileSync(`${pathFiles}model1_md2.nc`);
-    let reader = new NetCDFReader(data);
+    const reader = new NetCDFReader(data);
     expect(reader.version).toBe('64-bit offset format');
     expect(reader.getDataVariable('cell_angular')[0]).toBe('a');
     expect(reader.getDataVariable('cell_spatial')[0]).toBe('a');
@@ -154,13 +154,13 @@ describe('Read file', () => {
 
   it('read agilent hplc file file', () => {
     const data = readFileSync(`${pathFiles}agilent_hplc.cdf`);
-    let reader = new NetCDFReader(data);
+    const reader = new NetCDFReader(data);
 
     expect(reader.version).toBe('classic format');
 
-    let variables = [];
+    const variables = [];
 
-    for (let variable of reader.variables) {
+    for (const variable of reader.variables) {
       const value = reader.getDataVariable(variable);
       variables.push({ value, ...variable });
     }

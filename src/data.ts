@@ -13,7 +13,7 @@ import { num2bytes, str2num, readType } from './types';
 export function nonRecord(
   buffer: IOBuffer,
   variable: Header['variables'][number],
-): ReturnType<typeof readType>[] {
+): Array<ReturnType<typeof readType>> {
   // variable type
   const type = str2num(variable.type);
 
@@ -21,7 +21,7 @@ export function nonRecord(
   const size = variable.size / num2bytes(type);
 
   // iterates over the data
-  let data = new Array(size);
+  const data = new Array(size);
   for (let i = 0; i < size; i++) {
     data[i] = readType(buffer, type, 1);
   }
@@ -40,7 +40,7 @@ export function record(
   buffer: IOBuffer,
   variable: Header['variables'][number],
   recordDimension: Header['recordDimension'],
-): ReturnType<typeof readType>[] {
+): Array<ReturnType<typeof readType>> {
   // variable type
   const type = str2num(variable.type);
   const width = variable.size ? variable.size / num2bytes(type) : 1;
@@ -50,11 +50,11 @@ export function record(
   const size = recordDimension.length;
 
   // iterates over the data
-  let data = new Array(size);
+  const data = new Array(size);
   const step = recordDimension.recordStep;
   if (step) {
     for (let i = 0; i < size; i++) {
-      let currentOffset = buffer.offset;
+      const currentOffset = buffer.offset;
       data[i] = readType(buffer, type, width);
       buffer.seek(currentOffset + step);
     }

@@ -66,12 +66,12 @@ export function header(buffer: IOBuffer, version: number): Header {
 
 export interface Dimensions {
   /* that is an array of dimension object:*/
-  dimensions: {
+  dimensions: Array<{
     /* name of the dimension*/
     name: string;
     /* size of the dimension */
     size: number;
-  }[];
+  }>;
   /*  id of the dimension that has unlimited size or undefined,*/
   recordId?: number;
   /* name of the dimension that has unlimited size */
@@ -203,7 +203,10 @@ export interface Variable {
   /* True if is a record variable, false otherwise (unlimited size) */
   record: boolean;
 }
-type Variables = { variables: Variable[]; recordStep: number };
+interface Variables {
+  variables: Variable[];
+  recordStep: number;
+}
 /**
  * @param buffer - Buffer for the file data
  * @param recordId - Id of the unlimited dimension (also called record dimension)
@@ -233,22 +236,22 @@ function variablesList(
     variables = new Array(variableSize);
     for (let v = 0; v < variableSize; v++) {
       // Read name
-      let name = readName(buffer);
+      const name = readName(buffer);
 
       // Read dimensionality of the variable
       const dimensionality = buffer.readUint32();
 
       // Index into the list of dimensions
-      let dimensionsIds = new Array(dimensionality);
+      const dimensionsIds = new Array(dimensionality);
       for (let dim = 0; dim < dimensionality; dim++) {
         dimensionsIds[dim] = buffer.readUint32();
       }
 
       // Read variables size
-      let attributes = attributesList(buffer);
+      const attributes = attributesList(buffer);
 
       // Read type
-      let type = buffer.readUint32();
+      const type = buffer.readUint32();
       notNetcdf(type < 1 && type > 6, `non valid type ${type}`);
 
       // Read variable size

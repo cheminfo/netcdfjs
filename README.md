@@ -1,8 +1,8 @@
 # netcdfjs
 
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
-[![Test coverage][coveralls-image]][coveralls-url]
+[![build status][ci-image]][ci-url]
+[![Test coverage][codecov-image]][codecov-url]
 [![npm download][download-image]][download-url]
 
 Read and explore NetCDF v3 files.
@@ -32,9 +32,10 @@ reader.getDataVariable("wmoId"); // go to offset and read it
 
 [MIT](./LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/netcdfjs.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/netcdfjs.svg
 [npm-url]: https://www.npmjs.com/package/netcdfjs
-[coveralls-image]: https://img.shields.io/coveralls/cheminfo/netcdfjs.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/github/cheminfo/netcdfjs
-[download-image]: https://img.shields.io/npm/dm/netcdfjs.svg?style=flat-square
-[download-url]: https://www.npmjs.com/package/netcdfjs
+[ci-image]: https://github.com/cheminfo/netcdfjs/workflows/Node.js%20CI/badge.svg?branch=main
+[ci-url]: https://github.com/cheminfo/netcdfjs/actions?query=workflow%3A%22Node.js+CI%22
+[codecov-image]: https://img.shields.io/codecov/c/github/cheminfo/netcdfjs.svg
+[codecov-url]: https://codecov.io/gh/cheminfo/netcdfjs
+[download-image]: https://img.shields.io/npm/dm/netcdfjs.svg

@@ -1,10 +1,10 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-const { NetCDFReader } = require("..");
+import { NetCDFReader } from '../parser';
 
 const pathFiles = `${__dirname}/files/`;
 
-test("toString", () => {
+test('toString', () => {
   const data = readFileSync(`${pathFiles}P071.CDF`);
 
   let reader = new NetCDFReader(data);

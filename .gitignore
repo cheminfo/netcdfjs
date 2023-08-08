@@ -7,3 +7,5 @@ dist/
 .vscode
 docs
 lib
+lib-esm
+.eslintcache

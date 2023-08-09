@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/cheminfo/netcdfjs/compare/v2.0.2...v3.0.0) (2023-08-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to TypeScript ([#26](https://github.com/cheminfo/netcdfjs/issues/26))
+
+### Code Refactoring
+
+* migrate to TypeScript ([#26](https://github.com/cheminfo/netcdfjs/issues/26)) ([9bf14de](https://github.com/cheminfo/netcdfjs/commit/9bf14dea6e2523304aae29d5f0520648dfb5eef3))
+
 ## [2.0.2](https://github.com/cheminfo/netcdfjs/compare/v0.7.0...v2.0.2) (2022-10-21)
 
 

@@ -25,7 +25,7 @@
   "license": "MIT",
   "scripts": {
     "check-types": "tsc --noEmit",
-    "clean": "rimraf lib lib-esm",
+    "clean": "rimraf lib",
     "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
     "prepack": "npm run tsc",

@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/cheminfo/netcdfjs/compare/v3.0.0...v4.0.0) (2026-03-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to type=module
+
+### Miscellaneous Chores
+
+* migrate to type=module ([8fbf3ef](https://github.com/cheminfo/netcdfjs/commit/8fbf3ef51d24d7f605f122e7acffa373475d9bc5))
+
 ## [3.0.0](https://github.com/cheminfo/netcdfjs/compare/v2.0.2...v3.0.0) (2023-08-08)
 
 

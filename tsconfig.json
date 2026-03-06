@@ -1,11 +1,8 @@
 {
+  "extends": "@zakodium/tsconfig",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "moduleResolution": "node",
     "outDir": "lib",
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2020"
+    "types": ["node"]
   },
-  "include": ["./src/**/*"]
+  "include": ["src"]
 }

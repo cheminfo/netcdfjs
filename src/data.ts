@@ -1,14 +1,14 @@
-import { IOBuffer } from 'iobuffer';
+import type { IOBuffer } from 'iobuffer';
 
-import { Header } from './header';
-import { num2bytes, str2num, readType } from './types';
+import type { Header } from './header.ts';
+import { num2bytes, readType, str2num } from './types.ts';
 // const STREAMING = 4294967295;
 
 /**
  * Read data for the given non-record variable
  * @param buffer - Buffer for the file data
  * @param variable - Variable metadata
- * @return - Data of the element
+ * @returns - Data of the element
  */
 export function nonRecord(
   buffer: IOBuffer,
@@ -34,7 +34,7 @@ export function nonRecord(
  * @param buffer - Buffer for the file data
  * @param variable - Variable metadata
  * @param recordDimension - Record dimension metadata
- * @return - Data of the element
+ * @returns - Data of the element
  */
 export function record(
   buffer: IOBuffer,
@@ -43,7 +43,7 @@ export function record(
 ): Array<ReturnType<typeof readType>> {
   // variable type
   const type = str2num(variable.type);
-  const width = variable.size ? variable.size / num2bytes(type) : 1;
+  const width = variable.size > 0 ? variable.size / num2bytes(type) : 1;
 
   // size of the data
   // TODO streaming data

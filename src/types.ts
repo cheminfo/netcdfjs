@@ -1,4 +1,4 @@
-import { IOBuffer } from 'iobuffer';
+import type { IOBuffer } from 'iobuffer';
 
 const types = {
   BYTE: 1,
@@ -12,10 +12,10 @@ const types = {
 /**
  * Parse a number into their respective type
  * @param type - integer that represents the type
- * @return - parsed value of the type
+ * @returns - parsed value of the type
  */
 export function num2str(type: number): string {
-  switch (Number(type)) {
+  switch (type) {
     case types.BYTE:
       return 'byte';
     case types.CHAR:
@@ -36,10 +36,10 @@ export function num2str(type: number): string {
 /**
  * Parse a number type identifier to his size in bytes
  * @param type - integer that represents the type
- * @return size of the type
+ * @returns size of the type
  */
 export function num2bytes(type: number): number {
-  switch (Number(type)) {
+  switch (type) {
     case types.BYTE:
       return 1;
     case types.CHAR:
@@ -60,10 +60,10 @@ export function num2bytes(type: number): number {
 /**
  * Reverse search of num2str
  * @param type - string that represents the type
- * @return parsed value of the type
+ * @returns parsed value of the type
  */
 export function str2num(type: string) {
-  switch (String(type)) {
+  switch (type) {
     case 'byte':
       return types.BYTE;
     case 'char':
@@ -86,7 +86,7 @@ export function str2num(type: string) {
  * Auxiliary function to read numeric data
  * @param size - Size of the element to read
  * @param bufferReader - Function to read next value
- * @return
+ * @returns
  */
 function readNumber(
   size: number,
@@ -108,7 +108,7 @@ function readNumber(
  * @param buffer - Buffer for the file data
  * @param type - Type of the data to read
  * @param size - Size of the element to read
- * @return
+ * @returns
  */
 export function readType(
   buffer: IOBuffer,
@@ -136,11 +136,11 @@ export function readType(
 /**
  * Removes null terminate value
  * @param value - String to trim
- * @return - Trimmed string
+ * @returns - Trimmed string
  */
 function trimNull(value: string): string {
-  if (value.charCodeAt(value.length - 1) === 0) {
-    return value.substring(0, value.length - 1);
+  if (value.codePointAt(value.length - 1) === 0) {
+    return value.slice(0, Math.max(0, value.length - 1));
   }
   return value;
 }

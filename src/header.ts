@@ -1,7 +1,7 @@
-import { IOBuffer } from 'iobuffer';
+import type { IOBuffer } from 'iobuffer';
 
-import { num2str, readType } from './types';
-import { padding, notNetcdf, readName } from './utils';
+import { num2str, readType } from './types.ts';
+import { notNetcdf, padding, readName } from './utils.ts';
 
 // Grammar constants
 const ZERO = 0;
@@ -13,9 +13,9 @@ const NC_UNLIMITED = 0;
 export interface Header {
   recordDimension: {
     /**
-  Length of the record dimension
-  sum of the varSize's of all the record variables.
-  */
+     * Length of the record dimension
+     * sum of the varSize's of all the record variables.
+     */
     length: number;
     id?: number;
     name?: string;
@@ -81,7 +81,7 @@ export interface Dimensions {
 /**
  * List of dimensions
  * @param buffer - Buffer for the file data
- * @return List of dimensions
+ * @returns List of dimensions
  */
 function dimensionsList(buffer: IOBuffer): Dimensions | [] {
   const result: Partial<Dimensions> = {};
@@ -144,7 +144,7 @@ export interface Attribute {
 /**
  * List of attributes
  * @param buffer - Buffer for the file data
- * @return - List of attributes with:
+ * @returns - List of attributes with:
  */
 function attributesList(buffer: IOBuffer): Attribute[] {
   const gAttList = buffer.readUint32();
@@ -212,7 +212,7 @@ interface Variables {
  * @param recordId - Id of the unlimited dimension (also called record dimension)
  * This value may be undefined if there is no unlimited dimension
  * @param version - Version of the file
- * @return - Number of recordStep and list of variables @see {@link Variables}
+ * @returns - Number of recordStep and list of variables @see {@link Variables}
  */
 function variablesList(
   buffer: IOBuffer,
@@ -268,7 +268,7 @@ function variablesList(
 
       let record = false;
       // Count amount of record variables
-      if (typeof recordId !== 'undefined' && dimensionsIds[0] === recordId) {
+      if (recordId !== undefined && dimensionsIds[0] === recordId) {
         recordStep += varSize;
         record = true;
       }

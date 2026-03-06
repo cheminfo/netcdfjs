@@ -1,21 +1,23 @@
+import type { InputData } from 'iobuffer';
 import { IOBuffer } from 'iobuffer';
 
-import { record, nonRecord } from './data';
-import { Header, header } from './header';
-import { toString } from './toString';
-import { notNetcdf } from './utils';
+import { nonRecord, record } from './data.ts';
+import type { Header } from './header.ts';
+import { header } from './header.ts';
+import { toString } from './toString.ts';
+import { notNetcdf } from './utils.ts';
 
 /**
  * Reads a NetCDF v3.x file
  * [See specification](https://www.unidata.ucar.edu/software/netcdf/docs/file_format_specifications.html)
  * @param data - ArrayBuffer or any Typed Array (including Node.js' Buffer from v4) with the data
- * @constructor
+ * @class
  */
 export class NetCDFReader {
   public header: Header;
   public buffer: IOBuffer;
 
-  constructor(data: BinaryData) {
+  constructor(data: InputData) {
     const buffer = new IOBuffer(data);
     buffer.setBigEndian();
 
@@ -32,7 +34,7 @@ export class NetCDFReader {
   }
 
   /**
-   * @return - Version for the NetCDF format
+   * @returns - Version for the NetCDF format
    */
   get version() {
     if (this.header.version === 1) {
@@ -43,30 +45,30 @@ export class NetCDFReader {
   }
 
   /**
-   * @return {object} - Metadata for the record dimension
-   *  * `length`: Number of elements in the record dimension
-   *  * `id`: Id number in the list of dimensions for the record dimension
-   *  * `name`: String with the name of the record dimension
-   *  * `recordStep`: Number with the record variables step size
+   * @returns - Metadata for the record dimension
+   *  `length`: Number of elements in the record dimension
+   *  `id`: Id number in the list of dimensions for the record dimension
+   *  `name`: String with the name of the record dimension
+   *  `recordStep`: Number with the record variables step size
    */
   get recordDimension() {
     return this.header.recordDimension;
   }
 
   /**
-   * @return - Array - List of dimensions with:
-   *  * `name`: String with the name of the dimension
-   *  * `size`: Number with the size of the dimension
+   * @returns - Array - List of dimensions with:
+   *  `name`: String with the name of the dimension
+   *  `size`: Number with the size of the dimension
    */
   get dimensions() {
     return this.header.dimensions;
   }
 
   /**
-   * @return - Array - List of global attributes with:
-   *  * `name`: String with the name of the attribute
-   *  * `type`: String with the type of the attribute
-   *  * `value`: A number or string with the value of the attribute
+   * @returns - Array - List of global attributes with:
+   *  `name`: String with the name of the attribute
+   *  `type`: String with the type of the attribute
+   *  `value`: A number or string with the value of the attribute
    */
   get globalAttributes(): Header['globalAttributes'] {
     return this.header.globalAttributes;
@@ -74,8 +76,9 @@ export class NetCDFReader {
 
   /**
    * Returns the value of an attribute
-   * @param - AttributeName
-   * @return - Value of the attributeName or null
+   * @param - - AttributeName
+   * @param attributeName
+   * @returns - Value of the attributeName or null
    */
   getAttribute(attributeName: string) {
     const attribute = this.globalAttributes.find(
@@ -87,8 +90,9 @@ export class NetCDFReader {
 
   /**
    * Returns the value of a variable as a string
-   * @param - variableName
-   * @return - Value of the variable as a string or null
+   * @param - - variableName
+   * @param variableName
+   * @returns - Value of the variable as a string or null
    */
   getDataVariableAsString(variableName: string) {
     const variable = this.getDataVariable(variableName);
@@ -105,7 +109,7 @@ export class NetCDFReader {
   /**
    * Retrieves the data for a given variable
    * @param variableName - Name of the variable to search or variable object
-   * @return The variable values
+   * @returns The variable values
    */
   getDataVariable(variableName: string | Header['variables'][number]) {
     let variable;
@@ -138,7 +142,7 @@ export class NetCDFReader {
   /**
    * Check if a dataVariable exists
    * @param variableName - Name of the variable to find
-   * @return boolean
+   * @returns boolean
    */
   dataVariableExists(variableName: string) {
     const variable = this.header.variables.find((val) => {
@@ -150,7 +154,7 @@ export class NetCDFReader {
   /**
    * Check if an attribute exists
    * @param attributeName - Name of the attribute to find
-   * @return boolean
+   * @returns boolean
    */
   attributeExists(attributeName: string) {
     const attribute = this.globalAttributes.find(

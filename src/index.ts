@@ -1,2 +1,2 @@
-export * from './parser';
-export type { Header, Attribute, Variable } from './header';
+export * from './parser.ts';
+export type { Attribute, Header, Variable } from './header.ts';

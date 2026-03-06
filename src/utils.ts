@@ -1,4 +1,4 @@
-import { IOBuffer } from 'iobuffer';
+import type { IOBuffer } from 'iobuffer';
 /**
  * Throws a non-valid NetCDF exception if the statement it's true
  * @ignore
@@ -24,7 +24,7 @@ export function padding(buffer: IOBuffer) {
 /**
  * Reads the name
  * @param buffer - Buffer for the file data
- * @return Name
+ * @returns Name
  */
 export function readName(buffer: IOBuffer) {
   // Read name

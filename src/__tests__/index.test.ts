@@ -10,14 +10,14 @@ const pathFiles = join(import.meta.dirname, 'data');
 test('Throws on non NetCDF file', () => {
   const data = readFileSync(join(pathFiles, 'not_nc.txt'));
 
-  expect(() => new NetCDFReader(data)).toThrowError(
+  expect(() => new NetCDFReader(data)).toThrow(
     'Not a valid NetCDF v3.x file: should start with CDF',
   );
 });
 
 test('read header information', () => {
-  // http://www.unidata.ucar.edu/software/netcdf/examples/files.html
-  // http://www.unidata.ucar.edu/software/netcdf/examples/madis-sao.cdl
+  // https://www.unidata.ucar.edu/software/netcdf/examples/files.html
+  // https://www.unidata.ucar.edu/software/netcdf/examples/madis-sao.cdl
   const reader = new NetCDFReader(
     readFileSync(join(pathFiles, 'madis-sao.nc')),
   );
@@ -152,7 +152,7 @@ test('read non-existent variable string', () => {
     readFileSync(join(pathFiles, 'madis-sao.nc')),
   );
 
-  expect(reader.getDataVariable.bind(reader, "n'importe quoi")).toThrowError(
+  expect(reader.getDataVariable.bind(reader, "n'importe quoi")).toThrow(
     'Not a valid NetCDF v3.x file: variable not found',
   );
 });

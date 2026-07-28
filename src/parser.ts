@@ -4,7 +4,7 @@ import { IOBuffer } from 'iobuffer';
 import { nonRecord, record } from './data.ts';
 import type { Header } from './header.ts';
 import { header } from './header.ts';
-import { toString } from './toString.ts';
+import { netcdfToString } from './netcdfToString.ts';
 import { notNetcdf } from './utils.ts';
 
 /**
@@ -104,7 +104,13 @@ export class NetCDFReader {
     return this.header.variables;
   }
 
-  toString = toString;
+  /**
+   * Describes the content of the file as a human-readable string.
+   * @returns The description of the dimensions, global attributes and variables.
+   */
+  toString() {
+    return netcdfToString(this);
+  }
 
   /**
    * Retrieves the data for a given variable

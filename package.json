@@ -24,13 +24,14 @@
   "homepage": "https://github.com/cheminfo/netcdfjs",
   "license": "MIT",
   "scripts": {
+    "build": "npm run tsc && cheminfo-build --entry lib/index.js --root NetCDF",
     "check-types": "tsc --noEmit",
-    "clean": "rimraf lib",
-    "eslint": "eslint src",
-    "eslint-fix": "npm run eslint -- --fix",
+    "clean": "rimraf coverage lib",
+    "eslint": "eslint .",
+    "eslint-fix": "eslint . --fix",
     "prepack": "npm run tsc",
-    "prettier": "prettier --check src",
-    "prettier-write": "prettier --write src",
+    "prettier": "prettier --check .",
+    "prettier-write": "prettier --write .",
     "test": "npm run test-only && npm run check-types && npm run eslint && npm run prettier",
     "test-only": "vitest run --coverage",
     "tsc": "npm run clean && npm run tsc-build",
@@ -40,14 +41,15 @@
     "iobuffer": "^6.0.1"
   },
   "devDependencies": {
-    "@types/node": "^25.3.5",
-    "@vitest/coverage-v8": "^4.0.18",
-    "@zakodium/tsconfig": "^1.0.2",
-    "eslint": "^9.39.0",
-    "eslint-config-cheminfo-typescript": "^21.1.0",
-    "prettier": "^3.8.1",
+    "@types/node": "^26.1.2",
+    "@vitest/coverage-v8": "^4.1.10",
+    "@zakodium/tsconfig": "^1.0.5",
+    "cheminfo-build": "^1.4.0",
+    "eslint": "^9.39.5",
+    "eslint-config-cheminfo-typescript": "^22.1.0",
+    "prettier": "^3.9.6",
     "rimraf": "^6.1.3",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   }
 }

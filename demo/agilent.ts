@@ -1,20 +1,18 @@
-import { readFileSync as rfs } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { NetCDFReader } from '../src/index';
+import { NetCDFReader } from '../src/index.ts';
 
-const data = rfs(join(__dirname, '../src/__tests__/files/agilent_hplc.cdf'));
+const data = readFileSync(
+  join(import.meta.dirname, '../src/__tests__/data/agilent_hplc.cdf'),
+);
 
-let reader = new NetCDFReader(data);
+const reader = new NetCDFReader(data);
 
-let selectedVariable = reader.variables[4];
-
-reader.getDataVariable(selectedVariable);
-
-for (let variable of reader.variables) {
+for (const variable of reader.variables) {
   console.log(variable.name, reader.getDataVariable(variable));
 }
 
-let ordinates = reader.getDataVariable(reader.variables[5]);
-console.log(Math.max(...(ordinates as number[])));
-console.log(Math.min(...(ordinates as number[])));
+const ordinates = reader.getDataVariable('ordinate_values') as number[];
+console.log(Math.max(...ordinates));
+console.log(Math.min(...ordinates));
